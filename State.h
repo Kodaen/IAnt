@@ -10,6 +10,7 @@
 #include <queue>
 #include <stack>
 #include <stdint.h>
+#include <list>
 
 #include "Timer.h"
 #include "Bug.h"
@@ -59,6 +60,7 @@ struct State
 
     double distance(const Location &loc1, const Location &loc2);
     Location getLocation(const Location &startLoc, int direction);
+    std::list<int> getDirections(const Location& loc1, const Location& loc2);
 
     void updateVisionInformation();
 };

@@ -61,7 +61,57 @@ Location State::getLocation(const Location &loc, int direction)
 {
     return Location( (loc.row + DIRECTIONS[direction][0] + rows) % rows,
                      (loc.col + DIRECTIONS[direction][1] + cols) % cols );
-};
+}
+
+std::list<int> State::getDirections(const Location& loc1, const Location& loc2)
+{
+    std::list<int> directions = std::list<int>();
+    if (loc1.row < loc2.row) {
+        if (loc2.row - loc1.row >= rows / 2)
+        {
+            directions.push_back(0 /*NORTH*/);
+        }
+        else
+        {
+            directions.push_back(2 /*SOUTH*/);
+        }
+    }
+    else if (loc1.row > loc2.row)
+    {
+        if (loc1.row - loc2.row >= rows / 2)
+        {
+            directions.push_back(2 /*SOUTH*/);
+        }
+        else
+        {
+            directions.push_back(0 /*NORTH*/);
+        }
+    }
+
+    if (loc1.col < loc2.col) {
+        if (loc2.col - loc1.col >= cols / 2)
+        {
+            directions.push_back(3 /*WEST*/);
+        }
+        else
+        {
+            directions.push_back(1 /*EAST*/);
+        }
+    }
+    else if (loc1.col > loc2.col)
+    {
+        if (loc1.col - loc2.col >= cols / 2)
+        {
+            directions.push_back(1 /*EAST*/);
+        }
+        else
+        {
+            directions.push_back(3 /*WEST*/);
+        }
+    }
+    return directions;
+}
+;
 
 /*
     This function will update update the lastSeen value for any squares currently
