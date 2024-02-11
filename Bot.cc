@@ -50,7 +50,7 @@ void Bot::makeMoves()
 
 	std::sort(foodRoutes.begin(), foodRoutes.end());
 	for (Route& route : foodRoutes) {
-		if (!LocationMapContainsKey(foodTargets, route.getEnd())
+		if (foodTargets.count(route.getEnd()) == 0
 			&& !LocationMapContainsValue(foodTargets, route.getStart())
 			&& doMoveLocation(route.getStart(), route.getEnd())) {
 			foodTargets[route.getEnd()] = route.getStart();
@@ -76,7 +76,7 @@ bool Bot::doMoveDirection(const Location& antLoc, int direction) {
 
 
 bool Bot::doMoveLocation(Location antLoc, Location destLoc) {
-	std::list<int> directions = state.getDirections(antLoc, destLoc);
+	std::vector<int> directions = state.getDirections(antLoc, destLoc);
 	for (int direction : directions) {
 		if (doMoveDirection(antLoc, direction)) {
 			return true;
@@ -85,7 +85,6 @@ bool Bot::doMoveLocation(Location antLoc, Location destLoc) {
 	return false;
 }
 
-// TODO : Unused yet
 bool Bot::doesAnotherAndWantToGoThere(Location tile)
 {
 	for (std::map<Location, Location>::iterator it = orders->begin(); it != orders->end(); ++it) {
@@ -96,10 +95,6 @@ bool Bot::doesAnotherAndWantToGoThere(Location tile)
 		}
 	}
 	return false;
-}
-
-bool Bot::LocationMapContainsKey(std::map<Location,Location> locMap, Location key) {
-	return (locMap.count(key) != 0);
 }
 
 bool Bot::LocationMapContainsValue(std::map<Location, Location> locMap, Location value) {
@@ -149,7 +144,6 @@ void Bot::printRoute(Route route)
 		state.bug << "Distance is : (" << route.getDistance() << ")" << endl;
 		state.bug << "/////////////////////" << endl;
 }
-
 
 //finishes the turn
 void Bot::endTurn()

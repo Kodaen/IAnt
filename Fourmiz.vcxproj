@@ -121,7 +121,6 @@
   <ItemGroup>
     <ClCompile Include="Bot.cc" />
     <ClCompile Include="MyBot.cc" />
-    <ClCompile Include="Route.cpp" />
     <ClCompile Include="State.cc" />
   </ItemGroup>
   <ItemGroup>

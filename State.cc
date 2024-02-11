@@ -63,9 +63,9 @@ Location State::getLocation(const Location &loc, int direction)
                      (loc.col + DIRECTIONS[direction][1] + cols) % cols );
 }
 
-std::list<int> State::getDirections(const Location& loc1, const Location& loc2)
+std::vector<int> State::getDirections(const Location& loc1, const Location& loc2)
 {
-    std::list<int> directions = std::list<int>();
+    std::vector<int> directions = std::vector<int>();
     if (loc1.row < loc2.row) {
         if (loc2.row - loc1.row >= rows / 2)
         {

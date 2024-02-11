@@ -24,9 +24,6 @@
     <ClCompile Include="State.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Route.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bot.h">

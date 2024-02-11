@@ -19,8 +19,8 @@ struct Location
         col = c;
     };
 
-    bool operator==(const Location& l2) const { return (this->row == l2.row && this->col == l2.col); }
-    bool operator<(const Location& l2) const { return this->row < l2.row || (l2.row >= this->row && this->col < l2.col); }
+    inline bool operator==(const Location& l2) const { return (this->row == l2.row && this->col == l2.col); }
+    inline bool operator<(const Location& l2) const { return this->row < l2.row || (l2.row >= this->row && this->col < l2.col); }
 };
 
 #endif //LOCATION_H_

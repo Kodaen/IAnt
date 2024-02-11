@@ -11,11 +11,7 @@ private:
 
 	// ------------ CONSTRUCTOR ------------ //
 public:
-	Route(Location start, Location end, int distance) {
-		_start = start;
-		_end = end;
-		_distance = distance;
-	}
+	Route(Location start, Location end, int distance) : _start(start), _end(end), _distance(distance) {}
 
 	// ------------ GETTERS/SETTERS ------------ //
 public:
@@ -33,7 +29,7 @@ public:
 
 	// ------------ OPERATORS ------------ //
 public:
-	bool operator==(void* other) const {
+	inline bool operator==(void* other) const {
 		bool result = false;
 		if (static_cast<Route*>(other)) {
 			Route* route = static_cast<Route*>(other);
@@ -41,7 +37,7 @@ public:
 		}
 		return result;
 	}
-	bool operator<(const Route& other) const { return (_distance < other._distance); }
+	inline bool operator<(const Route& other) const { return (_distance < other._distance); }
 
 };
 
