@@ -34,8 +34,14 @@ void Bot::makeMoves()
 	state.bug << state << endl;
 
 	orders->clear();
-	std::map<Location, Location> foodTargets = std::map<Location, Location>();
 
+	// prevent stepping on own hill
+	for (Location myHill : state.myHills) {
+		orders->insert({ myHill, Location(-1,-1) });
+
+	}
+
+	std::map<Location, Location> foodTargets = std::map<Location, Location>();
 	std::vector<Route> foodRoutes;
 	std::vector<Location> sortedFood = state.food;
 	std::vector<Location> sortedAnts = state.myAnts;
@@ -57,12 +63,34 @@ void Bot::makeMoves()
 		}
 	}
 
+	// Unblock hills
+	for (Location myHill : state.myHills) {
+		auto it = std::find(state.myAnts.cbegin(), state.myAnts.cend(), myHill);
+		if (it != state.myAnts.end() && !LocationMapContainsValue(*orders, {it->row, it->col})) {
+			state.bug << "ANT ON HILL FFS" << endl;
+
+			// If a ant blocks hill, move it if possible
+			for (int d = 0; d < TDIRECTIONS; d++)
+			{
+				if (doMoveDirection(myHill, d))
+				{
+					break;
+				}
+			}
+		}
+	}
+
 	state.bug << "time taken: " << state.timer.getTime() << "ms" << endl << endl;
 };
 
 bool Bot::doMoveDirection(const Location& antLoc, int direction) {
 	Location newLoc = state.getLocation(antLoc, direction);
 
+	// Is there an ant here? And does it plan on moving?
+	if (state.grid[newLoc.row][newLoc.col].isMyAnt)
+		return false;
+
+	// Is Location walkable and no ant wants to move at Location?
 	if (!state.grid[newLoc.row][newLoc.col].isWater && orders->count(newLoc) == 0)
 	{
 		state.makeMove(antLoc, direction);
@@ -127,7 +155,7 @@ void Bot::printLocationMap(std::map<Location, Location> locations)
 		state.bug << "Key : (" << it->first.row << " " << it->first.col << ") | ";
 		state.bug << "Value : (" << it->second.row << " " << it->second.col << ")" << endl;
 	}
-		
+
 }
 
 void Bot::printRouteVector(std::vector<Route> routes)
@@ -139,10 +167,10 @@ void Bot::printRouteVector(std::vector<Route> routes)
 
 void Bot::printRoute(Route route)
 {
-		state.bug << "Ant at : " << route.getStart().row << " " << route.getStart().col << endl;
-		state.bug << "Food at : " << route.getEnd().row << " " << route.getEnd().col << endl;
-		state.bug << "Distance is : (" << route.getDistance() << ")" << endl;
-		state.bug << "/////////////////////" << endl;
+	state.bug << "Ant at : " << route.getStart().row << " " << route.getStart().col << endl;
+	state.bug << "Food at : " << route.getEnd().row << " " << route.getEnd().col << endl;
+	state.bug << "Distance is : (" << route.getDistance() << ")" << endl;
+	state.bug << "/////////////////////" << endl;
 }
 
 //finishes the turn

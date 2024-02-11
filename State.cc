@@ -271,10 +271,15 @@ istream& operator>>(istream &is, State &state)
             {
                 is >> row >> col >> player;
                 state.grid[row][col].ant = player;
-                if(player == 0)
+                if (player == 0) {
+                    state.grid[row][col].isMyAnt = 1;
                     state.myAnts.push_back(Location(row, col));
-                else
+                }
+                else {
+                    state.grid[row][col].isEnemyAnt = 1;
                     state.enemyAnts.push_back(Location(row, col));
+                }
+                    
             }
             else if(inputType == "d") //dead ant square
             {
