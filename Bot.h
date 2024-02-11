@@ -2,6 +2,7 @@
 #define BOT_H_
 
 #include <map>
+#include <set>
 
 #include "State.h"
 #include "Location.h"
@@ -14,6 +15,7 @@ struct Bot
 {
     State state;
     std::map<Location, Location>* orders = new std::map<Location, Location>();
+    std::set<Location>* unseenTiles = new std::set<Location>();
 
     Bot();
 
@@ -27,7 +29,6 @@ struct Bot
 
     // ------------ UTILS ------------ //
     bool doesAnotherAndWantToGoThere(Location tile);    // Check if another ant wants to walk on given tile
-    bool Bot::LocationMapContainsKey(std::map<Location, Location> locMap, Location key);
     bool LocationMapContainsValue(std::map<Location, Location> locMap, Location value);
 
     // ------------ DEBUG ------------ //

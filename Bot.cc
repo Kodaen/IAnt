@@ -35,12 +35,27 @@ void Bot::makeMoves()
 
 	orders->clear();
 
+	// add all locations to unseen tiles set, run once
+	if (unseenTiles->empty()) {
+		for (int row = 0; row < state.rows; row++) {
+			for (int col = 0; col < state.cols; col++) {
+				unseenTiles->insert(Location(row, col));
+			}
+		}
+	}
+
+	for (std::set<Location>::iterator it = unseenTiles->begin(); it != unseenTiles->end(); ++it) {
+		if (state.grid[it->row][it->col].isVisible) {
+			it = unseenTiles->erase(it);
+		}
+	}
+
 	// prevent stepping on own hill
 	for (Location myHill : state.myHills) {
 		orders->insert({ myHill, Location(-1,-1) });
-
 	}
 
+	// Go to close food
 	std::map<Location, Location> foodTargets = std::map<Location, Location>();
 	std::vector<Route> foodRoutes;
 	std::vector<Location> sortedFood = state.food;
@@ -60,6 +75,24 @@ void Bot::makeMoves()
 			&& !LocationMapContainsValue(foodTargets, route.getStart())
 			&& doMoveLocation(route.getStart(), route.getEnd())) {
 			foodTargets[route.getEnd()] = route.getStart();
+		}
+	}
+
+	// Explore unseen areas
+	for (Location antLoc : sortedAnts) {
+		if (!LocationMapContainsValue(*orders, antLoc)) {
+			std::vector<Route> unseenRoutes;
+			for (const Location& unseenLoc : *unseenTiles) {
+				int distance = state.distance(antLoc, unseenLoc);
+				Route route = Route(antLoc, unseenLoc, distance);
+				unseenRoutes.push_back(route);
+			}
+			std::sort(unseenRoutes.begin(), unseenRoutes.end());
+			for (Route route : unseenRoutes) {
+				if (doMoveLocation(route.getStart(), route.getEnd())) {
+					break;
+				}
+			}
 		}
 	}
 
@@ -86,7 +119,7 @@ void Bot::makeMoves()
 bool Bot::doMoveDirection(const Location& antLoc, int direction) {
 	Location newLoc = state.getLocation(antLoc, direction);
 
-	// Is there an ant here? And does it plan on moving?
+	// Is there an ant here?
 	if (state.grid[newLoc.row][newLoc.col].isMyAnt)
 		return false;
 
