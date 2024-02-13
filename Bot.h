@@ -14,6 +14,8 @@
 struct Bot
 {
     State state;
+
+    // TODO : map* is useles, <Location*,Location*> tho
     std::map<Location, Location>* orders = new std::map<Location, Location>();
     std::set<Location>* unseenTiles = new std::set<Location>();
 

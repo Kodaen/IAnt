@@ -61,6 +61,7 @@ void Bot::makeMoves()
 	std::vector<Location> sortedFood = state.food;
 	std::vector<Location> sortedAnts = state.myAnts;
 
+	// Calculate all routes from ants to food
 	for (Location foodLoc : sortedFood) {
 		for (Location antLoc : sortedAnts) {
 			int distance = state.distance(antLoc, foodLoc);
@@ -69,7 +70,10 @@ void Bot::makeMoves()
 		}
 	}
 
+	// Sort routes from ants to food from the shortest to the longest
 	std::sort(foodRoutes.begin(), foodRoutes.end());
+
+	// We send the closest ants first, some ants my not move because there is no food left
 	for (Route& route : foodRoutes) {
 		if (foodTargets.count(route.getEnd()) == 0
 			&& !LocationMapContainsValue(foodTargets, route.getStart())
@@ -81,6 +85,7 @@ void Bot::makeMoves()
 	// Explore unseen areas
 	for (Location antLoc : sortedAnts) {
 		if (!LocationMapContainsValue(*orders, antLoc)) {
+
 			std::vector<Route> unseenRoutes;
 			for (const Location& unseenLoc : *unseenTiles) {
 				int distance = state.distance(antLoc, unseenLoc);
@@ -100,8 +105,6 @@ void Bot::makeMoves()
 	for (Location myHill : state.myHills) {
 		auto it = std::find(state.myAnts.cbegin(), state.myAnts.cend(), myHill);
 		if (it != state.myAnts.end() && !LocationMapContainsValue(*orders, {it->row, it->col})) {
-			state.bug << "ANT ON HILL FFS" << endl;
-
 			// If a ant blocks hill, move it if possible
 			for (int d = 0; d < TDIRECTIONS; d++)
 			{
@@ -151,7 +154,7 @@ bool Bot::doesAnotherAndWantToGoThere(Location tile)
 	for (std::map<Location, Location>::iterator it = orders->begin(); it != orders->end(); ++it) {
 		if (it->first.col == tile.col && it->first.row == tile.row)
 		{
-			state.bug << "Tile is already visited !" << endl;
+			// An ant already wants to go at this Location
 			return true;
 		}
 	}
