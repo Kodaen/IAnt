@@ -72,7 +72,6 @@ void Bot::makeMoves()
 
 	// Sort routes from ants to food from the shortest to the longest
 	std::sort(foodRoutes.begin(), foodRoutes.end());
-
 	// We send the closest ants first, some ants my not move because there is no food left
 	for (Route& route : foodRoutes) {
 		if (foodTargets.count(route.getEnd()) == 0
@@ -80,6 +79,29 @@ void Bot::makeMoves()
 			&& doMoveLocation(route.getStart(), route.getEnd())) {
 			foodTargets[route.getEnd()] = route.getStart();
 		}
+	}
+
+	// Add new hills to set
+	for (Location enemyHill : state.enemyHills) {
+		if (!enemyHills.count(enemyHill)) {
+			enemyHills.insert(enemyHill);
+		}
+	}
+
+	// Attack hills
+	std::vector<Route> hillRoutes;
+	for (Location hillLoc : enemyHills) {
+		for (Location antLoc : sortedAnts) {
+			if (!LocationMapContainsValue(*orders, antLoc)) {
+				int distance = state.distance(antLoc, hillLoc);
+				Route route = Route(antLoc, hillLoc, distance);
+				hillRoutes.push_back(route);
+			}
+		}
+	}
+	std::sort(hillRoutes.begin(), hillRoutes.end());
+	for (Route route : hillRoutes) {
+		doMoveLocation(route.getStart(), route.getEnd());
 	}
 
 	// Explore unseen areas
