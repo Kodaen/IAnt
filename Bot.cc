@@ -171,7 +171,7 @@ bool Bot::doMoveLocation(Location antLoc, Location destLoc) {
 	return false;
 }
 
-bool Bot::doesAnotherAndWantToGoThere(Location tile)
+bool Bot::doesAnotherAntWantToGoThere(Location tile)
 {
 	for (std::map<Location, Location>::iterator it = orders->begin(); it != orders->end(); ++it) {
 		if (it->first.col == tile.col && it->first.row == tile.row)

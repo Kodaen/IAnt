@@ -32,7 +32,7 @@ struct Bot
     void endTurn();     //indicates to the engine that it has made its moves
 
     // ------------ UTILS ------------ //
-    bool doesAnotherAndWantToGoThere(Location tile);    // Check if another ant wants to walk on given tile
+    bool doesAnotherAntWantToGoThere(Location tile);    // Check if another ant wants to walk on given tile
     bool LocationMapContainsValue(std::map<Location, Location> locMap, Location value);
 
     // ------------ DEBUG ------------ //
