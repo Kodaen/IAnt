@@ -20,7 +20,7 @@
 */
 struct Bug
 {
-    std::ofstream file;
+    std::ofstream _file;
 
     Bug()
     {
@@ -31,7 +31,7 @@ struct Bug
     inline void open(const std::string &filename)
     {
         #ifdef DEBUG
-            file.open(filename.c_str());
+            _file.open(filename.c_str());
         #endif
     };
 
@@ -39,30 +39,30 @@ struct Bug
     inline void close()
     {
         #ifdef DEBUG
-            file.close();
+            _file.close();
         #endif
     };
 };
 
 //output function for endl
-inline Bug& operator<<(Bug &bug, std::ostream& (*manipulator)(std::ostream&))
+inline Bug& operator<<(Bug &_bug, std::ostream& (*manipulator)(std::ostream&))
 {
     #ifdef DEBUG
-        bug.file << manipulator;
+        _bug._file << manipulator;
     #endif
 
-    return bug;
+    return _bug;
 };
 
 //output function
 template <class T>
-inline Bug& operator<<(Bug &bug, const T &t)
+inline Bug& operator<<(Bug &_bug, const T &t)
 {
     #ifdef DEBUG
-        bug.file << t;
+        _bug._file << t;
     #endif
 
-    return bug;
+    return _bug;
 };
 
 #endif //BUG_H_

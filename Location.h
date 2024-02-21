@@ -6,21 +6,21 @@
 */
 struct Location
 {
-    int row, col;
+    int _row, _col;
 
     Location()
     {
-        row = col = 0;
+        _row = _col = 0;
     };
 
     Location(int r, int c)
     {
-        row = r;
-        col = c;
+        _row = r;
+        _col = c;
     };
 
-    inline bool operator==(const Location& l2) const { return (this->row == l2.row && this->col == l2.col); }
-    inline bool operator<(const Location& l2) const { return this->row < l2.row || (l2.row >= this->row && this->col < l2.col); }
+    inline bool operator==(const Location& l2) const { return (this->_row == l2._row && this->_col == l2._col); }
+    inline bool operator<(const Location& l2) const { return this->_row < l2._row || (l2._row >= this->_row && this->_col < l2._col); }
 };
 
 #endif //LOCATION_H_

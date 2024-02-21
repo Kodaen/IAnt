@@ -10,7 +10,7 @@
 
     struct Timer
     {
-        clock_t startTime, currentTime;
+        clock_t _startTime, _currentTime;
 
         Timer()
         {
@@ -19,14 +19,14 @@
 
         void start()
         {
-            startTime = clock();
+            _startTime = clock();
         };
 
         double getTime()
         {
-            currentTime = clock();
+            _currentTime = clock();
 
-            return (double)(currentTime - startTime);
+            return (double)(_currentTime - _startTime);
         };
     };
 
@@ -34,8 +34,8 @@
 #include <sys/time.h>
     struct Timer
     {
-        timeval timer;
-        double startTime, currentTime;
+        timeval _timer;
+        double _startTime, _currentTime;
 
         Timer()
         {
@@ -45,16 +45,16 @@
         //starts the timer
         void start()
         {
-            gettimeofday(&timer, NULL);
-            startTime = timer.tv_sec+(timer.tv_usec/1000000.0);
+            gettimeofday(&_timer, NULL);
+            _startTime = _timer.tv_sec+(_timer.tv_usec/1000000.0);
         };
 
         //returns how long it has been since the timer was last started in milliseconds
         double getTime()
         {
-            gettimeofday(&timer, NULL);
-            currentTime = timer.tv_sec+(timer.tv_usec/1000000.0);
-            return (currentTime-startTime)*1000.0;
+            gettimeofday(&_timer, NULL);
+            _currentTime = _timer.tv_sec+(_timer.tv_usec/1000000.0);
+            return (_currentTime-_startTime)*1000.0;
         };
     };
 #endif

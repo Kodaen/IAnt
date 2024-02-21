@@ -8,26 +8,26 @@
 */
 struct Square
 {
-    bool isVisible, isWater, isHill, isFood, isMyAnt, isEnemyAnt;
-    int ant, hillPlayer;
-    std::vector<int> deadAnts;
+    bool _isVisible, _isWater, _isHill, _isFood, _isMyAnt, _isEnemyAnt;
+    int _ant, _hillPlayer;
+    std::vector<int> _deadAnts;
 
     Square()
     {
-        isVisible = isWater = isHill = isFood = isMyAnt = isEnemyAnt = 0;
-        ant = hillPlayer = -1;
+        _isVisible = _isWater = _isHill = _isFood = _isMyAnt = _isEnemyAnt = 0;
+        _ant = _hillPlayer = -1;
     };
 
     //resets the information for the square except water information
     void reset()
     {
-        isVisible = 0;
-        isHill = 0;
-        isFood = 0;
-        isMyAnt = 0;
-        isEnemyAnt = 0;
-        ant = hillPlayer = -1;
-        deadAnts.clear();
+        _isVisible = 0;
+        _isHill = 0;
+        _isFood = 0;
+        _isMyAnt = 0;
+        _isEnemyAnt = 0;
+        _ant = _hillPlayer = -1;
+        _deadAnts.clear();
     };
 };
 

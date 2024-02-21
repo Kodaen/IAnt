@@ -31,20 +31,20 @@ struct State
     /*
         Variables
     */
-    int rows, cols,
-        turn, turns,
-        noPlayers;
-    double attackradius, spawnradius, viewradius;
-    double loadtime, turntime;
-    std::vector<double> scores;
-    bool gameover;
-    int64_t seed;
+    int _rows, _cols,
+        _turn, _turns,
+        _noPlayers;
+    double _attackRadius, _spawnRadius, _viewRadius;
+    double _loadTime, _turnTime;
+    std::vector<double> _scores;
+    bool _gameOver;
+    int64_t _seed;
 
-    std::vector<std::vector<Square> > grid;
-    std::vector<Location> myAnts, enemyAnts, myHills, enemyHills, food;
+    std::vector<std::vector<Square> > _grid;
+    std::vector<Location> _myAnts, _enemyAnts, _myHills, _enemyHills, _food;
 
-    Timer timer;
-    Bug bug;
+    Timer _timer;
+    Bug _bug;
 
     /*
         Functions
