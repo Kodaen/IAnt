@@ -64,7 +64,7 @@ struct State
     void updateVisionInformation();
 };
 
-std::ostream& operator<<(std::ostream &os, const State &state);
-std::istream& operator>>(std::istream &is, State &state);
+std::ostream& operator<<(std::ostream &os, const State &_state);
+std::istream& operator>>(std::istream &is, State &_state);
 
 #endif //STATE_H_
