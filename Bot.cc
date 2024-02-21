@@ -32,9 +32,7 @@ int testIncrement = 0;
 void Bot::makeMoves()
 {
 	testIncrement++;
-	if (testIncrement > 74) {
-		_state._bug << "Reached turn 74 ! Should crash soon !" << endl;
-	}
+
 	_state._bug << "turn " << _state._turn << ":" << endl;
 	_state._bug << _state << endl;
 
@@ -49,9 +47,13 @@ void Bot::makeMoves()
 		}
 	}
 
-	for (std::set<Location>::iterator it = _unseenTiles->begin(); it != _unseenTiles->end(); ++it) {
+
+	for (std::set<Location>::iterator it = _unseenTiles->begin(); it != _unseenTiles->end();) {
 		if (_state._grid[it->_row][it->_col]._isVisible) {
 			it = _unseenTiles->erase(it);
+		}
+		else {
+			++it;
 		}
 	}
 
