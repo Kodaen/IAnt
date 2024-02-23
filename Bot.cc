@@ -27,30 +27,32 @@ void Bot::playGame()
 	}
 };
 
-int testIncrement = 0;
 //makes the bots moves for the turn
 void Bot::makeMoves()
 {
-	testIncrement++;
-
 	_state._bug << "turn " << _state._turn << ":" << endl;
 	_state._bug << _state << endl;
 
-	_orders->clear();
+	for (auto& pair : _orders) {
+		delete pair.first;
+		delete pair.second;
+	}
+	_orders.clear();
+
 
 	// add all locations to unseen tiles set, run once
-	if (_unseenTiles->empty()) {
+	if (_unseenTiles.empty()) {
 		for (int _row = 0; _row < _state._rows; _row++) {
 			for (int _col = 0; _col < _state._cols; _col++) {
-				_unseenTiles->insert(Location(_row, _col));
+				_unseenTiles.insert(new Location(_row, _col));
 			}
 		}
 	}
 
-
-	for (std::set<Location>::iterator it = _unseenTiles->begin(); it != _unseenTiles->end();) {
-		if (_state._grid[it->_row][it->_col]._isVisible) {
-			it = _unseenTiles->erase(it);
+	for (std::set<Location*>::iterator it = _unseenTiles.begin(); it != _unseenTiles.end();) {
+		if (_state._grid[(*it)->_row][(*it)->_col]._isVisible) {
+			delete* it;
+			it = _unseenTiles.erase(it);
 		}
 		else {
 			++it;
@@ -59,7 +61,9 @@ void Bot::makeMoves()
 
 	// prevent stepping on own hill
 	for (Location myHill : _state._myHills) {
-		_orders->insert({ myHill, Location(-1,-1) });
+		Location* mHill = new Location(myHill._row, myHill._col);
+
+		_orders.insert({ mHill,new Location(-1,-1) });
 	}
 
 	// Go to close food
@@ -90,18 +94,18 @@ void Bot::makeMoves()
 
 	// Add new hills to set
 	for (Location enemyHill : _state._enemyHills) {
-		if (!_enemyHills.count(enemyHill)) {
-			_enemyHills.insert(enemyHill);
+		if (_enemyHills.count(&enemyHill) == 0) {
+			_enemyHills.insert(&enemyHill);
 		}
 	}
 
 	// Attack hills
 	std::vector<Route> hillRoutes;
-	for (Location hillLoc : _enemyHills) {
+	for (Location* hillLoc : _enemyHills) {
 		for (Location antLoc : sortedAnts) {
-			if (!LocationMapContainsValue(*_orders, antLoc)) {
-				int distance = _state.distance(antLoc, hillLoc);
-				Route route = Route(antLoc, hillLoc, distance);
+			if (!LocationMapContainsValue(_orders, antLoc)) {
+				int distance = _state.distance(antLoc, *hillLoc);
+				Route route = Route(antLoc, *hillLoc, distance);
 				hillRoutes.push_back(route);
 			}
 		}
@@ -113,12 +117,13 @@ void Bot::makeMoves()
 
 	// Explore unseen areas
 	for (Location antLoc : sortedAnts) {
-		if (!LocationMapContainsValue(*_orders, antLoc)) {
+		if (!LocationMapContainsValue(_orders, antLoc)) {
 
 			std::vector<Route> unseenRoutes;
-			for (const Location& unseenLoc : *_unseenTiles) {
-				int distance = _state.distance(antLoc, unseenLoc);
-				Route route = Route(antLoc, unseenLoc, distance);
+			for (const Location* unseenLoc : _unseenTiles) {
+				int distance = _state.distance(antLoc, *unseenLoc);
+				if (distance > 30) continue;
+				Route route = Route(antLoc, *unseenLoc, distance);
 				unseenRoutes.push_back(route);
 			}
 			std::sort(unseenRoutes.begin(), unseenRoutes.end());
@@ -133,7 +138,7 @@ void Bot::makeMoves()
 	// Unblock hills
 	for (Location myHill : _state._myHills) {
 		auto it = std::find(_state._myAnts.cbegin(), _state._myAnts.cend(), myHill);
-		if (it != _state._myAnts.end() && !LocationMapContainsValue(*_orders, {it->_row, it->_col})) {
+		if (it != _state._myAnts.end() && !LocationMapContainsValue(_orders, { it->_row, it->_col })) {
 			// If a ant blocks hill, move it if possible
 			for (int d = 0; d < TDIRECTIONS; d++)
 			{
@@ -149,17 +154,19 @@ void Bot::makeMoves()
 };
 
 bool Bot::doMoveDirection(const Location& antLoc, int direction) {
-	Location newLoc = _state.getLocation(antLoc, direction);
-
+	Location loc = _state.getLocation(antLoc, direction);
 	// Is there an ant here?
-	if (_state._grid[newLoc._row][newLoc._col]._isMyAnt)
+	if (_state._grid[loc._row][loc._col]._isMyAnt)
 		return false;
 
 	// Is Location walkable and no ant wants to move at Location?
-	if (!_state._grid[newLoc._row][newLoc._col]._isWater && _orders->count(newLoc) == 0)
+	if (!_state._grid[loc._row][loc._col]._isWater && !LocationMapContainsKey(_orders, loc))
 	{
+
 		_state.makeMove(antLoc, direction);
-		_orders->insert({ newLoc, antLoc });
+		Location* newAntLoc = new Location(antLoc._row, antLoc._col);
+		Location* newLoc = new Location(loc._row, loc._col);
+		_orders.insert({ newLoc, newAntLoc });
 		return true;
 	}
 	else {
@@ -168,7 +175,7 @@ bool Bot::doMoveDirection(const Location& antLoc, int direction) {
 }
 
 
-bool Bot::doMoveLocation(Location antLoc, Location destLoc) {
+bool Bot::doMoveLocation(const Location& antLoc, const Location& destLoc) {
 	std::vector<int> directions = _state.getDirections(antLoc, destLoc);
 	for (int direction : directions) {
 		if (doMoveDirection(antLoc, direction)) {
@@ -178,10 +185,10 @@ bool Bot::doMoveLocation(Location antLoc, Location destLoc) {
 	return false;
 }
 
-bool Bot::doesAnotherAntWantToGoThere(Location tile)
+bool Bot::doesAnotherAntWantToGoThere(const Location& tile)
 {
-	for (std::map<Location, Location>::iterator it = _orders->begin(); it != _orders->end(); ++it) {
-		if (it->first._col == tile._col && it->first._row == tile._row)
+	for (std::map<Location*, Location*>::iterator it = _orders.begin(); it != _orders.end(); ++it) {
+		if ((*it->first)._col == tile._col && (*it->first)._row == tile._row)
 		{
 			// An ant already wants to go at this Location
 			return true;
@@ -190,9 +197,29 @@ bool Bot::doesAnotherAntWantToGoThere(Location tile)
 	return false;
 }
 
-bool Bot::LocationMapContainsValue(std::map<Location, Location> locMap, Location value) {
+bool Bot::LocationMapContainsValue(std::map<Location*, Location*>& locMap, const Location& value) {
+	for (std::map<Location*, Location*>::iterator it = locMap.begin(); it != locMap.end(); ++it) {
+		if ((*it->second) == value)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+bool Bot::LocationMapContainsValue(std::map<Location, Location>& locMap, const Location& value) {
 	for (std::map<Location, Location>::iterator it = locMap.begin(); it != locMap.end(); ++it) {
 		if (it->second == value)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+bool Bot::LocationMapContainsKey(std::map<Location*, Location*>& locMap, const Location& key) {
+	for (std::map<Location*, Location*>::iterator it = locMap.begin(); it != locMap.end(); ++it) {
+		if ((*it->first) == key)
 		{
 			return true;
 		}
@@ -203,8 +230,8 @@ bool Bot::LocationMapContainsValue(std::map<Location, Location> locMap, Location
 void Bot::printOrders()
 {
 	_state._bug << "Tiles the ants want to go to : " << endl;
-	for (std::map<Location, Location>::iterator it = _orders->begin(); it != _orders->end(); ++it)
-		_state._bug << it->first._col << " " << it->first._row << endl;
+	for (std::map<Location*, Location*>::iterator it = _orders.begin(); it != _orders.end(); ++it)
+		_state._bug << (*it->first)._row << " " << (*it->first)._col << endl;
 }
 
 void Bot::printLocationVector(std::vector<Location> locations)
@@ -214,11 +241,11 @@ void Bot::printLocationVector(std::vector<Location> locations)
 	}
 }
 
-void Bot::printLocationMap(std::map<Location, Location> locations)
+void Bot::printLocationMap(std::map<Location*, Location*> locations)
 {
-	for (std::map<Location, Location>::iterator it = locations.begin(); it != locations.end(); ++it) {
-		_state._bug << "Key : (" << it->first._row << " " << it->first._col << ") | ";
-		_state._bug << "Value : (" << it->second._row << " " << it->second._col << ")" << endl;
+	for (std::map<Location*, Location*>::iterator it = locations.begin(); it != locations.end(); ++it) {
+		_state._bug << "Key : (" << (*it->first)._row << " " << (*it->first)._col << ") | ";
+		_state._bug << "Value : (" << (*it->second)._row << " " << (*it->second)._col << ")" << endl;
 	}
 
 }
