@@ -3,7 +3,7 @@
 #include "Node.h"
 
 class Input : public Node {
-    // ------------ CONSTRUCTOR ------------ //
+    // ------------ CSTR & DSTR ------------ //
 public:
     Input() {}
     ~Input() {}

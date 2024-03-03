@@ -19,6 +19,9 @@
     <Filter Include="Behavior Tree\Base classes">
       <UniqueIdentifier>{9c2948d7-1069-4b91-a4b2-13fbc26a6c73}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Behavior Tree\Debug Nodes">
+      <UniqueIdentifier>{ac369487-1b50-4cfc-95d3-c5e9c56e51cf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Bot.cc">
@@ -76,6 +79,12 @@
     </ClInclude>
     <ClInclude Include="Action.h">
       <Filter>Behavior Tree\Base classes</Filter>
+    </ClInclude>
+    <ClInclude Include="InputSuccess.h">
+      <Filter>Behavior Tree\Debug Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="InputFailure.h">
+      <Filter>Behavior Tree\Debug Nodes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

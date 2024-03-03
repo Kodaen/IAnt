@@ -131,6 +131,8 @@
     <ClInclude Include="Bug.h" />
     <ClInclude Include="Decorator.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="InputFailure.h" />
+    <ClInclude Include="InputSuccess.h" />
     <ClInclude Include="Location.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="Route.h" />
