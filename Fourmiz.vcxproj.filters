@@ -13,15 +13,24 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
+    <Filter Include="Behavior Tree">
+      <UniqueIdentifier>{807c0f45-8959-4ac7-ad17-85d5901d9797}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Behavior Tree\Base classes">
+      <UniqueIdentifier>{9c2948d7-1069-4b91-a4b2-13fbc26a6c73}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Bot.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MyBot.cc">
+    <ClCompile Include="State.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="State.cc">
+    <ClCompile Include="BehaviorTree.cpp">
+      <Filter>Behavior Tree\Base classes</Filter>
+    </ClCompile>
+    <ClCompile Include="MyBot.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -46,6 +55,27 @@
     </ClInclude>
     <ClInclude Include="Route.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviorTree.h">
+      <Filter>Behavior Tree\Base classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Decorator.h">
+      <Filter>Behavior Tree\Base classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>Behavior Tree\Base classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Sequencer.h">
+      <Filter>Behavior Tree\Base classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Selector.h">
+      <Filter>Behavior Tree\Base classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>Behavior Tree\Base classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Action.h">
+      <Filter>Behavior Tree\Base classes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
