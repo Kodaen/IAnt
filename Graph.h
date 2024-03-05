@@ -8,13 +8,25 @@ namespace Astar {
 	template<class T>
 	class Graph
 	{
-		std::map<T, Node<T>> _nodes;
+		std::map<T, Node<T>*> _nodes;
 	public: 
 		Graph() {};
-		~Graph() {};
+		~Graph() 
+		{
+			for each (auto node in _nodes)
+			{
+				delete node.second;
+			}
+		};
+
 		void addNode(const T node, std::vector<Neighbor<T>> neighbors)
 		{
-			_nodes[node]=Node<T>(node,neighbors);
+			_nodes[node]=new Node<T>(node,neighbors);
+		}
+
+		void addNode(const T node)
+		{
+			addNode(node, std::vector<Neighbor<T>>());
 		}
 
 		T getPath(T from, T to, std::function<float(T,T)> heuristic) 

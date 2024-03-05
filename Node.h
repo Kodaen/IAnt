@@ -9,7 +9,7 @@ namespace Astar
 	template<class T>
 	struct Neighbor 
 	{
-		Node<T> _node;
+		Node<T>* _node;
 		float _costToReach;
 	};
 
@@ -31,7 +31,7 @@ namespace Astar
 		Node() {}
 		~Node() {}
 
-		void addNeighbor(const Node _node, const float costToReach)
+		void addNeighbor(const Node& _node, const float costToReach)
 		{
 			addNeighbor(Neighbor<T>{ _node, costToReach });
 		}
@@ -40,7 +40,7 @@ namespace Astar
 		{
 			for each (Neighbor<T> neighbor in _neighbors)
 			{
-				if (neighbor._node == _node)
+				if (*neighbor._node == _node)
 				{
 					return true;
 				}
@@ -64,7 +64,7 @@ namespace Astar
 		
 		void addNeighbor(Neighbor<T> neighbor)
 		{
-			if (hasNeighbor(neighbor._node)) return;
+			if (hasNeighbor(*neighbor._node)) return;
 			_neighbors.push_back(neighbor);
 		}
 
