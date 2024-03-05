@@ -16,6 +16,7 @@ void Bot::playGame()
 	//reads the game parameters and sets up
 	cin >> _state;
 	_state.setup();
+	_mapSystem.setup();
 	endTurn();
 
 	//continues making moves while the game is not over
@@ -36,13 +37,22 @@ void Bot::makeMoves()
 	_state._bug << "turn " << _state._turn << ":" << endl;
 	_state._bug << _state << endl;
 
+	_state._bug << "1 2 1 2 test";
+		for (int row = 0; row < _state._rows; row++) {
+			for (int col = 0; col < _state._cols; col++) {
+				_state._bug << _state._grid[row][col]._isWater;
+			}
+			_state._bug << "\n";
+		}
+		_state._bug << "1 2 1 2 fin du test";
+
 	_orders->clear();
 
 	// add all locations to unseen tiles set, run once
 	if (_unseenTiles->empty()) {
-		for (int _row = 0; _row < _state._rows; _row++) {
-			for (int _col = 0; _col < _state._cols; _col++) {
-				_unseenTiles->insert(Location(_row, _col));
+		for (int row = 0; row < _state._rows; row++) {
+			for (int col = 0; col < _state._cols; col++) {
+				_unseenTiles->insert(Location(row, col));
 			}
 		}
 	}

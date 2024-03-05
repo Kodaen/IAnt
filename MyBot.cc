@@ -1,4 +1,5 @@
 #include "Bot.h"
+#include "Graph.h"
 
 using namespace std;
 
@@ -21,4 +22,8 @@ int main(int argc, char *argv[])
     bot.playGame();
 
     return 0;
+
+    //Instantiate my templates to check if it compiles correctly
+    Astar::Graph<Location> graph;
+    graph.addNode(Location(0, 0), {});
 }

@@ -33,3 +33,10 @@ Below is a fairly crude description of what each source file is used for:
 
 For some ideas on improving your bot from here, check out the tutorial and strategy idea pages on the contests website.
 
+--BUILD INSTRUCTIONS--
+Each build should have a "map.map" containing the map where the contest will take place. 
+You can get this map by looking into the "tools/maps" folder of the Ant AI Contest archive.
+To automatically copy the map in each build you make, you can add this line:
+"copy "$(SolutionDir)\map.map" "$(TargetDir)\map.map"
+to your project's post-build events.
+
