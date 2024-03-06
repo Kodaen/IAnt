@@ -27,11 +27,12 @@ namespace Astar
 		std::vector<Neighbor<T>> _neighbors = std::vector<Neighbor<T>>();
 		T _data;
 	public:
+		float _priority = 0;
 
 		Node() {}
 		~Node() {}
 
-		void addNeighbor(const Node& _node, const float costToReach)
+		void addNeighbor(Node* _node, const float costToReach)
 		{
 			addNeighbor(Neighbor<T>{ _node, costToReach });
 		}
@@ -74,5 +75,10 @@ namespace Astar
 		}
 
 		bool operator==(const Node<T>& n2) const { return this->_data==n2._data; }
+		//TO DO : Try inverting the logic once everythings works because I'm not sure if we should prioritize in this order
+		friend bool operator<(Node<T> const& lhs, Node<T> const& rhs)
+		{
+			return lhs._priority < rhs._priority;
+		}
 	};
 }
