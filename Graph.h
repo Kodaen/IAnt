@@ -78,14 +78,11 @@ namespace Astar {
 			costSoFar[from] = 0;
 			bool pathFound = false;
 
-			_bug << "frontier empty ? " << frontier.empty() << std::endl;
 			while (!frontier.empty())
 			{
-
 				Node<T>* current = frontier.top();
 				frontier.pop();
 
-				_bug << "Current: " << current->getData() << std::endl;
 				for each (Neighbor<T> neighbor in current->getNeighbors())
 				{
 					if (neighbor._node == current) continue;
@@ -115,11 +112,6 @@ namespace Astar {
 				previousLocation = cameFrom[previousLocation];
 			}
 
-			for each (auto var in reversePath)
-			{
-				_bug << "Path: " << var << std::endl;
-			}
-			
 			return PathData<T>(reversePath, costSoFar[to]);
 		}
 	};

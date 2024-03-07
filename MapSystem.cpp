@@ -24,10 +24,6 @@ MapSystem::~MapSystem()
 void MapSystem::setup()
 {
     loadMapFromFile(ifstream(MAP_FILE, ifstream::in));
-    auto pathData = findPath(Location(3, 2), Location(4, 118));
-    _bug<<"Distance between 2 positions :"<<pathData._cost<<endl;
-
-    //_bug << "Is valid ? " << findPath(Location(3, 2), Location(6, 9))._isValid << endl;
 }
 
 //Returns true if the char is a empty cell char
