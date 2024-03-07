@@ -16,6 +16,7 @@ private:
 	Bug _bug;
 
 	void loadMapFromFile(std::ifstream mapFile);
+
 public:
 	MapSystem();
 	~MapSystem();

@@ -24,7 +24,9 @@ MapSystem::~MapSystem()
 void MapSystem::setup()
 {
     loadMapFromFile(ifstream(MAP_FILE, ifstream::in));
-    _bug<<"Distance between 2 positions :"<<findPath(Location(3,2), Location(6,9))._cost<<endl;
+    auto pathData = findPath(Location(3, 2), Location(4, 118));
+    _bug<<"Distance between 2 positions :"<<pathData._cost<<endl;
+
     //_bug << "Is valid ? " << findPath(Location(3, 2), Location(6, 9))._isValid << endl;
 }
 
@@ -114,18 +116,18 @@ void MapSystem::loadMapFromFile(ifstream mapFile)
             int upRow = (row > 0) ? row - 1 : _rowSize - 1;
             int downRow = (row < _rowSize - 1) ? row + 1 : 0;
 
-            if (isCellWalkable[row][leftCol]) {
+            if ((col > 0) && isCellWalkable[row][leftCol]) {
                 cellNodes[row][col]->addNeighbor(cellNodes[row][leftCol],1);
             }
-            if (isCellWalkable[row][rightCol])
+            if ((col < _colSize - 1) && isCellWalkable[row][rightCol])
             {
 				cellNodes[row][col]->addNeighbor(cellNodes[row][rightCol], 1);
 			}
-            if (isCellWalkable[upRow][col])
+            if ((row > 0) && isCellWalkable[upRow][col])
             {
 				cellNodes[row][col]->addNeighbor(cellNodes[upRow][col], 1);
 			}
-            if (isCellWalkable[downRow][col])
+            if ((row < _rowSize - 1) && isCellWalkable[downRow][col])
             {
                 cellNodes[row][col]->addNeighbor(cellNodes[downRow][col], 1);
             }
@@ -135,10 +137,8 @@ void MapSystem::loadMapFromFile(ifstream mapFile)
     mapFile.close();
 }
 
-
 Astar::PathData<Location>  MapSystem::findPath(Location from, Location to)
 {
     return _mapGraph.findPath(from, to, &getManhattanDistance);
 }
-
 
