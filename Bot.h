@@ -18,10 +18,9 @@ struct Bot
     
     State _state;
 
-    // TODO : map* is useles, <Location*,Location*> tho
-    std::map<Location, Location>* _orders = new std::map<Location, Location>();
-    std::set<Location>* _unseenTiles = new std::set<Location>();
-    std::set<Location> _enemyHills;
+    std::map<Location*, Location*> _orders;
+    std::set<Location*> _unseenTiles;
+    std::set<Location*> _enemyHills;
 
 
     Bot();
@@ -30,18 +29,20 @@ struct Bot
 
     void makeMoves();   //makes moves for a single turn
     bool doMoveDirection(const Location &antLoc, int direction); // move to tile if tile is walkable and another ant doesn't already want to walk here
-    bool doMoveLocation(Location antLoc, Location destLoc);
+    bool doMoveLocation(const Location& antLoc, const Location& destLoc);
 
     void endTurn();     //indicates to the engine that it has made its moves
 
     // ------------ UTILS ------------ //
-    bool doesAnotherAntWantToGoThere(Location tile);    // Check if another ant wants to walk on given tile
-    bool LocationMapContainsValue(std::map<Location, Location> locMap, Location value);
+    bool doesAnotherAntWantToGoThere(const Location &tile);    // Check if another ant wants to walk on given tile
+    inline bool LocationMapContainsValue(std::map<Location*, Location*> &locMap,const Location &value);
+    inline bool LocationMapContainsValue(std::map<Location, Location> &locMap, const Location &value);
+    inline bool LocationMapContainsKey(std::map<Location*, Location*> &locMap, const Location &key);
 
     // ------------ DEBUG ------------ //
     void printOrders();
     void printLocationVector(std::vector<Location> loc);
-    void printLocationMap(std::map<Location, Location> locations);
+    void printLocationMap(std::map<Location*, Location*> locations);
     void printRouteVector(std::vector<Route> routes);
     void printRoute(Route routes);
 };
