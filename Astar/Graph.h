@@ -7,6 +7,7 @@
 
 #include "Node.h"
 #include "Bug.h"
+#include "MapSystem.h"
 
 #define NULL_LOCATION Location(-1, -1)
 #define INVALID_PATH_COST 99999999

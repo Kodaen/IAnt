@@ -133,17 +133,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Action.h" />
+    <ClInclude Include="Astar\Graph.h" />
+    <ClInclude Include="Astar\Node.h" />
     <ClInclude Include="BehaviorTree.h" />
     <ClInclude Include="Bot.h" />
     <ClInclude Include="Bug.h" />
-    <ClInclude Include="Graph.h" />
     <ClInclude Include="Location.h" />
     <ClInclude Include="MapSystem.h" />
     <ClInclude Include="Decorator.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="InputFailure.h" />
     <ClInclude Include="InputSuccess.h" />
-    <ClInclude Include="Location.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="Route.h" />
     <ClInclude Include="Selector.h" />

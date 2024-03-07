@@ -3,10 +3,12 @@
 #include <fstream> 
 
 #include "Location.h"
-#include "Graph.h"
+#include "Astar/Graph.h"
 #include "Bug.h"
 
 using namespace Astar;
+using namespace std;
+
 class MapSystem
 {
 private:
@@ -22,8 +24,14 @@ public:
 	~MapSystem();
 	void setup();
 	Astar::PathData<Location> findPath(Location from, Location to);
-	static float getManhattanDistance(Location from, Location to) {
-		return abs(from._col - to._col) + abs(from._row - to._row);
+
+	//Return the shortest manhattan distance taking into account the map wrapping
+	float getManhattanDistance(Location from, Location to) {
+		int d1 = abs(from._row - to._row),
+			d2 = abs(from._col - to._col),
+			dr = min(d1, _rowSize - d1),
+			dc = min(d2, _colSize - d2);
+		return dr+dc;
 	}
 };
 

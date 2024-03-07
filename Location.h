@@ -1,5 +1,5 @@
-#ifndef LOCATION_H_
-#define LOCATION_H_
+#pragma once
+#include <iostream>
 
 /*
     struct for representing locations in the grid.
@@ -27,5 +27,3 @@ struct Location
         return os;
     }
 };
-
-#endif //LOCATION_H_

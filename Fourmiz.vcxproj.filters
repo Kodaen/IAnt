@@ -1,103 +1,47 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
-    </Filter>
-    <Filter Include="Header Files\Astar">
-      <UniqueIdentifier>{699a41da-5347-4658-9329-ab09a14372dd}</UniqueIdentifier>
-    <Filter Include="Behavior Tree">
-      <UniqueIdentifier>{807c0f45-8959-4ac7-ad17-85d5901d9797}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Behavior Tree\Base classes">
-      <UniqueIdentifier>{9c2948d7-1069-4b91-a4b2-13fbc26a6c73}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Behavior Tree\Debug Nodes">
-      <UniqueIdentifier>{ac369487-1b50-4cfc-95d3-c5e9c56e51cf}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Bot.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="State.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BehaviorTree.cpp">
-      <Filter>Behavior Tree\Base classes</Filter>
-    </ClCompile>
-    <ClCompile Include="MyBot.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClCompile Include="BehaviorTree.cpp" />
+    <ClCompile Include="Bot.cc" />
+    <ClCompile Include="MyBot.cc" />
+    <ClCompile Include="State.cc" />
     <ClCompile Include="MapSystem.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>MapSystem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Bot.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Action.h" />
+    <ClInclude Include="BehaviorTree.h" />
+    <ClInclude Include="Bot.h" />
+    <ClInclude Include="Bug.h" />
+    <ClInclude Include="Location.h" />
+    <ClInclude Include="Decorator.h" />
+    <ClInclude Include="Input.h" />
+    <ClInclude Include="InputFailure.h" />
+    <ClInclude Include="InputSuccess.h" />
+    <ClInclude Include="Route.h" />
+    <ClInclude Include="Selector.h" />
+    <ClInclude Include="Sequencer.h" />
+    <ClInclude Include="Square.h" />
+    <ClInclude Include="State.h" />
+    <ClInclude Include="Timer.h" />
+    <ClInclude Include="Node.h" />
+    <ClInclude Include="Astar\Graph.h">
+      <Filter>Astar</Filter>
     </ClInclude>
-    <ClInclude Include="Bug.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Location.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Square.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="State.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Timer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Route.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Node.h">
-      <Filter>Header Files\Astar</Filter>
-    </ClInclude>
-    <ClInclude Include="Graph.h">
-      <Filter>Header Files\Astar</Filter>
+    <ClInclude Include="Astar\Node.h">
+      <Filter>Astar</Filter>
     </ClInclude>
     <ClInclude Include="MapSystem.h">
-      <Filter>Header Files</Filter>
-    <ClInclude Include="BehaviorTree.h">
-      <Filter>Behavior Tree\Base classes</Filter>
+      <Filter>MapSystem</Filter>
     </ClInclude>
-    <ClInclude Include="Decorator.h">
-      <Filter>Behavior Tree\Base classes</Filter>
-    </ClInclude>
-    <ClInclude Include="Node.h">
-      <Filter>Behavior Tree\Base classes</Filter>
-    </ClInclude>
-    <ClInclude Include="Sequencer.h">
-      <Filter>Behavior Tree\Base classes</Filter>
-    </ClInclude>
-    <ClInclude Include="Selector.h">
-      <Filter>Behavior Tree\Base classes</Filter>
-    </ClInclude>
-    <ClInclude Include="Input.h">
-      <Filter>Behavior Tree\Base classes</Filter>
-    </ClInclude>
-    <ClInclude Include="Action.h">
-      <Filter>Behavior Tree\Base classes</Filter>
-    </ClInclude>
-    <ClInclude Include="InputSuccess.h">
-      <Filter>Behavior Tree\Debug Nodes</Filter>
-    </ClInclude>
-    <ClInclude Include="InputFailure.h">
-      <Filter>Behavior Tree\Debug Nodes</Filter>
-    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Astar">
+      <UniqueIdentifier>{3c62c27c-b8a8-4ee4-acd8-c587853c8e29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MapSystem">
+      <UniqueIdentifier>{3583645f-0082-42fe-a34a-6be5bc2b25d7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

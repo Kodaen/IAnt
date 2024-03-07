@@ -1,5 +1,6 @@
 #include "MapSystem.h"
 #include <bitset>
+#include "State.h"
 
 #define MAP_FILE "map.map"
 #define MAP_LINE_INDICATOR 'm'
@@ -24,6 +25,12 @@ MapSystem::~MapSystem()
 void MapSystem::setup()
 {
     loadMapFromFile(ifstream(MAP_FILE, ifstream::in));
+    auto pathData = findPath(Location(3, 2), Location(4, 118));
+    _bug << "Distance between 2 positions :" << pathData._cost << endl;
+    for (auto location : pathData._reversePath)
+    {
+		_bug << "Path:" << location << endl;
+	}
 }
 
 //Returns true if the char is a empty cell char
@@ -112,18 +119,18 @@ void MapSystem::loadMapFromFile(ifstream mapFile)
             int upRow = (row > 0) ? row - 1 : _rowSize - 1;
             int downRow = (row < _rowSize - 1) ? row + 1 : 0;
 
-            if ((col > 0) && isCellWalkable[row][leftCol]) {
+            if (isCellWalkable[row][leftCol]) {
                 cellNodes[row][col]->addNeighbor(cellNodes[row][leftCol],1);
             }
-            if ((col < _colSize - 1) && isCellWalkable[row][rightCol])
+            if (isCellWalkable[row][rightCol])
             {
 				cellNodes[row][col]->addNeighbor(cellNodes[row][rightCol], 1);
 			}
-            if ((row > 0) && isCellWalkable[upRow][col])
+            if (isCellWalkable[upRow][col])
             {
 				cellNodes[row][col]->addNeighbor(cellNodes[upRow][col], 1);
 			}
-            if ((row < _rowSize - 1) && isCellWalkable[downRow][col])
+            if (isCellWalkable[downRow][col])
             {
                 cellNodes[row][col]->addNeighbor(cellNodes[downRow][col], 1);
             }
@@ -135,6 +142,10 @@ void MapSystem::loadMapFromFile(ifstream mapFile)
 
 Astar::PathData<Location>  MapSystem::findPath(Location from, Location to)
 {
-    return _mapGraph.findPath(from, to, &getManhattanDistance);
+    auto heuristic = [this](Location a, Location b) -> float {
+        return this->getManhattanDistance(a, b);
+    };
+
+    return _mapGraph.findPath(from, to, heuristic);
 }
 
