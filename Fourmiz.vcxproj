@@ -125,19 +125,29 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BehaviorTree.cpp" />
     <ClCompile Include="Bot.cc" />
     <ClCompile Include="MapSystem.cpp" />
     <ClCompile Include="MyBot.cc" />
     <ClCompile Include="State.cc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Action.h" />
+    <ClInclude Include="BehaviorTree.h" />
     <ClInclude Include="Bot.h" />
     <ClInclude Include="Bug.h" />
     <ClInclude Include="Graph.h" />
     <ClInclude Include="Location.h" />
     <ClInclude Include="MapSystem.h" />
+    <ClInclude Include="Decorator.h" />
+    <ClInclude Include="Input.h" />
+    <ClInclude Include="InputFailure.h" />
+    <ClInclude Include="InputSuccess.h" />
+    <ClInclude Include="Location.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="Route.h" />
+    <ClInclude Include="Selector.h" />
+    <ClInclude Include="Sequencer.h" />
     <ClInclude Include="Square.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="Timer.h" />
