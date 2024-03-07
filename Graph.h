@@ -5,6 +5,7 @@
 #include <queue>
 
 #include "Node.h"
+#include "Bug.h"
 
 #define NULL_LOCATION Location(-1, -1)
 namespace Astar {
@@ -25,13 +26,18 @@ namespace Astar {
 	{
 		std::map<T, Node<T>*> _nodes;
 	public: 
-		Graph() {};
+		Bug _bug;
+		Graph() 
+		{
+			_bug.open("graphSystemDebug.txt");
+		};
 		~Graph() 
 		{
 			for each (auto node in _nodes)
 			{
 				delete node.second;
 			}
+			_bug.close();
 		};
 
 		Node<T>* addNode(const T value, std::vector<Neighbor<T>> neighbors)
@@ -57,25 +63,39 @@ namespace Astar {
 			std::map<T, float> costSoFar;
 			costSoFar[from] = 0;
 
+			_bug << "frontier empty ? " << frontier.empty() << std::endl;
 			while (!frontier.empty())
 			{
 				Node<T>* current = frontier.top();
 				frontier.pop();
 
+				_bug << "Current: " << current->getData() << std::endl;
+				_bug << "neighbors number ? " << current->getNeighbors().size() << std::endl;
 				for each (Neighbor<T> neighbor in current->getNeighbors()) 
 				{
+					_bug << "--\n";
+					_bug << "Current: " << current->getData() << "   Neighbor:" << neighbor._node->getData() << std::endl;
+					_bug << "	neighbor._node == current ?" << (neighbor._node == current) << std::endl;
 					if (neighbor._node == current) continue;
 					float newCost = costSoFar[current->getData()] + neighbor._costToReach;
 					//If the path to the evaluated node is either non existent or more costly, we register the new path
-					if (costSoFar.count(current->getData()) && costSoFar[neighbor._node->getData()] < newCost) continue;
+					_bug << "	costSoFar.count(neighbor._node->getData()) " << costSoFar.count(neighbor._node->getData()) << std::endl;
+					_bug << "	costSoFar[neighbor._node->getData()] " << costSoFar[neighbor._node->getData()] << std::endl;
+					_bug << "	newCost " << newCost << std::endl;
+					if (costSoFar.count(neighbor._node->getData()) && costSoFar[neighbor._node->getData()] < newCost) continue;
 					
 					neighbor._node->_priority = newCost + heuristic(destinationNode->getData(), neighbor._node->getData());
 					costSoFar[neighbor._node->getData()] = newCost;
+					_bug << "	newCost: " << newCost << std::endl;
 					cameFrom[neighbor._node->getData()] = current->getData();
 					frontier.push(neighbor._node);
+					_bug << "frontier empty (just after pushing) ? " << frontier.empty() << std::endl;
 				}
+				_bug << "--\n";
+				_bug << "frontier empty ? " << frontier.empty() << std::endl;
 			}
 
+			_bug<<"cost so far: "<<costSoFar[to] << std::endl;
 			return PathData<T>(costSoFar[to]);
 		}
 	};

@@ -11,8 +11,8 @@ class MapSystem
 {
 private:
 	Astar::Graph<Location> _mapGraph;
-	int _width;
-	int _height;
+	int _colSize=0;
+	int _rowSize=0;
 	Bug _bug;
 
 	void loadMapFromFile(std::ifstream mapFile);
