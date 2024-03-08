@@ -11,7 +11,7 @@ private:
 
 	// ------------ CONSTRUCTOR ------------ //
 public:
-	Route(Location start, Location end, int distance) : _start(start), _end(end), _distance(distance) {}
+	Route(Location start, Location end, int manhattanDistance) : _start(start), _end(end), _distance(manhattanDistance) {}
 
 	// ------------ GETTERS/SETTERS ------------ //
 public:

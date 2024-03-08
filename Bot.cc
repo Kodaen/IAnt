@@ -16,6 +16,7 @@ void Bot::playGame()
 	//reads the game parameters and sets up
 	cin >> _state;
 	_state.setup();
+	_mapSystem.setup();
 	endTurn();
 
 	//continues making moves while the game is not over
@@ -75,8 +76,8 @@ void Bot::makeMoves()
 	// Calculate all routes from ants to food
 	for (Location foodLoc : sortedFood) {
 		for (Location antLoc : sortedAnts) {
-			int distance = _state.distance(antLoc, foodLoc);
-			Route route(antLoc, foodLoc, distance);
+			int manhattanDistance = _state.manhattanDistance(antLoc, foodLoc);
+			Route route(antLoc, foodLoc, manhattanDistance);
 			foodRoutes.push_back(route);
 		}
 	}
@@ -104,8 +105,8 @@ void Bot::makeMoves()
 	for (Location* hillLoc : _enemyHills) {
 		for (Location antLoc : sortedAnts) {
 			if (!LocationMapContainsValue(_orders, antLoc)) {
-				int distance = _state.distance(antLoc, *hillLoc);
-				Route route = Route(antLoc, *hillLoc, distance);
+				int manhattanDistance = _state.manhattanDistance(antLoc, *hillLoc);
+				Route route = Route(antLoc, *hillLoc, manhattanDistance);
 				hillRoutes.push_back(route);
 			}
 		}
@@ -121,9 +122,9 @@ void Bot::makeMoves()
 
 			std::vector<Route> unseenRoutes;
 			for (const Location* unseenLoc : _unseenTiles) {
-				int distance = _state.distance(antLoc, *unseenLoc);
-				if (distance > 30) continue;
-				Route route = Route(antLoc, *unseenLoc, distance);
+				int manhattanDistance = _state.manhattanDistance(antLoc, *unseenLoc);
+				if (manhattanDistance > 30) continue;
+				Route route = Route(antLoc, *unseenLoc, manhattanDistance);
 				unseenRoutes.push_back(route);
 			}
 			std::sort(unseenRoutes.begin(), unseenRoutes.end());

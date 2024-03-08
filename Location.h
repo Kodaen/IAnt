@@ -1,5 +1,5 @@
-#ifndef LOCATION_H_
-#define LOCATION_H_
+#pragma once
+#include <iostream>
 
 /*
     struct for representing locations in the grid.
@@ -20,7 +20,10 @@ struct Location
     };
 
     inline bool operator==(const Location& l2) const { return (this->_row == l2._row && this->_col == l2._col); }
+    inline bool operator!=(const Location& l2) const { return !(*this==l2); }
     inline bool operator<(const Location& l2) const { return this->_row < l2._row || (l2._row >= this->_row && this->_col < l2._col); }
+    friend std::ostream& operator<<(std::ostream& os, const Location& obj) {
+        os << "row "<<obj._row<< " | col "<<obj._col;
+        return os;
+    }
 };
-
-#endif //LOCATION_H_

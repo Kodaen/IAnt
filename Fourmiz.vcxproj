@@ -93,6 +93,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(SolutionDir)\map.map" "$(TargetDir)\map.map"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -117,23 +120,30 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(SolutionDir)\map.map" "$(TargetDir)\map.map"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BehaviorTree.cpp" />
     <ClCompile Include="Bot.cc" />
+    <ClCompile Include="MapSystem.cpp" />
     <ClCompile Include="MyBot.cc" />
     <ClCompile Include="State.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Action.h" />
+    <ClInclude Include="Astar\Graph.h" />
+    <ClInclude Include="Astar\Node.h" />
     <ClInclude Include="BehaviorTree.h" />
     <ClInclude Include="Bot.h" />
     <ClInclude Include="Bug.h" />
+    <ClInclude Include="Location.h" />
+    <ClInclude Include="MapSystem.h" />
     <ClInclude Include="Decorator.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="InputFailure.h" />
     <ClInclude Include="InputSuccess.h" />
-    <ClInclude Include="Location.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="Route.h" />
     <ClInclude Include="Selector.h" />

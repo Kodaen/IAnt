@@ -57,7 +57,8 @@ struct State
 
     void makeMove(const Location &loc, int direction);
 
-    inline double distance(const Location &loc1, const Location &loc2);
+    inline double manhattanDistance(const Location &loc1, const Location &loc2);
+    inline double euclidianDistance(const Location& loc1, const Location& loc2);
     inline Location getLocation(const Location &startLoc, int direction);
     std::vector<int> getDirections(const Location& loc1, const Location& loc2);
 

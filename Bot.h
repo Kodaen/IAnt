@@ -7,12 +7,15 @@
 #include "State.h"
 #include "Location.h"
 #include "Route.h"
+#include "MapSystem.h"
 
 /*
     This struct represents your bot in the game of Ants
 */
 struct Bot
 {
+    MapSystem _mapSystem;
+    
     State _state;
 
     std::map<Location*, Location*> _orders;
