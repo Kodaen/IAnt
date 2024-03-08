@@ -46,14 +46,14 @@ void State::makeMove(const Location &loc, int direction)
     _grid[loc._row][loc._col]._ant = -1;
 };
 
-//returns the euclidean distance between two locations with the edges wrapped
+//returns the manhattan distance between two locations with the edges wrapped
 double State::distance(const Location &loc1, const Location &loc2)
 {
     int d1 = abs(loc1._row-loc2._row),
         d2 = abs(loc1._col-loc2._col),
         dr = min(d1, _rows-d1),
         dc = min(d2, _cols-d2);
-    return sqrt(dr*dr + dc*dc);
+    return dr + dc;
 };
 
 //returns the new location from moving in a given direction with the edges wrapped
