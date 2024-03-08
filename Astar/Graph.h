@@ -4,12 +4,13 @@
 #include <map>
 #include <queue>
 #include <vector>
+#include <climits>
 
 #include "Node.h"
 #include "Bug.h"
 
 #define NULL_LOCATION Location(-1, -1)
-#define INVALID_PATH_COST 99999999
+#define INVALID_PATH_COST INT_MAX
 
 namespace Astar {
 	/*PathData is the structure used to communicate the path to the outside software layer. It contains the cost of the path, and the path itself.
@@ -64,13 +65,19 @@ namespace Astar {
 			return addNode(node, std::vector<Neighbor<T>>());
 		}
 
+		//Return the node with the lowest priority
+		static bool CompareNodesPriority(Node<T>* a, Node<T>* b)
+		{
+			return a->_priority > b->_priority;
+		}
+
 		PathData<T> findPath(T from, T to, std::function<float(T, T)> heuristic)
 		{
 			if (!_nodes.count(from)) return PathData<T>(false);
 			if (!_nodes.count(to)) return PathData<T>(false);
 			Node<T>* departureNode = _nodes[from];
 			Node<T>* destinationNode = _nodes[to];
-			std::priority_queue<Node<T>*> frontier;
+			std::priority_queue<Node<T>*, std::vector<Node<T>*>, std::function<bool(Node<T>*, Node<T>*)>> frontier(CompareNodesPriority);
 			frontier.push(departureNode);
 			std::map<T, T> cameFrom;
 			cameFrom[from] = NULL_LOCATION;
@@ -98,7 +105,8 @@ namespace Astar {
 						break;
 					}
 
-					neighbor._node->_priority = -(newCost + heuristic(destinationNode->getData(), neighbor._node->getData()));
+					_bug << "--\n";
+					neighbor._node->_priority = (newCost + heuristic(destinationNode->getData(), neighbor._node->getData()));
 					frontier.push(neighbor._node);
 				}
 				if (pathFound) break;

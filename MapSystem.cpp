@@ -25,12 +25,15 @@ MapSystem::~MapSystem()
 void MapSystem::setup()
 {
     loadMapFromFile(ifstream(MAP_FILE, ifstream::in));
-    auto pathData = findPath(Location(3, 2), Location(4, 118));
+    auto pathData = findPath(Location(6, 1), Location(43, 3));
     _bug << "Distance between 2 positions :" << pathData._cost << endl;
     for (auto location : pathData._reversePath)
     {
 		_bug << "Path:" << location << endl;
 	}
+
+    _bug << endl;
+    _bug<< getManhattanDistance(Location(0, 0), Location(42, 0)) << endl;
 }
 
 //Returns true if the char is a empty cell char

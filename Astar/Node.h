@@ -76,11 +76,6 @@ namespace Astar
 
 		bool operator==(const Node<T>& n2) const { return this->_data==n2._data; }
 	
-		friend bool operator<(Node<T> const& lhs, Node<T> const& rhs)
-		{
-			return lhs._priority < rhs._priority;
-		}
-	
 		friend std::ostream& operator<<(std::ostream& os, const Node<T>& node)
 		{
 			os <<"Priority "<<node._priority<<" | Data \""<< node._data<<"\"";
