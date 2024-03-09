@@ -1,6 +1,7 @@
 #include <set>
 
 #include "Bot.h"
+#include "BehaviorTree.h"
 
 using namespace std;
 
@@ -33,6 +34,15 @@ void Bot::makeMoves()
 {
 	_state._bug << "turn " << _state._turn << ":" << endl;
 	_state._bug << _state << endl;
+
+	BehaviorTree* bt = new BehaviorTree();
+
+	//bt->sequencer()
+	//		.decorator(DECORATOR_NOT)
+	//			.input(INPUT_SUCCESS)
+	//			.selectParent();
+
+	//_state._bug << bt->debugExecute() << endl;
 
 	for (auto& pair : _orders) {
 		delete pair.first;

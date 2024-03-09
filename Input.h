@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Node.h"
+#include "Behavior.h"
 
-class Input : public Node {
+class Input : public Behavior {
     // ------------ CSTR & DSTR ------------ //
 public:
     Input() {}

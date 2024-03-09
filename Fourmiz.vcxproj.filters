@@ -8,6 +8,8 @@
     <ClCompile Include="MapSystem.cpp">
       <Filter>MapSystem</Filter>
     </ClCompile>
+    <ClCompile Include="DecoratorNot.cpp" />
+    <ClCompile Include="DecoratorAlwaysTrue.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Action.h" />
@@ -25,7 +27,7 @@
     <ClInclude Include="Square.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="Timer.h" />
-    <ClInclude Include="Node.h" />
+    <ClInclude Include="Behavior.h" />
     <ClInclude Include="Astar\Graph.h">
       <Filter>Astar</Filter>
     </ClInclude>
@@ -35,6 +37,8 @@
     <ClInclude Include="MapSystem.h">
       <Filter>MapSystem</Filter>
     </ClInclude>
+    <ClInclude Include="DecoratorAlwaysTrue.h" />
+    <ClInclude Include="DecoratorNot.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Astar">

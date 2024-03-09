@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Node.h"
+#include "Behavior.h"
 #include "Location.h"
 #include <string>
 
@@ -17,7 +17,7 @@ class BehaviorTree
 {
 	// ------------ ATTRIBUTES ------------ //
 protected:
-	Node* _root;
+	Behavior* _root;
 
 
 	// ------------ CSTR & DSTR ------------ //
@@ -45,7 +45,7 @@ public :
 	BehaviorTree& selectParent();
 
 protected:
-	Node* _selectedNode; // _root by default
+	Behavior* _selectedNode; // _root by default
 
-	void addChild(Node* &node);
+	void addChild(Behavior* &node);
 };

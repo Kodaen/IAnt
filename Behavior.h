@@ -9,35 +9,35 @@ enum EStatus
 	BH_RUNNING,
 };
 
-class Node 
+class Behavior 
 {
 	// ------------ ATTRIBUTES ------------ //
 protected :
-	std::vector<Node*> _children;
+	std::vector<Behavior*> _children;
 	// TODO : Blackboard _blackboard
 
 public : 
-	Node* _parent;
+	Behavior* _parent;
 
 
 	// ------------ CSTR & DSTR ------------ //
 public:
-	Node() : _parent(NULL) {}
-	virtual ~Node() {}
+	Behavior() : _parent(NULL) {}
+	virtual ~Behavior() {}
 
 
 	// ------------ FUNCTIONS ------------ //
 protected:
-	// Called when node starts updating
+	// Called when Behavior starts updating
 	virtual void onInitialize() = 0;
 
-	// Called when node ends updating
+	// Called when Behavior ends updating
 	virtual void onTerminate(const EStatus& status) = 0;
 
 public:
 	virtual EStatus update() = 0;
 
-	void addChild(Node* &node) {
+	void addChild(Behavior* &node) {
 		_children.push_back(node);
 	}
 };

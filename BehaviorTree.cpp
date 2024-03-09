@@ -1,5 +1,5 @@
 #include "BehaviorTree.h"
-#include "Node.h"
+#include "Behavior.h"
 #include "Action.h"
 #include "Input.h"
 #include "InputSuccess.h"
@@ -7,6 +7,8 @@
 #include "Sequencer.h"
 #include "Selector.h"
 #include "Decorator.h"
+#include "DecoratorAlwaysTrue.h"
+#include "DecoratorNot.h"
 
 
 BehaviorTree::BehaviorTree()
@@ -47,7 +49,7 @@ std::string BehaviorTree::debugExecute()
 
 BehaviorTree& BehaviorTree::sequencer()
 {
-	Node* seq = new Sequencer();
+	Behavior* seq = new Sequencer();
 
 	if (_root == NULL) {
 		_root = seq;
@@ -62,7 +64,7 @@ BehaviorTree& BehaviorTree::sequencer()
 
 BehaviorTree& BehaviorTree::selector()
 {
-	Node* sel = new Selector();
+	Behavior* sel = new Selector();
 
 	if (_root == NULL) {
 		_root = sel;
@@ -77,16 +79,16 @@ BehaviorTree& BehaviorTree::selector()
 
 BehaviorTree& BehaviorTree::decorator(const ENodeType& decoratorType)
 {
-	Node* dec;
+	Behavior* dec;
 
 	switch (decoratorType)
 	{
 	case DECORATOR_ALWAYS_TRUE:
-		// TODO : Implement always true decorator
+		dec = new DecoratorAlwaysTrue();
 		break;
 
 	case DECORATOR_NOT:
-		// TODO : Implement not decorator
+		dec = new DecoratorNot();
 		break;
 
 	default:
@@ -107,7 +109,7 @@ BehaviorTree& BehaviorTree::decorator(const ENodeType& decoratorType)
 
 BehaviorTree& BehaviorTree::action(const ENodeType& actionType)
 {
-	Node* act;
+	Behavior* act;
 	switch (actionType)
 	{
 	default:
@@ -127,7 +129,7 @@ BehaviorTree& BehaviorTree::action(const ENodeType& actionType)
 
 BehaviorTree& BehaviorTree::input(const ENodeType& inputType)
 {
-	Node* inp;
+	Behavior* inp;
 	switch (inputType)
 	{
 	case INPUT_SUCCESS:
@@ -162,7 +164,7 @@ BehaviorTree& BehaviorTree::selectParent()
 	return *this;
 }
 
-void BehaviorTree::addChild(Node*& node)
+void BehaviorTree::addChild(Behavior*& node)
 {
 	if (_selectedNode == NULL) { return; }
 

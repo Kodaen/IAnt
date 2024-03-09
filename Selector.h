@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Node.h"
+#include "Behavior.h"
 
-class Selector : public Node {
+class Selector : public Behavior {
     // ------------ CONSTRUCTOR ------------ //
 public:
     Selector() {}
@@ -18,7 +18,7 @@ public:
     EStatus update()
     {
         onInitialize();
-        for (Node*& child : _children)
+        for (Behavior*& child : _children)
         {
             EStatus childStatus = child->update();
 
