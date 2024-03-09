@@ -4,6 +4,7 @@
 #include "Input.h"
 #include "InputSuccess.h"
 #include "InputFailure.h"
+#include "InputCloseAnyFood.h"
 #include "Sequencer.h"
 #include "Selector.h"
 #include "Decorator.h"
@@ -23,6 +24,9 @@ void BehaviorTree::execute(Location& ant)
 	_localBlackboard.p_ant = &ant;
 
 	_root->update();
+
+	// we reset _localBlackboard for next ant.
+	_localBlackboard = LocalBlackboard();
 }
 
 std::string BehaviorTree::debugExecute()
@@ -115,7 +119,7 @@ BehaviorTree& BehaviorTree::action(const ENodeType& actionType)
 	Behavior* act;
 	switch (actionType)
 	{
-	case ACTION_BLACKBOARD_INFOS :
+	case ACTION_BLACKBOARD_INFOS:
 		act = new ActionBlackboardInfo(_localBlackboard);
 		break;
 	default:
@@ -141,11 +145,12 @@ BehaviorTree& BehaviorTree::input(const ENodeType& inputType)
 	case INPUT_SUCCESS:
 		inp = new InputSuccess(_localBlackboard);
 		break;
-
 	case INPUT_FAILURE:
 		inp = new InputFailure(_localBlackboard);
 		break;
-
+	case INPUT_CLOSE_ANY_FOOD:
+		inp = new InputCloseAnyFood(_localBlackboard);
+		break;
 	default:
 		inp = new Input(_localBlackboard);
 		break;

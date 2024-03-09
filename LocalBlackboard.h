@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include "Location.h"
 
 class LocalBlackboard
@@ -14,6 +16,7 @@ public :
 public:
 	// ant of which the behavior tree belongs to
 	Location* p_ant;
+	std::vector<Location> _nearbyFood;
 
 	// ------------ FUNCTIONS ------------ //
 };
