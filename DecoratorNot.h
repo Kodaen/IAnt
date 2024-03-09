@@ -5,7 +5,7 @@
 class DecoratorNot : public Decorator {
 	// ------------ CSTR & DSTR ------------ //
 public:
-	DecoratorNot();
+	DecoratorNot(LocalBlackboard& _blackboard);
 	~DecoratorNot();
 
 	// ------------ FUNCTIONS ------------ //

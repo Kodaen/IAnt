@@ -5,7 +5,7 @@
 class Selector : public Behavior {
     // ------------ CONSTRUCTOR ------------ //
 public:
-    Selector() {}
+    Selector(LocalBlackboard &_blackboard) : Behavior(_blackboard) { }
     ~Selector() {}
 
 

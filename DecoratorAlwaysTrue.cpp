@@ -1,6 +1,6 @@
 #include "DecoratorAlwaysTrue.h"
 
-DecoratorAlwaysTrue::DecoratorAlwaysTrue()
+DecoratorAlwaysTrue::DecoratorAlwaysTrue(LocalBlackboard &_blackboard) : Decorator(_blackboard)
 { }
 
 DecoratorAlwaysTrue::~DecoratorAlwaysTrue()

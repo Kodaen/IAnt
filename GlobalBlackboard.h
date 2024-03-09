@@ -20,7 +20,14 @@ private:
 	// ------------ ATTRIBUTES ------------ //
 public :
 	State _state;
+
+	/* Key : Location where an want wants to move, 
+	Value : Position of the ant which wants to move. */
 	std::map<Location*, Location*> _orders;
+
+	/* Key: contains food,
+	Value : Nearby ants to this food*/ 
+	std::map<Location, std::vector<Location>> _nearbyFoodAnts;
 
 	// ------------ FUNCTIONS ------------ //
 };

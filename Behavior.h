@@ -2,6 +2,8 @@
 
 #include <vector>
 
+#include "LocalBlackboard.h"
+
 enum EStatus
 {
 	BH_SUCCESS,
@@ -14,15 +16,14 @@ class Behavior
 	// ------------ ATTRIBUTES ------------ //
 protected :
 	std::vector<Behavior*> _children;
-	// TODO : Blackboard _blackboard
+	LocalBlackboard* _blackboard;
 
 public : 
 	Behavior* _parent;
 
-
 	// ------------ CSTR & DSTR ------------ //
 public:
-	Behavior() : _parent(NULL) {}
+	Behavior(LocalBlackboard &blackboard) : _parent(NULL), _blackboard(&blackboard) {}
 	virtual ~Behavior() {}
 
 

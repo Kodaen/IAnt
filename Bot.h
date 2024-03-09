@@ -33,6 +33,8 @@ struct Bot
 
     void endTurn();     //indicates to the engine that it has made its moves
 
+    void associateFoodToNearbyAnts();
+
     // ------------ UTILS ------------ //
     bool doesAnotherAntWantToGoThere(const Location &tile);    // Check if another ant wants to walk on given tile
     inline bool LocationMapContainsValue(std::map<Location*, Location*> &locMap,const Location &value);

@@ -37,18 +37,21 @@ void Bot::makeMoves()
 	BehaviorTree* bt = new BehaviorTree();
 
 	//bt->sequencer()
-	//		.decorator(DECORATOR_NOT)
-	//			.input(INPUT_SUCCESS)
-	//			.selectParent();
+	//	.action(ACTION_BLACKBOARD_INFOS);
 
-	//_gbb._state._bug << bt->debugExecute() << endl;
+	//for (Location& ant : _gbb._state._myAnts)
+	//{
+	//	bt->execute(ant);
+	//}
 
 	for (auto& pair : _gbb._orders) {
 		delete pair.first;
 		delete pair.second;
 	}
 	_gbb._orders.clear();
+	_gbb._nearbyFoodAnts.clear();
 
+	associateFoodToNearbyAnts();
 
 	// add all locations to unseen tiles set, run once
 	if (_unseenTiles.empty()) {
@@ -193,6 +196,31 @@ bool Bot::doMoveLocation(const Location& antLoc, const Location& destLoc) {
 		}
 	}
 	return false;
+}
+
+void Bot::associateFoodToNearbyAnts() {
+	for (Location& food : _gbb._state._food) {
+		// _gbb._state._bug << "	Food (" << food._row << ", " << food._col << ")" << endl;
+		int viewRadius = (int)std::floor(_gbb._state._viewRadius);
+
+		//_gbb._state._bug << "Nearby ants :" << endl;
+
+		// We search nearby ants in a square of length 16x16
+		// TODO : not optimal (and not perfectly accurate)
+		// Maybe try to do a BFS
+		for (int col = -viewRadius; col < viewRadius; col++)
+		{
+			for (int row = -viewRadius; row < viewRadius; row++)
+			{
+				auto t = (_gbb._state._rows + (food._row + row)) % _gbb._state._rows;
+				auto d = (_gbb._state._cols + (food._col + col)) % _gbb._state._cols;
+
+				if (_gbb._state._grid[t][d]._isMyAnt) {
+					_gbb._nearbyFoodAnts[food].push_back({ t,d });
+				}
+			}
+		}
+	}
 }
 
 bool Bot::doesAnotherAntWantToGoThere(const Location& tile)

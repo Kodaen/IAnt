@@ -5,7 +5,7 @@
 class InputSuccess : public Input {
 	// ------------ CSTR & DSTR ------------ //
 public:
-	InputSuccess() {}
+	InputSuccess(LocalBlackboard &_blackboard) : Input(_blackboard) {}
 	~InputSuccess() {}
 
 	// ------------ FUNCTIONS ------------ //

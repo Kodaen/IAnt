@@ -6,7 +6,7 @@ class Decorator : public Behavior
 {
 	// ------------ CSTR & DSTR ------------ //
 	public:
-		Decorator() {}
+		Decorator(LocalBlackboard &_blackboard) : Behavior(_blackboard) {}
 		~Decorator() {}
 
 

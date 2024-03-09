@@ -17,6 +17,12 @@
       <Filter>Behavior Tree\Decorators</Filter>
     </ClCompile>
     <ClCompile Include="GlobalBlackboard.cpp" />
+    <ClCompile Include="InputCloseAnyFood.cpp">
+      <Filter>Behavior Tree\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="LocalBlackboard.cpp">
+      <Filter>Behavior Tree</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Astar\Graph.h">
@@ -82,7 +88,18 @@
     <ClInclude Include="Timer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GlobalBlackboard.h" />
+    <ClInclude Include="InputCloseAnyFood.h">
+      <Filter>Behavior Tree\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalBlackboard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LocalBlackboard.h">
+      <Filter>Behavior Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionBlackboardInfos.h">
+      <Filter>Behavior Tree\Debug Behaviors</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Astar">
@@ -105,6 +122,9 @@
     </Filter>
     <Filter Include="Header Files">
       <UniqueIdentifier>{2b609992-215a-42ff-8f2b-01911ebac97f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Behavior Tree\Input">
+      <UniqueIdentifier>{e3a90ed7-011a-4ced-83ad-85cedb972820}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

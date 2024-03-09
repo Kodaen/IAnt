@@ -1,6 +1,6 @@
 #include "DecoratorNot.h"
 
-DecoratorNot::DecoratorNot()
+DecoratorNot::DecoratorNot(LocalBlackboard& _blackboard) : Decorator(_blackboard)
 {
 }
 

@@ -5,7 +5,7 @@
 class DecoratorAlwaysTrue : public Decorator {
 	// ------------ CSTR & DSTR ------------ //
 public:
-	DecoratorAlwaysTrue();
+	DecoratorAlwaysTrue(LocalBlackboard &_blakboard);
 	~DecoratorAlwaysTrue();
 
 	// ------------ FUNCTIONS ------------ //

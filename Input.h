@@ -5,7 +5,7 @@
 class Input : public Behavior {
     // ------------ CSTR & DSTR ------------ //
 public:
-    Input() {}
+    Input(LocalBlackboard &_blackboard) : Behavior(_blackboard) {}
     ~Input() {}
 
 

@@ -5,7 +5,7 @@
 class Sequencer : public Behavior {
     // ------------ CONSTRUCTOR ------------ //
 public:
-    Sequencer() {}
+    Sequencer(LocalBlackboard &_blackboard) : Behavior(_blackboard) {}
 
 
     // ------------ FUNCTIONS ------------ //

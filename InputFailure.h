@@ -5,7 +5,7 @@
 class InputFailure : public Input {
 	// ------------ CSTR & DSTR ------------ //
 public:
-	InputFailure() {}
+	InputFailure(LocalBlackboard &_blackboard) : Input(_blackboard) {}
 	~InputFailure() {}
 
 	// ------------ FUNCTIONS ------------ //

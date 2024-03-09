@@ -9,6 +9,7 @@
 #include "Decorator.h"
 #include "DecoratorAlwaysTrue.h"
 #include "DecoratorNot.h"
+#include "ActionBlackboardInfos.h"
 
 
 BehaviorTree::BehaviorTree()
@@ -17,8 +18,10 @@ BehaviorTree::BehaviorTree()
 	_selectedNode = NULL;
 }
 
-void BehaviorTree::execute(const Location& ant)
+void BehaviorTree::execute(Location& ant)
 {
+	_localBlackboard.p_ant = &ant;
+
 	_root->update();
 }
 
@@ -49,7 +52,7 @@ std::string BehaviorTree::debugExecute()
 
 BehaviorTree& BehaviorTree::sequencer()
 {
-	Behavior* seq = new Sequencer();
+	Behavior* seq = new Sequencer(_localBlackboard);
 
 	if (_root == NULL) {
 		_root = seq;
@@ -64,7 +67,7 @@ BehaviorTree& BehaviorTree::sequencer()
 
 BehaviorTree& BehaviorTree::selector()
 {
-	Behavior* sel = new Selector();
+	Behavior* sel = new Selector(_localBlackboard);
 
 	if (_root == NULL) {
 		_root = sel;
@@ -84,15 +87,15 @@ BehaviorTree& BehaviorTree::decorator(const ENodeType& decoratorType)
 	switch (decoratorType)
 	{
 	case DECORATOR_ALWAYS_TRUE:
-		dec = new DecoratorAlwaysTrue();
+		dec = new DecoratorAlwaysTrue(_localBlackboard);
 		break;
 
 	case DECORATOR_NOT:
-		dec = new DecoratorNot();
+		dec = new DecoratorNot(_localBlackboard);
 		break;
 
 	default:
-		dec = new Decorator();
+		dec = new Decorator(_localBlackboard);
 		break;
 	}
 
@@ -112,8 +115,11 @@ BehaviorTree& BehaviorTree::action(const ENodeType& actionType)
 	Behavior* act;
 	switch (actionType)
 	{
+	case ACTION_BLACKBOARD_INFOS :
+		act = new ActionBlackboardInfo(_localBlackboard);
+		break;
 	default:
-		act = new Action();
+		act = new Action(_localBlackboard);
 		break;
 	}
 
@@ -133,15 +139,15 @@ BehaviorTree& BehaviorTree::input(const ENodeType& inputType)
 	switch (inputType)
 	{
 	case INPUT_SUCCESS:
-		inp = new InputSuccess();
+		inp = new InputSuccess(_localBlackboard);
 		break;
 
 	case INPUT_FAILURE:
-		inp = new InputFailure();
+		inp = new InputFailure(_localBlackboard);
 		break;
 
 	default:
-		inp = new Input();
+		inp = new Input(_localBlackboard);
 		break;
 	}
 

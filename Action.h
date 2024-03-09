@@ -5,7 +5,7 @@
 class Action : public Behavior {
 	// ------------ CONSTRUCTOR ------------ //
 public:
-	Action() {}
+	Action(LocalBlackboard &_blackboard) : Behavior(_blackboard) {}
 	~Action() {}
 
 
