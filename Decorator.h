@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Node.h"
+#include "Behavior.h"
 
-class Decorator : public Node
+class Decorator : public Behavior
 {
 	// ------------ CSTR & DSTR ------------ //
 	public:
