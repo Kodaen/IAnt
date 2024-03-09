@@ -16,6 +16,7 @@
     <ClCompile Include="DecoratorNot.cpp">
       <Filter>Behavior Tree\Decorators</Filter>
     </ClCompile>
+    <ClCompile Include="GlobalBlackboard.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Astar\Graph.h">
@@ -81,6 +82,7 @@
     <ClInclude Include="Timer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GlobalBlackboard.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Astar">
