@@ -36,7 +36,7 @@ public:
 	
 	void setup();
 	Astar::PathData<Location> findPath(Location from, Location to);
-	Astar::PathData<Location> findCost(Location from, Location to)
+	float findCost(Location from, Location to)
 	{
 		return findPath(from, to)._cost;
 	}
