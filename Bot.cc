@@ -16,7 +16,7 @@ void Bot::playGame()
 	//reads the game parameters and sets up
 	cin >> _gbb._state;
 	_gbb._state.setup();
-	_mapSystem.setup();
+	MapSystem::getInstance()->setup();
 	endTurn();
 
 	//continues making moves while the game is not over
