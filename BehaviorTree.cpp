@@ -6,6 +6,7 @@
 #include "InputFailure.h"
 #include "InputCloseAnyFood.h"
 #include "InputClosestToFood.h"
+#include "InputIDieByGoingThere.h"
 #include "Sequencer.h"
 #include "Selector.h"
 #include "Decorator.h"
@@ -165,6 +166,9 @@ BehaviorTree& BehaviorTree::input(const ENodeType& inputType)
 		break;
 	case INPUT_CLOSEST_TO_FOOD:
 		inp = new InputClosestToFood(_localBlackboard);
+		break;
+	case INPUT_I_DIE_BY_GOING_THERE:
+		inp = new InputIDieByGoingThere(_localBlackboard);
 		break;
 	default:
 		inp = new Input(_localBlackboard);

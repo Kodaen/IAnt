@@ -51,8 +51,12 @@ void Bot::makeMoves()
 				.input(INPUT_CLOSE_ANY_FOOD)
 				.input(INPUT_CLOSEST_TO_FOOD)
 				.action(ACTION_CALC_TRAJ_FOR_FOOD)
+				.decorator(DECORATOR_NOT)
+					.input(INPUT_I_DIE_BY_GOING_THERE)
+					.selectParent()
 				.action(ACTION_APPROACH_FOOD)
-				.action(ACTION_BLACKBOARD_INFOS);
+				.action(ACTION_BLACKBOARD_INFOS)
+				;
 
 	for (Location& ant : r_gbb._state._myAnts)
 	{

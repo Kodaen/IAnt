@@ -32,6 +32,9 @@
     <ClCompile Include="ActionCalcTrajForFood.cpp">
       <Filter>Behavior Tree\Action</Filter>
     </ClCompile>
+    <ClCompile Include="InputIDieByGoingThere.cpp">
+      <Filter>Behavior Tree\Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Astar\Graph.h">
@@ -120,6 +123,9 @@
     </ClInclude>
     <ClInclude Include="ActionCalcTrajForFood.h">
       <Filter>Behavior Tree\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="InputIDieByGoingThere.h">
+      <Filter>Behavior Tree\Input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
