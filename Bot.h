@@ -8,15 +8,15 @@
 #include "Location.h"
 #include "Route.h"
 #include "MapSystem.h"
+#include "GlobalBlackboard.h"
 
 /*
     This struct represents your bot in the game of Ants
 */
 struct Bot
-{   
-    State _state;
+{
+    GlobalBlackboard& _gbb = GlobalBlackboard::singleton();
 
-    std::map<Location*, Location*> _orders;
     std::set<Location*> _unseenTiles;
     std::set<Location*> _enemyHills;
 
@@ -30,6 +30,8 @@ struct Bot
     bool doMoveLocation(const Location& antLoc, const Location& destLoc);
 
     void endTurn();     //indicates to the engine that it has made its moves
+
+    void associateFoodToNearbyAnts();
 
     // ------------ UTILS ------------ //
     bool doesAnotherAntWantToGoThere(const Location &tile);    // Check if another ant wants to walk on given tile

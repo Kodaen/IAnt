@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Node.h"
+#include "Behavior.h"
 
-class Decorator : public Node
+class Decorator : public Behavior
 {
 	// ------------ CSTR & DSTR ------------ //
 	public:
-		Decorator() {}
+		Decorator(LocalBlackboard &_blackboard) : Behavior(_blackboard) {}
 		~Decorator() {}
 
 

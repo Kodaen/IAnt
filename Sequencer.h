@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Node.h"
+#include "Behavior.h"
 
-class Sequencer : public Node {
+class Sequencer : public Behavior {
     // ------------ CONSTRUCTOR ------------ //
 public:
-    Sequencer() {}
+    Sequencer(LocalBlackboard &_blackboard) : Behavior(_blackboard) {}
 
 
     // ------------ FUNCTIONS ------------ //
@@ -17,7 +17,7 @@ public:
     EStatus update()
     {
         onInitialize();
-        for (Node*& child : _children)
+        for (Behavior*& child : _children)
         {
             EStatus childStatus = child->update();
 

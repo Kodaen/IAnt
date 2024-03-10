@@ -1,31 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="BehaviorTree.cpp" />
     <ClCompile Include="Bot.cc" />
     <ClCompile Include="MyBot.cc" />
     <ClCompile Include="State.cc" />
     <ClCompile Include="MapSystem.cpp">
       <Filter>MapSystem</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Action.h" />
-    <ClInclude Include="BehaviorTree.h" />
-    <ClInclude Include="Bot.h" />
-    <ClInclude Include="Bug.h" />
-    <ClInclude Include="Location.h" />
-    <ClInclude Include="Decorator.h" />
-    <ClInclude Include="Input.h" />
-    <ClInclude Include="InputFailure.h" />
-    <ClInclude Include="InputSuccess.h" />
-    <ClInclude Include="Route.h" />
-    <ClInclude Include="Selector.h" />
-    <ClInclude Include="Sequencer.h" />
-    <ClInclude Include="Square.h" />
-    <ClInclude Include="State.h" />
-    <ClInclude Include="Timer.h" />
-    <ClInclude Include="Node.h" />
+    <ClCompile Include="BehaviorTree.cpp">
+      <Filter>Behavior Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="DecoratorAlwaysTrue.cpp">
+      <Filter>Behavior Tree\Decorators</Filter>
+    </ClCompile>
+    <ClCompile Include="DecoratorNot.cpp">
+      <Filter>Behavior Tree\Decorators</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalBlackboard.cpp" />
+    <ClCompile Include="InputCloseAnyFood.cpp">
+      <Filter>Behavior Tree\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="LocalBlackboard.cpp">
+      <Filter>Behavior Tree</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Astar\Graph.h">
@@ -37,6 +34,72 @@
     <ClInclude Include="MapSystem.h">
       <Filter>MapSystem</Filter>
     </ClInclude>
+    <ClInclude Include="BehaviorTree.h">
+      <Filter>Behavior Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="Action.h">
+      <Filter>Behavior Tree\Base classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Behavior.h">
+      <Filter>Behavior Tree\Base classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Decorator.h">
+      <Filter>Behavior Tree\Base classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>Behavior Tree\Base classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Sequencer.h">
+      <Filter>Behavior Tree\Base classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Selector.h">
+      <Filter>Behavior Tree\Base classes</Filter>
+    </ClInclude>
+    <ClInclude Include="InputFailure.h">
+      <Filter>Behavior Tree\Debug Behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="InputSuccess.h">
+      <Filter>Behavior Tree\Debug Behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="DecoratorAlwaysTrue.h">
+      <Filter>Behavior Tree\Decorators</Filter>
+    </ClInclude>
+    <ClInclude Include="DecoratorNot.h">
+      <Filter>Behavior Tree\Decorators</Filter>
+    </ClInclude>
+    <ClInclude Include="Bot.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Bug.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Location.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Route.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Square.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="State.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InputCloseAnyFood.h">
+      <Filter>Behavior Tree\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalBlackboard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LocalBlackboard.h">
+      <Filter>Behavior Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionBlackboardInfos.h">
+      <Filter>Behavior Tree\Debug Behaviors</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Astar">
@@ -44,6 +107,24 @@
     </Filter>
     <Filter Include="MapSystem">
       <UniqueIdentifier>{3583645f-0082-42fe-a34a-6be5bc2b25d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Behavior Tree">
+      <UniqueIdentifier>{388fd681-7352-441a-96a2-79524318c155}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Behavior Tree\Base classes">
+      <UniqueIdentifier>{0ab6d559-304c-48fe-926f-8445617089fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Behavior Tree\Debug Behaviors">
+      <UniqueIdentifier>{62cca54c-e78e-4e66-a8a5-5592948599a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Behavior Tree\Decorators">
+      <UniqueIdentifier>{1cba02b8-ae12-4b2b-8cdb-009a67bfb9ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{2b609992-215a-42ff-8f2b-01911ebac97f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Behavior Tree\Input">
+      <UniqueIdentifier>{e3a90ed7-011a-4ced-83ad-85cedb972820}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

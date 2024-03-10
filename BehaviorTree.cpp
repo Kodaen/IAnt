@@ -1,5 +1,5 @@
 #include "BehaviorTree.h"
-#include "Node.h"
+#include "Behavior.h"
 #include "Action.h"
 #include "Input.h"
 #include "InputSuccess.h"
@@ -7,6 +7,9 @@
 #include "Sequencer.h"
 #include "Selector.h"
 #include "Decorator.h"
+#include "DecoratorAlwaysTrue.h"
+#include "DecoratorNot.h"
+#include "ActionBlackboardInfos.h"
 
 
 BehaviorTree::BehaviorTree()
@@ -15,8 +18,10 @@ BehaviorTree::BehaviorTree()
 	_selectedNode = NULL;
 }
 
-void BehaviorTree::execute(const Location& ant)
+void BehaviorTree::execute(Location& ant)
 {
+	_localBlackboard.p_ant = &ant;
+
 	_root->update();
 }
 
@@ -47,7 +52,7 @@ std::string BehaviorTree::debugExecute()
 
 BehaviorTree& BehaviorTree::sequencer()
 {
-	Node* seq = new Sequencer();
+	Behavior* seq = new Sequencer(_localBlackboard);
 
 	if (_root == NULL) {
 		_root = seq;
@@ -62,7 +67,7 @@ BehaviorTree& BehaviorTree::sequencer()
 
 BehaviorTree& BehaviorTree::selector()
 {
-	Node* sel = new Selector();
+	Behavior* sel = new Selector(_localBlackboard);
 
 	if (_root == NULL) {
 		_root = sel;
@@ -77,20 +82,20 @@ BehaviorTree& BehaviorTree::selector()
 
 BehaviorTree& BehaviorTree::decorator(const ENodeType& decoratorType)
 {
-	Node* dec;
+	Behavior* dec;
 
 	switch (decoratorType)
 	{
 	case DECORATOR_ALWAYS_TRUE:
-		// TODO : Implement always true decorator
+		dec = new DecoratorAlwaysTrue(_localBlackboard);
 		break;
 
 	case DECORATOR_NOT:
-		// TODO : Implement not decorator
+		dec = new DecoratorNot(_localBlackboard);
 		break;
 
 	default:
-		dec = new Decorator();
+		dec = new Decorator(_localBlackboard);
 		break;
 	}
 
@@ -107,11 +112,14 @@ BehaviorTree& BehaviorTree::decorator(const ENodeType& decoratorType)
 
 BehaviorTree& BehaviorTree::action(const ENodeType& actionType)
 {
-	Node* act;
+	Behavior* act;
 	switch (actionType)
 	{
+	case ACTION_BLACKBOARD_INFOS :
+		act = new ActionBlackboardInfo(_localBlackboard);
+		break;
 	default:
-		act = new Action();
+		act = new Action(_localBlackboard);
 		break;
 	}
 
@@ -127,19 +135,19 @@ BehaviorTree& BehaviorTree::action(const ENodeType& actionType)
 
 BehaviorTree& BehaviorTree::input(const ENodeType& inputType)
 {
-	Node* inp;
+	Behavior* inp;
 	switch (inputType)
 	{
 	case INPUT_SUCCESS:
-		inp = new InputSuccess();
+		inp = new InputSuccess(_localBlackboard);
 		break;
 
 	case INPUT_FAILURE:
-		inp = new InputFailure();
+		inp = new InputFailure(_localBlackboard);
 		break;
 
 	default:
-		inp = new Input();
+		inp = new Input(_localBlackboard);
 		break;
 	}
 
@@ -162,7 +170,7 @@ BehaviorTree& BehaviorTree::selectParent()
 	return *this;
 }
 
-void BehaviorTree::addChild(Node*& node)
+void BehaviorTree::addChild(Behavior*& node)
 {
 	if (_selectedNode == NULL) { return; }
 

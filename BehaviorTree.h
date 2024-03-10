@@ -1,7 +1,8 @@
 #pragma once
 
-#include "Node.h"
+#include "Behavior.h"
 #include "Location.h"
+#include "LocalBlackboard.h"
 #include <string>
 
 enum ENodeType {
@@ -11,14 +12,15 @@ enum ENodeType {
 	//DEBUG Nodes
 	INPUT_FAILURE,
 	INPUT_SUCCESS,
+	ACTION_BLACKBOARD_INFOS
 };
 
 class BehaviorTree
 {
 	// ------------ ATTRIBUTES ------------ //
 protected:
-	Node* _root;
-
+	Behavior* _root;
+	LocalBlackboard _localBlackboard = LocalBlackboard();
 
 	// ------------ CSTR & DSTR ------------ //
 public:
@@ -30,7 +32,7 @@ public:
 	// ------------ FUNCTIONS ------------ //
 public:
 	// TODO : Put ant into the blackboard
-	void execute(const Location &ant);
+	void execute(Location &ant);
 
 	std::string debugExecute();
 
@@ -45,7 +47,7 @@ public :
 	BehaviorTree& selectParent();
 
 protected:
-	Node* _selectedNode; // _root by default
+	Behavior* _selectedNode; // _root by default
 
-	void addChild(Node* &node);
+	void addChild(Behavior* &node);
 };

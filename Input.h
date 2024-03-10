@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Node.h"
+#include "Behavior.h"
 
-class Input : public Node {
+class Input : public Behavior {
     // ------------ CSTR & DSTR ------------ //
 public:
-    Input() {}
+    Input(LocalBlackboard &_blackboard) : Behavior(_blackboard) {}
     ~Input() {}
 
 
