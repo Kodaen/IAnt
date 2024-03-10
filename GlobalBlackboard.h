@@ -1,7 +1,9 @@
 #pragma once
 
-#include "State.h"
 #include <map>
+
+#include "State.h"
+#include "NearbyFoodAnts.h"
 
 class GlobalBlackboard
 {
@@ -25,9 +27,14 @@ public :
 	Value : Position of the ant which wants to move. */
 	std::map<Location*, Location*> _orders;
 
-	/* Key: contains food,
-	Value : Nearby ants to this food*/ 
-	std::map<Location, std::vector<Location>> _nearbyFoodAnts;
+	std::vector<NearbyFoodAnts> _nearbyFoodAnts;
 
 	// ------------ FUNCTIONS ------------ //
+public :
+	// move to tile if tile is walkable and another ant doesn't already want to walk here
+	bool doMoveDirection(const Location& antLoc, int direction);
+	bool doMoveLocation(const Location& antLoc, const Location& destLoc);
+
+	inline bool LocationMapContainsKey(std::map<Location*, Location*>& locMap, const Location& key);
+
 };

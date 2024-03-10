@@ -4,12 +4,17 @@
 #include "Input.h"
 #include "InputSuccess.h"
 #include "InputFailure.h"
+#include "InputCloseAnyFood.h"
+#include "InputClosestToFood.h"
+#include "InputIDieByGoingThere.h"
 #include "Sequencer.h"
 #include "Selector.h"
 #include "Decorator.h"
 #include "DecoratorAlwaysTrue.h"
 #include "DecoratorNot.h"
 #include "ActionBlackboardInfos.h"
+#include "ActionApproachFood.h"
+#include "ActionCalcTrajForFood.h"
 
 
 BehaviorTree::BehaviorTree()
@@ -23,6 +28,9 @@ void BehaviorTree::execute(Location& ant)
 	_localBlackboard.p_ant = &ant;
 
 	_root->update();
+
+	// we reset _localBlackboard for next ant.
+	_localBlackboard = LocalBlackboard();
 }
 
 std::string BehaviorTree::debugExecute()
@@ -115,9 +123,18 @@ BehaviorTree& BehaviorTree::action(const ENodeType& actionType)
 	Behavior* act;
 	switch (actionType)
 	{
-	case ACTION_BLACKBOARD_INFOS :
+	case ACTION_BLACKBOARD_INFOS:
 		act = new ActionBlackboardInfo(_localBlackboard);
 		break;
+
+	case ACTION_APPROACH_FOOD:
+		act = new ActionApproachFood(_localBlackboard);
+		break;
+
+	case ACTION_CALC_TRAJ_FOR_FOOD:
+		act = new ActionCalcTrajForFood(_localBlackboard);
+		break;
+
 	default:
 		act = new Action(_localBlackboard);
 		break;
@@ -141,11 +158,18 @@ BehaviorTree& BehaviorTree::input(const ENodeType& inputType)
 	case INPUT_SUCCESS:
 		inp = new InputSuccess(_localBlackboard);
 		break;
-
 	case INPUT_FAILURE:
 		inp = new InputFailure(_localBlackboard);
 		break;
-
+	case INPUT_CLOSE_ANY_FOOD:
+		inp = new InputCloseAnyFood(_localBlackboard);
+		break;
+	case INPUT_CLOSEST_TO_FOOD:
+		inp = new InputClosestToFood(_localBlackboard);
+		break;
+	case INPUT_I_DIE_BY_GOING_THERE:
+		inp = new InputIDieByGoingThere(_localBlackboard);
+		break;
 	default:
 		inp = new Input(_localBlackboard);
 		break;

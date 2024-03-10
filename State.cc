@@ -119,8 +119,56 @@ std::vector<int> State::getDirections(const Location& loc1, const Location& loc2
         }
     }
     return directions;
-}
-;
+};
+
+int State::getDirection(const Location& loc1, const Location& loc2)
+{
+    if (loc1._row < loc2._row) {
+        if (loc2._row - loc1._row >= _rows / 2)
+        {
+            return 0 /*NORTH*/;
+        }
+        else
+        {
+            return 2 /*SOUTH*/;
+        }
+    }
+    else if (loc1._row > loc2._row)
+    {
+        if (loc1._row - loc2._row >= _rows / 2)
+        {
+            return 2 /*SOUTH*/;
+        }
+        else
+        {
+            return 0 /*NORTH*/;
+        }
+    }
+
+    if (loc1._col < loc2._col) {
+        if (loc2._col - loc1._col >= _cols / 2)
+        {
+            return 3 /*WEST*/;
+        }
+        else
+        {
+            return 1 /*EAST*/;
+        }
+    }
+    else if (loc1._col > loc2._col)
+    {
+        if (loc1._col - loc2._col >= _cols / 2)
+        {
+            return  1 /*EAST*/;
+        }
+        else
+        {
+            return 3 /*WEST*/;
+        }
+    }
+    // Just in case
+    return 0 /*NORTH*/;
+};
 
 /*
     This function will update update the lastSeen value for any squares currently
