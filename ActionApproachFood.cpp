@@ -13,11 +13,7 @@ EStatus ActionApproachFood::doAction()
 	EStatus res = BH_FAILURE;
 
 	GlobalBlackboard& r_gbb = GlobalBlackboard::singleton();
-	Location nextLocation = MapSystem::getInstance()->moveToward(*(_blackboard->p_ant), _blackboard->_targetFood);
-	//int nextDirection = r_gbb.singleton()._state.getDirection(*(_blackboard->p_ant), nextLocation);
-
-	// TODO : r_gbb.singleton().doMoveLocation(*(_blackboard->p_ant), nextLocation);
-	if (r_gbb.singleton().doMoveLocation(*(_blackboard->p_ant), nextLocation)) {
+	if (r_gbb.singleton().doMoveLocation(*(_blackboard->p_ant), _blackboard->_nextLocation)) {
 		res = BH_SUCCESS;
 	}
 

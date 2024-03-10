@@ -50,6 +50,7 @@ void Bot::makeMoves()
 			.sequencer() //	[EAT]
 				.input(INPUT_CLOSE_ANY_FOOD)
 				.input(INPUT_CLOSEST_TO_FOOD)
+				.action(ACTION_CALC_TRAJ_FOR_FOOD)
 				.action(ACTION_APPROACH_FOOD)
 				.action(ACTION_BLACKBOARD_INFOS);
 

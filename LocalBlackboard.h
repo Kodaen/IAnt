@@ -20,6 +20,7 @@ public:
 	std::vector<NearbyFoodAnts> _nearbyFood;
 	Location _targetFood;
 
+	Location _nextLocation;
 
 	// ------------ FUNCTIONS ------------ //
 };
