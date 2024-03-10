@@ -23,6 +23,9 @@
     <ClCompile Include="LocalBlackboard.cpp">
       <Filter>Behavior Tree</Filter>
     </ClCompile>
+    <ClCompile Include="InputClosestToFood.cpp">
+      <Filter>Behavior Tree\Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Astar\Graph.h">
@@ -99,6 +102,12 @@
     </ClInclude>
     <ClInclude Include="ActionBlackboardInfos.h">
       <Filter>Behavior Tree\Debug Behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="NearbyFoodAnts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InputClosestToFood.h">
+      <Filter>Behavior Tree\Input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

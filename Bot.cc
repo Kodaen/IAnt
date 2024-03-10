@@ -2,6 +2,7 @@
 
 #include "Bot.h"
 #include "BehaviorTree.h"
+#include "NearbyFoodAnts.h"
 
 using namespace std;
 
@@ -48,6 +49,7 @@ void Bot::makeMoves()
 	bt->selector()
 			.sequencer() //	[EAT]
 				.input(INPUT_CLOSE_ANY_FOOD)
+				.input(INPUT_CLOSEST_TO_FOOD)
 				.action(ACTION_BLACKBOARD_INFOS);
 
 	for (Location& ant : r_gbb._state._myAnts)
@@ -204,25 +206,41 @@ bool Bot::doMoveLocation(const Location& antLoc, const Location& destLoc) {
 void Bot::associateFoodToNearbyAnts() {
 	for (Location& food : r_gbb._state._food) {
 		// r_gbb._state._bug << "	Food (" << food._row << ", " << food._col << ")" << endl;
-		int viewRadius = (int)std::floor(r_gbb._state._viewRadius);
-
 		//r_gbb._state._bug << "Nearby ants :" << endl;
 
+		int viewRadius = (int)std::floor(r_gbb._state._viewRadius);
+		NearbyFoodAnts NFA = {food, std::set<Location>(), Location(), 9999};
+
 		// We search nearby ants in a square of length 16x16
-		// TODO : not optimal (and not perfectly accurate)
-		// Maybe try to do a BFS
 		for (int col = -viewRadius; col < viewRadius; col++)
 		{
 			for (int row = -viewRadius; row < viewRadius; row++)
 			{
-				auto t = (r_gbb._state._rows + (food._row + row)) % r_gbb._state._rows;
-				auto d = (r_gbb._state._cols + (food._col + col)) % r_gbb._state._cols;
+				auto gridRow = (r_gbb._state._rows + (food._row + row)) % r_gbb._state._rows;
+				auto gridCol = (r_gbb._state._cols + (food._col + col)) % r_gbb._state._cols;
 
-				if (r_gbb._state._grid[t][d]._isMyAnt) {
-					r_gbb._nearbyFoodAnts[food].push_back({ t,d });
+				// If there is an ant nearby the food at this location
+				// put it in the NFA
+				if (r_gbb._state._grid[gridRow][gridCol]._isMyAnt) {
+					Location nearbyAntLoc = { gridRow,gridCol };
+					NFA.nearbyAntsLoc.insert(nearbyAntLoc);
+
+					// If this ant is the closest to the food, update closestAntLoc
+					float distanceToFood = MapSystem::getInstance()->getManhattanDistance(food, nearbyAntLoc);
+					if (distanceToFood < NFA.closestDistance)
+					{
+						NFA.closestAntLoc = nearbyAntLoc;
+						NFA.closestDistance = distanceToFood;
+					}
 				}
 			}
 		}
+
+		if (NFA.nearbyAntsLoc.size() > 0)
+		{
+			r_gbb._nearbyFoodAnts.push_back(NFA);
+		}
+
 	}
 }
 

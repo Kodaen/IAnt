@@ -131,6 +131,7 @@
     <ClCompile Include="DecoratorNot.cpp" />
     <ClCompile Include="GlobalBlackboard.cpp" />
     <ClCompile Include="InputCloseAnyFood.cpp" />
+    <ClCompile Include="InputClosestToFood.cpp" />
     <ClCompile Include="LocalBlackboard.cpp" />
     <ClCompile Include="MapSystem.cpp" />
     <ClCompile Include="MyBot.cc" />
@@ -146,6 +147,7 @@
     <ClInclude Include="Bug.h" />
     <ClInclude Include="GlobalBlackboard.h" />
     <ClInclude Include="InputCloseAnyFood.h" />
+    <ClInclude Include="InputClosestToFood.h" />
     <ClInclude Include="LocalBlackboard.h" />
     <ClInclude Include="Location.h" />
     <ClInclude Include="MapSystem.h" />
@@ -156,6 +158,7 @@
     <ClInclude Include="InputFailure.h" />
     <ClInclude Include="InputSuccess.h" />
     <ClInclude Include="Behavior.h" />
+    <ClInclude Include="NearbyFoodAnts.h" />
     <ClInclude Include="Route.h" />
     <ClInclude Include="Selector.h" />
     <ClInclude Include="Sequencer.h" />

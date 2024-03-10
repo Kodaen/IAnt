@@ -14,21 +14,18 @@ EStatus InputCloseAnyFood::checkCondition()
 	EStatus res = BH_FAILURE;
 
 	Location* currentAnt = _blackboard->p_ant;
-	auto* nearbyFoodAnts = &GlobalBlackboard::singleton()._nearbyFoodAnts;
+	std::vector<NearbyFoodAnts> &nearbyFoodAnts = GlobalBlackboard::singleton()._nearbyFoodAnts;
 
 	// for each _nearbyFoodAnts pair,check if this ant is nearby any food
-	for (std::map<Location, std::vector<Location>>::iterator& food = nearbyFoodAnts->begin(); food != nearbyFoodAnts->end(); ++food) {
-		for (Location& ant: food->second)
+	for (NearbyFoodAnts& NFA : nearbyFoodAnts)
+	{
+		if (NFA.nearbyAntsLoc.find(*(currentAnt)) != NFA.nearbyAntsLoc.end())
 		{
-			if (ant == *currentAnt)
-			{
-				// put every food of which is ant is nearby in the local blackboard
-				_blackboard->_nearbyFood.push_back(food->first);
-				// return Success
-				res = BH_SUCCESS;
-			}
+			// put every food of which is ant is nearby in the local blackboard
+			_blackboard->_nearbyFood.push_back(NFA);
+			// return Success
+			res = BH_SUCCESS;
 		}
-
 	}
 
 	return res;
