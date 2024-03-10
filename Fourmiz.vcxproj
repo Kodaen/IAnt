@@ -125,6 +125,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ActionApproachFood.cpp" />
     <ClCompile Include="BehaviorTree.cpp" />
     <ClCompile Include="Bot.cc" />
     <ClCompile Include="DecoratorAlwaysTrue.cpp" />
@@ -139,6 +140,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Action.h" />
+    <ClInclude Include="ActionApproachFood.h" />
     <ClInclude Include="ActionBlackboardInfos.h" />
     <ClInclude Include="Astar\Graph.h" />
     <ClInclude Include="Astar\Node.h" />

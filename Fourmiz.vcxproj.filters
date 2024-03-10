@@ -26,6 +26,9 @@
     <ClCompile Include="InputClosestToFood.cpp">
       <Filter>Behavior Tree\Input</Filter>
     </ClCompile>
+    <ClCompile Include="ActionApproachFood.cpp">
+      <Filter>Behavior Tree\Action</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Astar\Graph.h">
@@ -109,6 +112,9 @@
     <ClInclude Include="InputClosestToFood.h">
       <Filter>Behavior Tree\Input</Filter>
     </ClInclude>
+    <ClInclude Include="ActionApproachFood.h">
+      <Filter>Behavior Tree\Action</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Astar">
@@ -134,6 +140,9 @@
     </Filter>
     <Filter Include="Behavior Tree\Input">
       <UniqueIdentifier>{e3a90ed7-011a-4ced-83ad-85cedb972820}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Behavior Tree\Action">
+      <UniqueIdentifier>{4438d527-a495-4d90-852f-2f42a782f5a3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

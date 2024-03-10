@@ -50,6 +50,7 @@ void Bot::makeMoves()
 			.sequencer() //	[EAT]
 				.input(INPUT_CLOSE_ANY_FOOD)
 				.input(INPUT_CLOSEST_TO_FOOD)
+				.action(ACTION_APPROACH_FOOD)
 				.action(ACTION_BLACKBOARD_INFOS);
 
 	for (Location& ant : r_gbb._state._myAnts)
@@ -90,25 +91,25 @@ void Bot::makeMoves()
 	std::vector<Location> sortedFood = r_gbb._state._food;
 	std::vector<Location> sortedAnts = r_gbb._state._myAnts;
 
-	// Calculate all routes from ants to food
-	for (Location foodLoc : sortedFood) {
-		for (Location antLoc : sortedAnts) {
-			int manhattanDistance = r_gbb._state.manhattanDistance(antLoc, foodLoc);
-			Route route(antLoc, foodLoc, manhattanDistance);
-			foodRoutes.push_back(route);
-		}
-	}
+	//// Calculate all routes from ants to food
+	//for (Location foodLoc : sortedFood) {
+	//	for (Location antLoc : sortedAnts) {
+	//		int manhattanDistance = r_gbb._state.manhattanDistance(antLoc, foodLoc);
+	//		Route route(antLoc, foodLoc, manhattanDistance);
+	//		foodRoutes.push_back(route);
+	//	}
+	//}
 
-	// Sort routes from ants to food from the shortest to the longest
-	std::sort(foodRoutes.begin(), foodRoutes.end());
-	// We send the closest ants first, some ants my not move because there is no food left
-	for (Route& route : foodRoutes) {
-		if (foodTargets.count(route.getEnd()) == 0
-			&& !LocationMapContainsValue(foodTargets, route.getStart())
-			&& doMoveLocation(route.getStart(), route.getEnd())) {
-			foodTargets[route.getEnd()] = route.getStart();
-		}
-	}
+	//// Sort routes from ants to food from the shortest to the longest
+	//std::sort(foodRoutes.begin(), foodRoutes.end());
+	//// We send the closest ants first, some ants my not move because there is no food left
+	//for (Route& route : foodRoutes) {
+	//	if (foodTargets.count(route.getEnd()) == 0
+	//		&& !LocationMapContainsValue(foodTargets, route.getStart())
+	//		&& doMoveLocation(route.getStart(), route.getEnd())) {
+	//		foodTargets[route.getEnd()] = route.getStart();
+	//	}
+	//}
 
 	// Add new hills to set
 	for (Location enemyHill : r_gbb._state._enemyHills) {
@@ -203,6 +204,7 @@ bool Bot::doMoveLocation(const Location& antLoc, const Location& destLoc) {
 	return false;
 }
 
+// TODO : Doesn't work properly when the closest ant cannot go directly to food due to obstacle
 void Bot::associateFoodToNearbyAnts() {
 	for (Location& food : r_gbb._state._food) {
 		// r_gbb._state._bug << "	Food (" << food._row << ", " << food._col << ")" << endl;

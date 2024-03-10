@@ -12,6 +12,7 @@
 #include "DecoratorAlwaysTrue.h"
 #include "DecoratorNot.h"
 #include "ActionBlackboardInfos.h"
+#include "ActionApproachFood.h"
 
 
 BehaviorTree::BehaviorTree()
@@ -123,6 +124,10 @@ BehaviorTree& BehaviorTree::action(const ENodeType& actionType)
 	case ACTION_BLACKBOARD_INFOS:
 		act = new ActionBlackboardInfo(_localBlackboard);
 		break;
+	case ACTION_APPROACH_FOOD:
+		act = new ActionApproachFood(_localBlackboard);
+		break;
+
 	default:
 		act = new Action(_localBlackboard);
 		break;
