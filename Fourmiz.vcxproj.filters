@@ -26,6 +26,8 @@
     <ClInclude Include="State.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Node.h" />
+  </ItemGroup>
+  <ItemGroup>
     <ClInclude Include="Astar\Graph.h">
       <Filter>Astar</Filter>
     </ClInclude>

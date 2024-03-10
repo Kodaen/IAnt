@@ -13,9 +13,7 @@
     This struct represents your bot in the game of Ants
 */
 struct Bot
-{
-    MapSystem _mapSystem;
-    
+{   
     State _state;
 
     std::map<Location*, Location*> _orders;

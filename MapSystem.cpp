@@ -12,14 +12,14 @@
 
 using namespace std;
 
-MapSystem::MapSystem()
-{
-    _bug.open("./mapSystemDebug.txt");
-}
+MapSystem* MapSystem::_instance = nullptr;
 
-MapSystem::~MapSystem()
+MapSystem* MapSystem::getInstance()
 {
-    _bug.close();
+    if (_instance == nullptr) {
+        _instance = new MapSystem();
+    }
+    return _instance;
 }
 
 void MapSystem::setup()
@@ -34,6 +34,7 @@ void MapSystem::setup()
 
     _bug << endl;
     _bug<< getManhattanDistance(Location(0, 0), Location(42, 0)) << endl;
+    _bug << moveToward(Location(0, 0), Location(0, 42)) << endl;
 }
 
 //Returns true if the char is a empty cell char
