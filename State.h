@@ -61,6 +61,7 @@ struct State
     inline double euclidianDistance(const Location& loc1, const Location& loc2);
     inline Location getLocation(const Location &startLoc, int direction);
     std::vector<int> getDirections(const Location& loc1, const Location& loc2);
+    int getDirection(const Location& loc1, const Location& loc2);
 
     void updateVisionInformation();
 };

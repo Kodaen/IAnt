@@ -15,7 +15,7 @@
 */
 struct Bot
 {
-    GlobalBlackboard& _gbb = GlobalBlackboard::singleton();
+    GlobalBlackboard& r_gbb = GlobalBlackboard::singleton();
 
     std::set<Location*> _unseenTiles;
     std::set<Location*> _enemyHills;
