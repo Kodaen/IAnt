@@ -35,6 +35,34 @@ void MapSystem::setup()
     _bug << endl;
     _bug<< getManhattanDistance(Location(0, 0), Location(42, 0)) << endl;
     _bug << moveToward(Location(0, 0), Location(0, 42)) << endl;
+
+    _bug << "Each node less than 8 tiles away" << endl;
+    auto closeNodes = _mapGraph.findDataOfNodesBetween(Location(9, 35), 4, 8, false, {},true,12);
+    for (auto node : closeNodes)
+    {
+		_bug << "Finded: "<<node << endl;
+	}
+
+    _bug << endl;
+    printMap();
+    _bug << endl;
+
+    for (int row = 0; row < _rowSize; row++)
+    {
+        for (int col = 0; col < _colSize; col++)
+        {
+            if (count(closeNodes.begin(), closeNodes.end(), (Location(row, col)))) {
+                _bug << "@";
+                continue;
+            }
+				
+            if (_isCellWalkable[row][col])
+                _bug << CHAR_WALKABLE_CELL;
+            else
+                _bug << CHAR_WALL_CELLS;
+        }
+        _bug << endl;
+    }
 }
 
 //Returns true if the char is a empty cell char
@@ -79,8 +107,7 @@ void MapSystem::loadMapFromFile(ifstream mapFile)
 		}
     }
     
-    //Equivalent of a 2D array filled with false,  each cell's status will be accessible by typing isCellWalkable[row][col]
-    std::vector<std::vector<bool>> isCellWalkable(_rowSize, std::vector<bool>(_colSize, false));
+    _isCellWalkable= std::vector<std::vector<bool>>(_rowSize, std::vector<bool>(_colSize, false));
     std::vector<std::vector<Node<Location>*>> cellNodes(_rowSize, std::vector<Node<Location>*>(_colSize, false));
 
     //Then we need to fill the 2D array with the map's content
@@ -94,7 +121,7 @@ void MapSystem::loadMapFromFile(ifstream mapFile)
             if (currentChar == MAP_LINE_INDICATOR) continue;
             if (currentChar == ' ') continue;
             //_bug << "col "<<col<<" row "<<row << " \"" << currentChar<<"\""<< endl;
-            isCellWalkable[row][col] = isEmptyCellChar(currentChar);
+            _isCellWalkable[row][col] = isEmptyCellChar(currentChar);
             col++;
 		}
 		col = 0;
@@ -107,7 +134,7 @@ void MapSystem::loadMapFromFile(ifstream mapFile)
     {
         for (int col = 0; col < _colSize; col++)
         {
-            if (!isCellWalkable[row][col]) continue;
+            if (!_isCellWalkable[row][col]) continue;
             cellNodes[row][col] = _mapGraph.addNode(Location(row, col));
 		}
 	}
@@ -117,24 +144,24 @@ void MapSystem::loadMapFromFile(ifstream mapFile)
     {
         for (int col = 0; col < _colSize; col++)
         {
-            if (!isCellWalkable[row][col]) continue;
+            if (!_isCellWalkable[row][col]) continue;
             int leftCol = (col > 0) ? col - 1 : _colSize - 1;
             int rightCol = (col < _colSize - 1) ? col + 1 : 0;
             int upRow = (row > 0) ? row - 1 : _rowSize - 1;
             int downRow = (row < _rowSize - 1) ? row + 1 : 0;
 
-            if (isCellWalkable[row][leftCol]) {
+            if (_isCellWalkable[row][leftCol]) {
                 cellNodes[row][col]->addNeighbor(cellNodes[row][leftCol],1);
             }
-            if (isCellWalkable[row][rightCol])
+            if (_isCellWalkable[row][rightCol])
             {
 				cellNodes[row][col]->addNeighbor(cellNodes[row][rightCol], 1);
 			}
-            if (isCellWalkable[upRow][col])
+            if (_isCellWalkable[upRow][col])
             {
 				cellNodes[row][col]->addNeighbor(cellNodes[upRow][col], 1);
 			}
-            if (isCellWalkable[downRow][col])
+            if (_isCellWalkable[downRow][col])
             {
                 cellNodes[row][col]->addNeighbor(cellNodes[downRow][col], 1);
             }
@@ -153,3 +180,19 @@ Astar::PathData<Location>  MapSystem::findPath(Location from, Location to)
     return _mapGraph.findPath(from, to, heuristic);
 }
 
+#if DEBUG
+void MapSystem::printMap()
+{
+    for (int row = 0; row < _rowSize; row++)
+    {
+        for (int col = 0; col < _colSize; col++)
+        {
+			if (_isCellWalkable[row][col])
+				_bug << CHAR_WALKABLE_CELL;
+			else
+				_bug << CHAR_WALL_CELLS;
+		}
+		_bug << endl;
+	}
+}
+#endif

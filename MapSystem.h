@@ -13,6 +13,8 @@ class MapSystem
 {
 private:
 	Astar::Graph<Location> _mapGraph;
+	//Equivalent of a 2D array filled with false,  each cell's status will be accessible by typing isCellWalkable[row][col]
+	std::vector<std::vector<bool>> _isCellWalkable;
 	int _colSize = 0;
 	int _rowSize = 0;
 	Bug _bug;
@@ -57,5 +59,9 @@ public:
 			dc = min(d2, _colSize - d2);
 		return dr + dc;
 	}
+
+#if DEBUG
+	void printMap();
+#endif
 };
 
