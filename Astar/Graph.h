@@ -138,8 +138,8 @@ namespace Astar {
 		{
 			if (!_nodes.count(origin)) return std::vector<T>();
 
-			std::vector<Node<T>*> frontier;
-			frontier.push_back(_nodes[origin]);
+			std::priority_queue<Node<T>*, std::vector<Node<T>*>, std::function<bool(Node<T>*, Node<T>*)>> frontier(CompareNodesPriority);
+			frontier.push(_nodes[origin]);
 			std::map<T, float> costSoFar;
 			costSoFar[origin] = 0;
 
@@ -147,8 +147,8 @@ namespace Astar {
 
 			while (!frontier.empty())
 			{
-				Node<T>* current = frontier.back();
-				frontier.pop_back();
+				Node<T>* current = frontier.top();
+				frontier.pop();
 
 				//Iterate over graph and add each node in range to the vecotr
 				for each (Neighbor<T> neighbor in current->getNeighbors())
@@ -170,7 +170,8 @@ namespace Astar {
 					}
 
 					costSoFar[neighbor._node->getData()] = newCost;
-					frontier.push_back(neighbor._node);
+					neighbor._node->_priority = newCost;
+					frontier.push(neighbor._node);
 
 					if (costTooLow) continue;
 					if (count(nodesInRange.begin(), nodesInRange.end(), neighbor._node->getData())) continue;
