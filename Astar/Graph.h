@@ -122,6 +122,7 @@ namespace Astar {
 			return PathData<T>(reversePath, costSoFar[to]);
 		}
 
+		//TO DO : Add a priority queue to prioritize closer nodes
 		/// <summary>
 		/// 
 		/// </summary>

@@ -60,6 +60,13 @@ public:
 		return dr + dc;
 	}
 
+	std::vector<Location> getCloseEnoughAnts(std::vector<Location>& ants, Location point, int maxDistance, int maxAntsNumber)
+	{
+		auto closeAnts = _mapGraph.findDataOfNodesBetween(point, 0, maxDistance,true,ants,true,maxAntsNumber);
+		ants = closeAnts;
+		return ants;
+	}
+
 #if DEBUG
 	void printMap();
 #endif

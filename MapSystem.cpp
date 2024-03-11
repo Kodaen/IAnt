@@ -37,7 +37,7 @@ void MapSystem::setup()
     _bug << moveToward(Location(0, 0), Location(0, 42)) << endl;
 
     _bug << "Each node less than 8 tiles away" << endl;
-    auto closeNodes = _mapGraph.findDataOfNodesBetween(Location(9, 35), 4, 8, false, {},true,12);
+    auto closeNodes = _mapGraph.findDataOfNodesBetween(Location(9, 35), 4, 8, true, {Location(9,38),Location(7,38),Location(13,75) }, true, 12);
     for (auto node : closeNodes)
     {
 		_bug << "Finded: "<<node << endl;
