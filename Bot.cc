@@ -212,8 +212,17 @@ bool Bot::doMoveLocation(const Location& antLoc, const Location& destLoc) {
 // TODO : Doesn't work properly when the closest ant cannot go directly to food due to obstacle
 void Bot::associateFoodToNearbyAnts() {
 	for (Location& food : r_gbb._state._food) {
-		// r_gbb._state._bug << "	Food (" << food._row << ", " << food._col << ")" << endl;
+		 r_gbb._state._bug << "	Food (" << food._row << ", " << food._col << ")" << endl;
 		//r_gbb._state._bug << "Nearby ants :" << endl;
+
+		std::vector<Location> closestAnts = MapSystem::getInstance()->getCloseEnoughAnts(r_gbb._state._myAnts, food, 20, 20);
+
+		for (int i = 0; i < closestAnts.size(); i++)
+		{
+			r_gbb._state._bug << "Closest ant is : (" << closestAnts[i]._row << ", " << closestAnts[i]._col << ")" << endl;
+		}
+
+		continue;
 
 		int viewRadius = (int)std::floor(r_gbb._state._viewRadius);
 		NearbyFoodAnts NFA = {food, std::set<Location>(), Location(), 9999};

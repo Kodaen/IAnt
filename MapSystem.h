@@ -35,7 +35,6 @@ private:
 public:
 	MapSystem(MapSystem& other) = delete;
 	void operator=(const MapSystem&) = delete;
-	
 	void setup();
 	Astar::PathData<Location> findPath(Location from, Location to);
 	float findCost(Location from, Location to)
@@ -59,10 +58,9 @@ public:
 			dc = min(d2, _colSize - d2);
 		return dr + dc;
 	}
+#if DEBUG
 
 	std::vector<Location> getCloseEnoughAnts(std::vector<Location>& ants, Location point, int maxDistance, int maxAntsNumber);
-
-#if DEBUG
 	void printMap();
 #endif
 };
