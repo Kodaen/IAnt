@@ -18,7 +18,8 @@ EStatus ActionGetClosestFood::doAction()
 	std::vector<Location> closestFood = MapSystem::getInstance()->getCloseEnoughAnts(r_gbb._state._food, *(currentAnt), 15, 3);
 	if (closestFood.size() == 0) return BH_FAILURE;
 
-	GlobalBlackboard::singleton()._state._bug << "I'm closest to : " << "Food(" << closestFood[0]._row << ", " << closestFood[0]._col << ")" << std::endl;
+	// TODO : Remove debug log entry
+	//GlobalBlackboard::singleton()._state._bug << "I'm closest to : " << "Food(" << closestFood[0]._row << ", " << closestFood[0]._col << ")" << std::endl;
 
 	_blackboard->_targetFood = closestFood[0];
 	return BH_SUCCESS;
