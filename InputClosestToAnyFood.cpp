@@ -1,25 +1,25 @@
-#include "InputCloseAnyFood.h"
+#include "InputClosestToAnyFood.h"
 #include "GlobalBlackboard.h"
 
-InputCloseAnyFood::InputCloseAnyFood(LocalBlackboard& _blackboard) : Input(_blackboard)
+InputClosestToFood::InputClosestToFood(LocalBlackboard& _blackboard) : Input(_blackboard)
 {
 }
 
-InputCloseAnyFood::~InputCloseAnyFood()
+InputClosestToFood::~InputClosestToFood()
 {
 }
 
-EStatus InputCloseAnyFood::checkCondition()
+EStatus InputClosestToFood::checkCondition()
 {
 	EStatus res = BH_FAILURE;
 
 	Location* currentAnt = _blackboard->p_ant;
-	std::vector<NearbyFoodAnts> &nearbyFoodAnts = GlobalBlackboard::singleton()._nearbyFoodAnts;
+	std::vector<NearbyFoodAnts>& nearbyFoodAnts = GlobalBlackboard::singleton()._nearbyFoodAnts;
 
 	// for each _nearbyFoodAnts pair,check if this ant is nearby any food
 	for (NearbyFoodAnts& NFA : nearbyFoodAnts)
 	{
-		if (NFA.nearbyAntsLoc.find(*(currentAnt)) != NFA.nearbyAntsLoc.end())
+		if (NFA.closestAntLoc == *(currentAnt))
 		{
 			// put every food of which is ant is nearby in the local blackboard
 			_blackboard->_nearbyFood.push_back(NFA);

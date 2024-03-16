@@ -17,14 +17,8 @@
       <Filter>Behavior Tree\Decorators</Filter>
     </ClCompile>
     <ClCompile Include="GlobalBlackboard.cpp" />
-    <ClCompile Include="InputCloseAnyFood.cpp">
-      <Filter>Behavior Tree\Input</Filter>
-    </ClCompile>
     <ClCompile Include="LocalBlackboard.cpp">
       <Filter>Behavior Tree</Filter>
-    </ClCompile>
-    <ClCompile Include="InputClosestToFood.cpp">
-      <Filter>Behavior Tree\Input</Filter>
     </ClCompile>
     <ClCompile Include="ActionApproachFood.cpp">
       <Filter>Behavior Tree\Action</Filter>
@@ -34,6 +28,12 @@
     </ClCompile>
     <ClCompile Include="InputIDieByGoingThere.cpp">
       <Filter>Behavior Tree\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="InputClosestToAnyFood.cpp">
+      <Filter>Behavior Tree\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionGetClosestFood.cpp">
+      <Filter>Behavior Tree\Action</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -100,9 +100,6 @@
     <ClInclude Include="Timer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="InputCloseAnyFood.h">
-      <Filter>Behavior Tree\Input</Filter>
-    </ClInclude>
     <ClInclude Include="GlobalBlackboard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -115,9 +112,6 @@
     <ClInclude Include="NearbyFoodAnts.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="InputClosestToFood.h">
-      <Filter>Behavior Tree\Input</Filter>
-    </ClInclude>
     <ClInclude Include="ActionApproachFood.h">
       <Filter>Behavior Tree\Action</Filter>
     </ClInclude>
@@ -126,6 +120,12 @@
     </ClInclude>
     <ClInclude Include="InputIDieByGoingThere.h">
       <Filter>Behavior Tree\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="InputClosestToAnyFood.h">
+      <Filter>Behavior Tree\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionGetClosestFood.h">
+      <Filter>Behavior Tree\Action</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

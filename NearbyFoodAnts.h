@@ -7,7 +7,5 @@
 struct NearbyFoodAnts
 {
 	Location foodLoc;
-	std::set<Location> nearbyAntsLoc;
 	Location closestAntLoc;
-	float closestDistance;
 };

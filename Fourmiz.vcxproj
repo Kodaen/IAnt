@@ -127,13 +127,13 @@
   <ItemGroup>
     <ClCompile Include="ActionApproachFood.cpp" />
     <ClCompile Include="ActionCalcTrajForFood.cpp" />
+    <ClCompile Include="ActionGetClosestFood.cpp" />
     <ClCompile Include="BehaviorTree.cpp" />
     <ClCompile Include="Bot.cc" />
     <ClCompile Include="DecoratorAlwaysTrue.cpp" />
     <ClCompile Include="DecoratorNot.cpp" />
     <ClCompile Include="GlobalBlackboard.cpp" />
-    <ClCompile Include="InputCloseAnyFood.cpp" />
-    <ClCompile Include="InputClosestToFood.cpp" />
+    <ClCompile Include="InputClosestToAnyFood.cpp" />
     <ClCompile Include="InputIDieByGoingThere.cpp" />
     <ClCompile Include="LocalBlackboard.cpp" />
     <ClCompile Include="MapSystem.cpp" />
@@ -145,14 +145,14 @@
     <ClInclude Include="ActionApproachFood.h" />
     <ClInclude Include="ActionBlackboardInfos.h" />
     <ClInclude Include="ActionCalcTrajForFood.h" />
+    <ClInclude Include="ActionGetClosestFood.h" />
     <ClInclude Include="Astar\Graph.h" />
     <ClInclude Include="Astar\Node.h" />
     <ClInclude Include="BehaviorTree.h" />
     <ClInclude Include="Bot.h" />
     <ClInclude Include="Bug.h" />
     <ClInclude Include="GlobalBlackboard.h" />
-    <ClInclude Include="InputCloseAnyFood.h" />
-    <ClInclude Include="InputClosestToFood.h" />
+    <ClInclude Include="InputClosestToAnyFood.h" />
     <ClInclude Include="InputIDieByGoingThere.h" />
     <ClInclude Include="LocalBlackboard.h" />
     <ClInclude Include="Location.h" />

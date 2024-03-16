@@ -60,7 +60,7 @@ public:
 	}
 #if DEBUG
 
-	std::vector<Location> getCloseEnoughAnts(std::vector<Location>& ants, Location point, int maxDistance, int maxAntsNumber);
+	std::vector<Location> getCloseEnoughAnts(const std::vector<Location>& ants, Location point, int maxDistance, int maxAntsNumber);
 	void printMap();
 #endif
 };
