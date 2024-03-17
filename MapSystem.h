@@ -5,7 +5,6 @@
 #include "Location.h"
 #include "Astar/Graph.h"
 #include "Bug.h"
-#define NBR_OF_TEAM 6
 
 using namespace Astar;
 using namespace std;
@@ -21,7 +20,7 @@ private:
 	Astar::Graph<Location> _mapGraph;
 	//Equivalent of a 2D array filled with false,  each cell's status will be accessible by typing isCellWalkable[row][col]
 	std::vector<std::vector<bool>> _isCellWalkable;
-	Location _antHills[NBR_OF_TEAM]; //The location of the anthill for each team, with the index being the default id of each hills in the map
+
 	//The location of the anthill that we do not know the team of yet
 	std::vector<Location> _unknowAnthills; 
 	//The location of the anthill that we have found the team id for, team id is decided at runtime and depends on the order in which we meet the teams

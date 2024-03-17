@@ -97,13 +97,15 @@ void MapSystem::loadMapFromFile(ifstream mapFile)
             //_bug << "col "<<col<<" row "<<row << " \"" << currentChar<<"\""<< endl;
             auto isWalkable = isWalkableCellChar(currentChar);
             _isCellWalkable[row][col] = isWalkableCellChar(currentChar);
-            col++;
+
             //If "isWalkable" is two, not only was the cell walkable, but it's also an anthill
-            if (isWalkable == 2) 
+            if (isWalkable == 2)
             {
                 //Substracting "'0'" to a char is the fastest way to convert it to an int
-                _antHills[currentChar - '0'] = Location(row, col);
+                _unknowAnthills.push_back(Location(row, col));
             }
+
+            col++;
 		}
 		col = 0;
 		row++;
@@ -169,7 +171,7 @@ Astar::PathData<Location>  MapSystem::findPath(Location from, Location to)
 /// <param name="maxDistance">Once we reach this distance, we stop searching</param>
 /// <param name="maxAntsNumber">Once we reach this ants number, we stop looking</param>
 /// <returns>The vector containing the ants found cloest to the given point, 0 is the closest, the highest index is the furthest</returns>
-inline std::vector<Location> MapSystem::getCloseEnoughAnts(const std::vector<Location>& ants, Location point, int maxDistance, int maxAntsNumber)
+std::vector<Location> MapSystem::getCloseEnoughAnts(const std::vector<Location>& ants, Location point, int maxDistance, int maxAntsNumber)
 {
     auto closeAnts = _mapGraph.findDataOfNodesBetween(point, 0, maxDistance, true, ants, true, maxAntsNumber);
     return closeAnts;
