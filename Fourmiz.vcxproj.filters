@@ -38,6 +38,9 @@
     <ClCompile Include="ActionGetClosestFood.cpp">
       <Filter>Behavior Tree\Action\Eat</Filter>
     </ClCompile>
+    <ClCompile Include="InputWeBothDie.cpp">
+      <Filter>Behavior Tree\Input\Solo Attack</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Astar\Graph.h">
@@ -132,6 +135,9 @@
     </ClInclude>
     <ClInclude Include="ActionCalcTrajForFood.h">
       <Filter>Behavior Tree\Action\Eat</Filter>
+    </ClInclude>
+    <ClInclude Include="InputWeBothDie.h">
+      <Filter>Behavior Tree\Input\Solo Attack</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

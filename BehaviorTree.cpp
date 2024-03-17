@@ -6,6 +6,8 @@
 #include "InputFailure.h"
 #include "InputClosestToAnyFood.h"
 #include "InputIDieByGoingThere.h"
+#include "InputEnemyNear.h"
+#include "InputWeBothDie.h"
 #include "Sequencer.h"
 #include "Selector.h"
 #include "Decorator.h"
@@ -15,7 +17,6 @@
 #include "ActionApproachFood.h"
 #include "ActionCalcTrajForFood.h"
 #include "ActionGetClosestFood.h"
-#include "InputEnemyNear.h"
 
 
 BehaviorTree::BehaviorTree()
@@ -178,6 +179,10 @@ BehaviorTree& BehaviorTree::input(const ENodeType& inputType)
 
 	case INPUT_ENEMY_NEAR:
 		inp = new InputEnemyNear(_localBlackboard);
+		break;
+
+	case INPUT_WE_BOTH_DIE:
+		inp = new InputWeBothDie(_localBlackboard);
 		break;
 
 	default:
