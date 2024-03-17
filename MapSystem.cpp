@@ -5,7 +5,7 @@
 #define MAP_FILE "map.map"
 #define MAP_LINE_INDICATOR 'm'
 #define CHAR_WALKABLE_CELL '.' //This is the "basic" char for empty cells, special cases are then handled with the "OTHERS_CHAR_EMPTY_CELLS" constant
-#define OTHERS_CHAR_WALKABLE_CELLS "0123456789"
+#define ANT_HILLS_CHARS "0123456789"
 #define CHAR_WALL_CELLS '%'
 #define COLS_LINE_PREFIX string("cols ")
 #define ROWS_LINE_PREFIX string("rows ")
@@ -26,57 +26,31 @@ void MapSystem::setup()
 {
     loadMapFromFile(ifstream(MAP_FILE, ifstream::in));
     auto pathData = findPath(Location(6, 1), Location(43, 3));
-    _bug << "Distance between 2 positions :" << pathData._cost << endl;
-    for (auto location : pathData._reversePath)
-    {
-		_bug << "Path:" << location << endl;
-	}
 
-    _bug << endl;
-    _bug<< getManhattanDistance(Location(0, 0), Location(42, 0)) << endl;
-    _bug << moveToward(Location(0, 0), Location(0, 42)) << endl;
-
-    _bug << "Each node less than 8 tiles away" << endl;
-    auto closeNodes = getCloseEnoughAnts(std::vector<Location>{ Location(9,38),Location(7,38),Location(13,75) },Location(9, 35), 8, 12);
-    for (auto node : closeNodes)
+    for (auto loc : _unknowAnthills)
     {
-		_bug << "Finded: "<<node << endl;
+		_bug << "Unknow anthill at " << loc << endl;
 	}
 
     _bug << endl;
     printMap();
     _bug << endl;
-
-    for (int row = 0; row < _rowSize; row++)
-    {
-        for (int col = 0; col < _colSize; col++)
-        {
-            if (count(closeNodes.begin(), closeNodes.end(), (Location(row, col)))) {
-                _bug << "@";
-                continue;
-            }
-				
-            if (_isCellWalkable[row][col])
-                _bug << CHAR_WALKABLE_CELL;
-            else
-                _bug << CHAR_WALL_CELLS;
-        }
-        _bug << endl;
-    }
 }
 
-//Returns true if the char is a empty cell char
-inline bool isEmptyCellChar(char charToCheck) {
+//Returns 0 if cell is not walkable, 1 if it is, 2 if it is an anthill
+//This way the output can be treated as a boolean for finding if cell is walkable, but also gives additional informations for ant hills if needed
+inline int isWalkableCellChar(char charToCheck) {
     //We proceed step by step to avoid useless costs. If the charToCheck is the "default char for empty cells" or the "default char for walls" we just need to compare 2 chars. 
     // As it will be the most common case, we avoid iterating through a string for each character
     if (charToCheck == CHAR_WALKABLE_CELL)
-        return true;
+        return 1;
     if (charToCheck == CHAR_WALL_CELLS)
-        return false;
-    if (string(OTHERS_CHAR_WALKABLE_CELLS).find(charToCheck) != string::npos)
-        return true;
+        return 0;
+    if (string(ANT_HILLS_CHARS).find(charToCheck) != string::npos)
+        return 2;
 }
 
+//Create the graph, fills the various arrays, vectors and data of the class by reading a map file
 void MapSystem::loadMapFromFile(ifstream mapFile) 
 {
     if (mapFile.fail()) 
@@ -121,8 +95,15 @@ void MapSystem::loadMapFromFile(ifstream mapFile)
             if (currentChar == MAP_LINE_INDICATOR) continue;
             if (currentChar == ' ') continue;
             //_bug << "col "<<col<<" row "<<row << " \"" << currentChar<<"\""<< endl;
-            _isCellWalkable[row][col] = isEmptyCellChar(currentChar);
+            auto isWalkable = isWalkableCellChar(currentChar);
+            _isCellWalkable[row][col] = isWalkableCellChar(currentChar);
             col++;
+            //If "isWalkable" is two, not only was the cell walkable, but it's also an anthill
+            if (isWalkable == 2) 
+            {
+                //Substracting "'0'" to a char is the fastest way to convert it to an int
+                _antHills[currentChar - '0'] = Location(row, col);
+            }
 		}
 		col = 0;
 		row++;
@@ -180,12 +161,21 @@ Astar::PathData<Location>  MapSystem::findPath(Location from, Location to)
     return _mapGraph.findPath(from, to, heuristic);
 }
 
-#if DEBUG
+/// <summary>
+/// Returns the ant closest to a given point, if there are multiple ants at the same distance, the first one found will be returned in priority
+/// </summary>
+/// <param name="ants">All the ants elligible to be returned at the end</param>
+/// <param name="point">The point we want to find ants closest to</param>
+/// <param name="maxDistance">Once we reach this distance, we stop searching</param>
+/// <param name="maxAntsNumber">Once we reach this ants number, we stop looking</param>
+/// <returns>The vector containing the ants found cloest to the given point, 0 is the closest, the highest index is the furthest</returns>
 inline std::vector<Location> MapSystem::getCloseEnoughAnts(const std::vector<Location>& ants, Location point, int maxDistance, int maxAntsNumber)
 {
     auto closeAnts = _mapGraph.findDataOfNodesBetween(point, 0, maxDistance, true, ants, true, maxAntsNumber);
     return closeAnts;
 }
+
+#if DEBUG
 void MapSystem::printMap()
 {
     for (int row = 0; row < _rowSize; row++)
