@@ -1,4 +1,5 @@
 #include "State.h"
+#include <utility>
 
 using namespace std;
 
@@ -27,8 +28,10 @@ void State::reset()
 {
     _myAnts.clear();
     _enemyAnts.clear();
+    _enemyAntsTeam.clear();
     _myHills.clear();
     _enemyHills.clear();
+    _enemyHillsTeam.clear();
     _food.clear();
     for(int _row=0; _row<_rows; _row++)
         for(int _col=0; _col<_cols; _col++)
@@ -335,6 +338,7 @@ istream& operator>>(istream &is, State &_state)
                 else {
                     _state._grid[_row][_col]._isEnemyAnt = 1;
                     _state._enemyAnts.push_back(Location(_row, _col));
+                    _state._enemyAntsTeam.insert({ Location(_row, _col), player });
                 }
                     
             }
@@ -352,7 +356,7 @@ istream& operator>>(istream &is, State &_state)
                     _state._myHills.push_back(Location(_row, _col));
                 else
                     _state._enemyHills.push_back(Location(_row, _col));
-
+                _state._enemyHillsTeam.insert({ Location(_row, _col), player });
             }
             else if(inputType == "players") //player information
                 is >> _state._noPlayers;
