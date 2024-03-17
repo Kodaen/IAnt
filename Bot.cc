@@ -62,7 +62,7 @@ void Bot::makeMoves()
 					.sequencer()		// [SOLO COMBAT]
 					.input(INPUT_WE_BOTH_DIE)
 					//.input(INPUT_CLOSEST_TO_MY_HILL)
-					//.action(ACTION_APPROACH_ENEMY)
+					.action(ACTION_APPROACH_ENEMY)
 					.selectParent()
 				//.action(ACTION_CALL_BACKUP)
 				.selectParent()

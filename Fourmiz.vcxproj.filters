@@ -41,6 +41,9 @@
     <ClCompile Include="InputWeBothDie.cpp">
       <Filter>Behavior Tree\Input\Solo Attack</Filter>
     </ClCompile>
+    <ClCompile Include="ActionApproachEnemy.cpp">
+      <Filter>Behavior Tree\Action\Solo Attack</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Astar\Graph.h">
@@ -139,6 +142,9 @@
     <ClInclude Include="InputWeBothDie.h">
       <Filter>Behavior Tree\Input\Solo Attack</Filter>
     </ClInclude>
+    <ClInclude Include="ActionApproachEnemy.h">
+      <Filter>Behavior Tree\Action\Solo Attack</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Astar">
@@ -176,6 +182,9 @@
     </Filter>
     <Filter Include="Behavior Tree\Action\Eat">
       <UniqueIdentifier>{b4dd0099-2386-4c0c-a987-717015b24c3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Behavior Tree\Action\Solo Attack">
+      <UniqueIdentifier>{ab717b40-851f-4fef-a5a9-00dfd85071a1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

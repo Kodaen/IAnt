@@ -17,6 +17,7 @@ enum ENodeType {
 	ACTION_APPROACH_FOOD,
 	ACTION_CALC_TRAJ_FOR_FOOD,
 	ACTION_GET_CLOSEST_FOOD,
+	ACTION_APPROACH_ENEMY,
 
 	//DEBUG Nodes
 	INPUT_FAILURE,
@@ -41,22 +42,22 @@ public:
 	// ------------ FUNCTIONS ------------ //
 public:
 	// TODO : Put ant into the blackboard
-	void execute(Location &ant);
+	void execute(Location& ant);
 
 	std::string debugExecute();
 
 	// --------- BUILDER PATTERN --------- //
-public :
+public:
 	BehaviorTree& sequencer();
 	BehaviorTree& selector();
-	BehaviorTree& decorator(const ENodeType &decoratorType);
-	BehaviorTree& action(const ENodeType &actionType);
-	BehaviorTree& input(const ENodeType &inputType);
+	BehaviorTree& decorator(const ENodeType& decoratorType);
+	BehaviorTree& action(const ENodeType& actionType);
+	BehaviorTree& input(const ENodeType& inputType);
 
 	BehaviorTree& selectParent();
 
 protected:
 	Behavior* _selectedNode; // _root by default
 
-	void addChild(Behavior* &node);
+	void addChild(Behavior*& node);
 };
