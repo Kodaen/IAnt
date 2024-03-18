@@ -128,6 +128,7 @@
     <ClCompile Include="ActionApproachEnemy.cpp" />
     <ClCompile Include="ActionApproachFood.cpp" />
     <ClCompile Include="ActionCalcTrajForFood.cpp" />
+    <ClCompile Include="ActionCallReinforcement.cpp" />
     <ClCompile Include="ActionGetClosestFood.cpp" />
     <ClCompile Include="BehaviorTree.cpp" />
     <ClCompile Include="Bot.cc" />
@@ -142,6 +143,7 @@
     <ClCompile Include="LocalBlackboard.cpp" />
     <ClCompile Include="MapSystem.cpp" />
     <ClCompile Include="MyBot.cc" />
+    <ClCompile Include="Reinforcement.cpp" />
     <ClCompile Include="State.cc" />
   </ItemGroup>
   <ItemGroup>
@@ -150,6 +152,7 @@
     <ClInclude Include="ActionApproachFood.h" />
     <ClInclude Include="ActionBlackboardInfos.h" />
     <ClInclude Include="ActionCalcTrajForFood.h" />
+    <ClInclude Include="ActionCallReinforcement.h" />
     <ClInclude Include="ActionGetClosestFood.h" />
     <ClInclude Include="Astar\Graph.h" />
     <ClInclude Include="Astar\Node.h" />
@@ -173,6 +176,7 @@
     <ClInclude Include="InputSuccess.h" />
     <ClInclude Include="Behavior.h" />
     <ClInclude Include="NearbyFoodAnts.h" />
+    <ClInclude Include="Reinforcement.h" />
     <ClInclude Include="Route.h" />
     <ClInclude Include="Selector.h" />
     <ClInclude Include="Sequencer.h" />

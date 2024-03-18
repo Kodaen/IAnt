@@ -22,12 +22,12 @@ EStatus InputWeBothDie::checkCondition()
 	// If we are both solo, then success
 	if (nearEnemies.size() == 0 && nearAlly.size() == 0) {
 		// TODO : Remove debug log entry
-		//GlobalBlackboard::singleton()._state._bug << "ENEMY SOLO (no allies or no enemy near): " << "(" << targetEnemy._row << ", " << targetEnemy._col << ")" << std::endl;
+		// GlobalBlackboard::singleton()._state._bug << "ENEMY SOLO (no allies or no enemy near): " << "(" << targetEnemy._row << ", " << targetEnemy._col << ")" << std::endl;
 		return BH_SUCCESS;
 	}
 
 	// TODO : Remove debug log entry
-	//GlobalBlackboard::singleton()._state._bug << "ENEMY NONOT SOLO (allies or enemies near): " << "(" << targetEnemy._row << ", " << targetEnemy._col << ")" << std::endl;
+	// GlobalBlackboard::singleton()._state._bug << "ENEMY NOT SOLO (allies or enemies near): " << "(" << targetEnemy._row << ", " << targetEnemy._col << ")" << std::endl;
 	
 	// we are more than 1 ant or they are more than 1 ant
 	return BH_FAILURE;
