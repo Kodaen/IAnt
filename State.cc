@@ -1,5 +1,6 @@
 #include "State.h"
 #include <utility>
+#include "MapSystem.h"
 
 using namespace std;
 
@@ -354,9 +355,11 @@ istream& operator>>(istream &is, State &_state)
                 _state._grid[_row][_col]._hillPlayer = player;
                 if(player == 0)
                     _state._myHills.push_back(Location(_row, _col));
-                else
+                else {
+
                     _state._enemyHills.push_back(Location(_row, _col));
-                _state._enemyHillsTeam.insert({ Location(_row, _col), player });
+                    MapSystem::getInstance()->registerAnthillsSighting(player, Location(_row, _col));
+                }
             }
             else if(inputType == "players") //player information
                 is >> _state._noPlayers;

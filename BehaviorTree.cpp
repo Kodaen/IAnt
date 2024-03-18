@@ -8,6 +8,7 @@
 #include "InputIDieByGoingThere.h"
 #include "InputEnemyNear.h"
 #include "InputWeBothDie.h"
+#include "InputClosestToMyHill.h"
 #include "Sequencer.h"
 #include "Selector.h"
 #include "Decorator.h"
@@ -187,6 +188,10 @@ BehaviorTree& BehaviorTree::input(const ENodeType& inputType)
 
 	case INPUT_WE_BOTH_DIE:
 		inp = new InputWeBothDie(_localBlackboard);
+		break;
+
+	case INPUT_CLOSEST_TO_MY_HILL:
+		inp = new InputClosestToMyHill(_localBlackboard);
 		break;
 
 	default:

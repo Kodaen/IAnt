@@ -135,6 +135,7 @@
     <ClCompile Include="DecoratorNot.cpp" />
     <ClCompile Include="GlobalBlackboard.cpp" />
     <ClCompile Include="InputClosestToAnyFood.cpp" />
+    <ClCompile Include="InputClosestToMyHill.cpp" />
     <ClCompile Include="InputEnemyNear.cpp" />
     <ClCompile Include="InputIDieByGoingThere.cpp" />
     <ClCompile Include="InputWeBothDie.cpp" />
@@ -157,6 +158,7 @@
     <ClInclude Include="Bug.h" />
     <ClInclude Include="GlobalBlackboard.h" />
     <ClInclude Include="InputClosestToAnyFood.h" />
+    <ClInclude Include="InputClosestToMyHill.h" />
     <ClInclude Include="InputEnemyNear.h" />
     <ClInclude Include="InputIDieByGoingThere.h" />
     <ClInclude Include="InputWeBothDie.h" />
