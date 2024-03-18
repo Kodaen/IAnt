@@ -19,6 +19,7 @@ public:
 	Location* p_ant;
 	std::vector<NearbyFoodAnts> _nearbyFood;
 	Location _targetFood;
+	Location _targetEnemy;
 
 	Location _nextLocation;
 
