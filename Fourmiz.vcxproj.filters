@@ -44,6 +44,13 @@
     <ClCompile Include="ActionApproachEnemy.cpp">
       <Filter>Behavior Tree\Action\Solo Attack</Filter>
     </ClCompile>
+    <ClCompile Include="Reinforcement.cpp" />
+    <ClCompile Include="InputClosestToMyHill.cpp">
+      <Filter>Behavior Tree\Input\Solo Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionCallReinforcement.cpp">
+      <Filter>Behavior Tree\Action\Solo Attack</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Astar\Graph.h">
@@ -144,6 +151,15 @@
     </ClInclude>
     <ClInclude Include="ActionApproachEnemy.h">
       <Filter>Behavior Tree\Action\Solo Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="InputClosestToMyHill.h">
+      <Filter>Behavior Tree\Input\Solo Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionCallReinforcement.h">
+      <Filter>Behavior Tree\Action\Solo Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="Reinforcement.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

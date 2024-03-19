@@ -37,6 +37,25 @@ bool GlobalBlackboard::doMoveLocation(const Location& antLoc, const Location& de
 	return false;
 }
 
+bool GlobalBlackboard::pushReinforcement(const Reinforcement& newReinforcement)
+{
+	for (Reinforcement& reinforcement : _reinforcements)
+	{
+		for (Location& enemyAnt : reinforcement._otherEnemiesPos) {
+			if (newReinforcement._enemyPos == enemyAnt)
+			{
+				// TODO : remove debug log
+				//_state._bug << "Can't call this reinforcement because : " << newReinforcement._enemyPos << " is already being consider by other reinforcement" << std::endl;
+				return false;
+			}
+		}
+	}
+	// TODO : remove debug log
+	// _state._bug << "New call for reinforcement here : " << newReinforcement._enemyPos << std::endl;
+	_reinforcements.push_back(newReinforcement);
+	return true;
+}
+
 bool GlobalBlackboard::LocationMapContainsKey(std::map<Location*, Location*>& locMap, const Location& key) {
 	for (std::map<Location*, Location*>::iterator it = locMap.begin(); it != locMap.end(); ++it) {
 		if ((*it->first) == key)

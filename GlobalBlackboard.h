@@ -4,6 +4,7 @@
 
 #include "State.h"
 #include "NearbyFoodAnts.h"
+#include "Reinforcement.h"
 
 class GlobalBlackboard
 {
@@ -29,11 +30,15 @@ public :
 
 	std::vector<NearbyFoodAnts> _nearbyFoodAnts;
 
+	std::vector<Reinforcement> _reinforcements;
+
 	// ------------ FUNCTIONS ------------ //
 public :
 	// move to tile if tile is walkable and another ant doesn't already want to walk here
 	bool doMoveDirection(const Location& antLoc, int direction);
 	bool doMoveLocation(const Location& antLoc, const Location& destLoc);
+
+	bool pushReinforcement(const Reinforcement& newReinforcement);
 
 	inline bool LocationMapContainsKey(std::map<Location*, Location*>& locMap, const Location& key);
 

@@ -43,6 +43,7 @@ void Bot::makeMoves()
 	}
 	r_gbb._orders.clear();
 	r_gbb._nearbyFoodAnts.clear();
+	r_gbb._reinforcements.clear();
 
 	associateFoodToNearbyAnts();
 
@@ -72,6 +73,11 @@ void Bot::makeMoves()
 	for (Location& ant : r_gbb._state._myAnts)
 	{
 		bt->execute(ant);
+	}
+
+	for (Reinforcement r : r_gbb._reinforcements)
+	{
+		r.tryAskingHelp();
 	}
 
 
