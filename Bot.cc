@@ -46,8 +46,8 @@ void Bot::makeMoves()
 
 	associateFoodToNearbyAnts();
 
-	bt->selector()
-			.sequencer() //	[EAT]
+	bt->selector()		// (ANT)
+			.sequencer()	// [EAT]
 				.input(INPUT_CLOSEST_TO_FOOD)
 				.action(ACTION_GET_CLOSEST_FOOD)
 				.action(ACTION_CALC_TRAJ_FOR_FOOD)
@@ -55,7 +55,18 @@ void Bot::makeMoves()
 					.input(INPUT_I_DIE_BY_GOING_THERE)
 					.selectParent()
 				.action(ACTION_APPROACH_FOOD)
-				.action(ACTION_BLACKBOARD_INFOS)
+				.selectParent()
+			.sequencer()	// [SOLO ATTACK]
+				.input(INPUT_ENEMY_NEAR)
+				.sequencer()		// [FIGHT ENEMY]
+					.sequencer()		// [SOLO COMBAT]
+					.input(INPUT_WE_BOTH_DIE)
+					.input(INPUT_CLOSEST_TO_MY_HILL)
+					.action(ACTION_APPROACH_ENEMY)
+					.selectParent()
+				//.action(ACTION_CALL_BACKUP)
+				.selectParent()
+			.action(ACTION_BLACKBOARD_INFOS)
 				;
 
 	for (Location& ant : r_gbb._state._myAnts)
