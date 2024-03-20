@@ -17,23 +17,32 @@
       <Filter>Behavior Tree\Decorators</Filter>
     </ClCompile>
     <ClCompile Include="GlobalBlackboard.cpp" />
-    <ClCompile Include="InputCloseAnyFood.cpp">
-      <Filter>Behavior Tree\Input</Filter>
-    </ClCompile>
     <ClCompile Include="LocalBlackboard.cpp">
       <Filter>Behavior Tree</Filter>
     </ClCompile>
-    <ClCompile Include="InputClosestToFood.cpp">
-      <Filter>Behavior Tree\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="ActionApproachFood.cpp">
-      <Filter>Behavior Tree\Action</Filter>
-    </ClCompile>
-    <ClCompile Include="ActionCalcTrajForFood.cpp">
-      <Filter>Behavior Tree\Action</Filter>
+    <ClCompile Include="InputClosestToAnyFood.cpp">
+      <Filter>Behavior Tree\Input\Eat</Filter>
     </ClCompile>
     <ClCompile Include="InputIDieByGoingThere.cpp">
-      <Filter>Behavior Tree\Input</Filter>
+      <Filter>Behavior Tree\Input\Eat</Filter>
+    </ClCompile>
+    <ClCompile Include="InputEnemyNear.cpp">
+      <Filter>Behavior Tree\Input\Solo Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionApproachFood.cpp">
+      <Filter>Behavior Tree\Action\Eat</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionCalcTrajForFood.cpp">
+      <Filter>Behavior Tree\Action\Eat</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionGetClosestFood.cpp">
+      <Filter>Behavior Tree\Action\Eat</Filter>
+    </ClCompile>
+    <ClCompile Include="InputWeBothDie.cpp">
+      <Filter>Behavior Tree\Input\Solo Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionApproachEnemy.cpp">
+      <Filter>Behavior Tree\Action\Solo Attack</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -100,9 +109,6 @@
     <ClInclude Include="Timer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="InputCloseAnyFood.h">
-      <Filter>Behavior Tree\Input</Filter>
-    </ClInclude>
     <ClInclude Include="GlobalBlackboard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -115,17 +121,29 @@
     <ClInclude Include="NearbyFoodAnts.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="InputClosestToFood.h">
-      <Filter>Behavior Tree\Input</Filter>
+    <ClInclude Include="InputIDieByGoingThere.h">
+      <Filter>Behavior Tree\Input\Eat</Filter>
+    </ClInclude>
+    <ClInclude Include="InputClosestToAnyFood.h">
+      <Filter>Behavior Tree\Input\Eat</Filter>
+    </ClInclude>
+    <ClInclude Include="InputEnemyNear.h">
+      <Filter>Behavior Tree\Input\Solo Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionGetClosestFood.h">
+      <Filter>Behavior Tree\Action\Eat</Filter>
     </ClInclude>
     <ClInclude Include="ActionApproachFood.h">
-      <Filter>Behavior Tree\Action</Filter>
+      <Filter>Behavior Tree\Action\Eat</Filter>
     </ClInclude>
     <ClInclude Include="ActionCalcTrajForFood.h">
-      <Filter>Behavior Tree\Action</Filter>
+      <Filter>Behavior Tree\Action\Eat</Filter>
     </ClInclude>
-    <ClInclude Include="InputIDieByGoingThere.h">
-      <Filter>Behavior Tree\Input</Filter>
+    <ClInclude Include="InputWeBothDie.h">
+      <Filter>Behavior Tree\Input\Solo Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionApproachEnemy.h">
+      <Filter>Behavior Tree\Action\Solo Attack</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -155,6 +173,18 @@
     </Filter>
     <Filter Include="Behavior Tree\Action">
       <UniqueIdentifier>{4438d527-a495-4d90-852f-2f42a782f5a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Behavior Tree\Input\Eat">
+      <UniqueIdentifier>{61d7c956-994c-45bf-8c4c-b10afb388c86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Behavior Tree\Input\Solo Attack">
+      <UniqueIdentifier>{8d0f5bbf-2310-4a81-9888-f8d24a92b6e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Behavior Tree\Action\Eat">
+      <UniqueIdentifier>{b4dd0099-2386-4c0c-a987-717015b24c3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Behavior Tree\Action\Solo Attack">
+      <UniqueIdentifier>{ab717b40-851f-4fef-a5a9-00dfd85071a1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

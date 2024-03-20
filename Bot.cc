@@ -46,16 +46,27 @@ void Bot::makeMoves()
 
 	associateFoodToNearbyAnts();
 
-	bt->selector()
-			.sequencer() //	[EAT]
-				.input(INPUT_CLOSE_ANY_FOOD)
+	bt->selector()		// (ANT)
+			.sequencer()	// [EAT]
 				.input(INPUT_CLOSEST_TO_FOOD)
+				.action(ACTION_GET_CLOSEST_FOOD)
 				.action(ACTION_CALC_TRAJ_FOR_FOOD)
 				.decorator(DECORATOR_NOT)
 					.input(INPUT_I_DIE_BY_GOING_THERE)
 					.selectParent()
 				.action(ACTION_APPROACH_FOOD)
-				.action(ACTION_BLACKBOARD_INFOS)
+				.selectParent()
+			.sequencer()	// [SOLO ATTACK]
+				.input(INPUT_ENEMY_NEAR)
+				.sequencer()		// [FIGHT ENEMY]
+					.sequencer()		// [SOLO COMBAT]
+					.input(INPUT_WE_BOTH_DIE)
+					.input(INPUT_CLOSEST_TO_MY_HILL)
+					.action(ACTION_APPROACH_ENEMY)
+					.selectParent()
+				//.action(ACTION_CALL_BACKUP)
+				.selectParent()
+			.action(ACTION_BLACKBOARD_INFOS)
 				;
 
 	for (Location& ant : r_gbb._state._myAnts)
@@ -212,41 +223,15 @@ bool Bot::doMoveLocation(const Location& antLoc, const Location& destLoc) {
 // TODO : Doesn't work properly when the closest ant cannot go directly to food due to obstacle
 void Bot::associateFoodToNearbyAnts() {
 	for (Location& food : r_gbb._state._food) {
-		// r_gbb._state._bug << "	Food (" << food._row << ", " << food._col << ")" << endl;
+		 //r_gbb._state._bug << "	Food (" << food._row << ", " << food._col << ")" << endl;
 		//r_gbb._state._bug << "Nearby ants :" << endl;
 
-		int viewRadius = (int)std::floor(r_gbb._state._viewRadius);
-		NearbyFoodAnts NFA = {food, std::set<Location>(), Location(), 9999};
+		std::vector<Location> closestAnts = MapSystem::getInstance()->getCloseEnoughAnts(r_gbb._state._myAnts, food, 15, 1);
+		if (closestAnts.size() == 0) continue;
 
-		// We search nearby ants in a square of length 16x16
-		for (int col = -viewRadius; col < viewRadius; col++)
-		{
-			for (int row = -viewRadius; row < viewRadius; row++)
-			{
-				auto gridRow = (r_gbb._state._rows + (food._row + row)) % r_gbb._state._rows;
-				auto gridCol = (r_gbb._state._cols + (food._col + col)) % r_gbb._state._cols;
+		NearbyFoodAnts NFA = {food, closestAnts[0]};
 
-				// If there is an ant nearby the food at this location
-				// put it in the NFA
-				if (r_gbb._state._grid[gridRow][gridCol]._isMyAnt) {
-					Location nearbyAntLoc = { gridRow,gridCol };
-					NFA.nearbyAntsLoc.insert(nearbyAntLoc);
-
-					// If this ant is the closest to the food, update closestAntLoc
-					float distanceToFood = MapSystem::getInstance()->getManhattanDistance(food, nearbyAntLoc);
-					if (distanceToFood < NFA.closestDistance)
-					{
-						NFA.closestAntLoc = nearbyAntLoc;
-						NFA.closestDistance = distanceToFood;
-					}
-				}
-			}
-		}
-
-		if (NFA.nearbyAntsLoc.size() > 0)
-		{
-			r_gbb._nearbyFoodAnts.push_back(NFA);
-		}
+		r_gbb._nearbyFoodAnts.push_back(NFA);
 
 	}
 }

@@ -2,11 +2,11 @@
 
 #include "Input.h"
 
-class InputCloseAnyFood : public Input {
+class InputWeBothDie : public Input {
 	// ------------ CSTR & DSTR ------------ //
 public:
-	InputCloseAnyFood(LocalBlackboard& _blackboard);
-	~InputCloseAnyFood();
+	InputWeBothDie(LocalBlackboard& _blackboard);
+	~InputWeBothDie();
 
 	// ------------ FUNCTIONS ------------ //
 public:
