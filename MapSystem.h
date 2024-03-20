@@ -74,34 +74,10 @@ public:
 	std::vector<Location> getCloseEnoughAnts(const std::vector<Location>& ants, Location point, int maxDistance, int maxAntsNumber);
 
 	//Each time our ants see an anthill, we register it in the map system to identify all the anthills as fast as possible
-	void registerAnthillsSighting(int team, Location antHill)
-	{
-		//If we have no unknow anthills left, we can ignore this sighting
-		if (_unknowAnthills.empty()) return;
-		_knowAnthills[team] = antHill;
-		_unknowAnthills.erase(std::remove(_unknowAnthills.begin(), _unknowAnthills.end(), antHill), _unknowAnthills.end());
-		//If we have only one anthill left, we can register it as the anthill of the team
-		if (_unknowAnthills.size() == 1)
-		{
-			_knowAnthills[team] = _unknowAnthills[0];
-			_unknowAnthills.clear();
-			return;
-		}
-	}
+	void registerAnthillsSighting(int team, Location antHill);
 
 	//Return the most probable anthill for a given ant and team
-	Location getMostProbableAnthill(Location ant, int team)
-	{
-		//If we have found the anthill of the ant's team, we return it
-		if (_knowAnthills.find(team) != _knowAnthills.end()) return _knowAnthills[team];
-		//If we have not found the anthill of the ant's team, we return the closest anthill
-		auto closestAnthills = _mapGraph.findDataOfNodesBetween(ant, 0, INT_MAX, true, _unknowAnthills, true, 1);
-		if (closestAnthills.empty()) 
-		{
-			_bug << "FATAL ERROR: big error in \"getMostProbableAnthill\", the anthill wasn't known, we've checked the closest ant hill on the entire map size, and we found nothing, very weird";
-			return ant;
-		}
-	}
+	Location getMostProbableAnthill(Location ant, int team);
 #if DEBUG
 	void printMap();
 #endif
