@@ -75,9 +75,11 @@ void Bot::makeMoves()
 		bt->execute(ant);
 	}
 
-	for (Reinforcement r : r_gbb._reinforcements)
+	for (Reinforcement& r : r_gbb._reinforcements)
 	{
-		r.tryAskingHelp();
+		if (r.tryAskingHelp()) {
+			r.trySetupAtkPos();
+		}
 	}
 
 

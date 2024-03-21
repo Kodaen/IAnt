@@ -33,6 +33,8 @@ private:
 	// Determine how far we look for help
 	int _helpRadius;
 
+	bool _isValid;
+
 	// ------------ FUNCTIONS ------------ //
 public :
 	/// <summary>
@@ -50,4 +52,12 @@ public :
 	/// If we found a possible atk pos for each ant who participate in the fight, returns true, else return false
 	/// </returns>
 	bool trySetupAtkPos();
+
+	/// <summary>
+	/// If not enough allies could help, then we 
+	/// </summary>
+	void cancel();
+
+	int calculateDirection(const Location& enemy, bool checkingOtherAnts);
+	void reEvaluateLocations(Location& loc1, Location& loc2);
 };
