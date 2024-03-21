@@ -23,6 +23,7 @@
 #include "ActionGetClosestFood.h"
 #include "ActionApproachEnemy.h"
 #include "ActionCallReinforcement.h"
+#include "ActionCharge.h"
 
 
 BehaviorTree::BehaviorTree()
@@ -154,6 +155,10 @@ BehaviorTree& BehaviorTree::action(const ENodeType& actionType)
 
 	case ACTION_CALL_REINFORCEMENT:
 		act = new ActionCallReinforcement(_localBlackboard);
+		break;
+
+	case ACTION_CHARGE:
+		act = new ActionCharge(_localBlackboard);
 		break;
 
 	default:

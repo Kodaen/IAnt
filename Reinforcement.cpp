@@ -64,7 +64,6 @@ bool Reinforcement::trySetupAtkPos()
 	_atkDirection = calculateDirection(_enemyPos, false);
 	GlobalBlackboard& r_gbb = GlobalBlackboard::singleton();
 
-	Location directionVec;
 	Location closestAntInDirection = _enemyPos;
 	Location mostExtremityAnt = _enemyPos;
 
@@ -73,7 +72,7 @@ bool Reinforcement::trySetupAtkPos()
 	{
 	case 0: /*NORTH*/
 		// Ant who called for help
-		directionVec = Location(-1, 0);
+		_directionVec = Location(-1, 0);
 		for (Location& otherEnemyPos : _otherEnemiesPos)
 		{
 			Location loc1 = otherEnemyPos;
@@ -87,7 +86,7 @@ bool Reinforcement::trySetupAtkPos()
 
 		break;
 	case 1: /*EAST*/
-		directionVec = Location(0, 1);
+		_directionVec = Location(0, 1);
 		for (Location& otherEnemyPos : _otherEnemiesPos)
 		{
 			Location loc1 = otherEnemyPos;
@@ -101,7 +100,7 @@ bool Reinforcement::trySetupAtkPos()
 
 		break;
 	case 2: /*SOUTH*/
-		directionVec = Location(1, 0);
+		_directionVec = Location(1, 0);
 		for (Location& otherEnemyPos : _otherEnemiesPos)
 		{
 			Location loc1 = otherEnemyPos;
@@ -115,7 +114,7 @@ bool Reinforcement::trySetupAtkPos()
 
 		break;
 	case 3: /*WEST*/
-		directionVec = Location(0, -1);
+		_directionVec = Location(0, -1);
 		for (Location& otherEnemyPos : _otherEnemiesPos)
 		{
 			Location loc1 = otherEnemyPos;
@@ -192,18 +191,18 @@ bool Reinforcement::trySetupAtkPos()
 	}
 
 	// If enemies are horizontally positionned, our ants try to form a horizontal line
-	if (directionVec._col == 0)
+	if (_directionVec._col == 0)
 	{
 		//r_gbb._state._bug << "Making an horizontal line : " << closestAntInDirection << std::endl;
 		int y = 0;
 
 		for (int i = 0; i < _otherEnemiesPos.size() + 1 - y; i++)
 		{
-			Location tmpAtkPos = Location((closestAntInDirection._row + (1 * (r_gbb._state._attackRadius + 2) * -directionVec._row)), mostExtremityAnt._col + i * directionVec._row);
+			Location tmpAtkPos = Location((closestAntInDirection._row + (1 * (r_gbb._state._attackRadius + 2) * -_directionVec._row)), mostExtremityAnt._col + i * _directionVec._row);
 			if (r_gbb._state._grid[(tmpAtkPos._row + r_gbb._state._rows) % r_gbb._state._rows][(tmpAtkPos._col + r_gbb._state._cols) % r_gbb._state._cols]._isWater)
 			{
 				y++;
-				tmpAtkPos = Location((closestAntInDirection._row + (1 * (r_gbb._state._attackRadius + 2) * -directionVec._row)), mostExtremityAnt._col - y * directionVec._row);
+				tmpAtkPos = Location((closestAntInDirection._row + (1 * (r_gbb._state._attackRadius + 2) * -_directionVec._row)), mostExtremityAnt._col - y * _directionVec._row);
 				i--;
 				if (r_gbb._state._grid[(tmpAtkPos._row + r_gbb._state._rows) % r_gbb._state._rows][(tmpAtkPos._col + r_gbb._state._cols) % r_gbb._state._cols]._isWater) {
 					cancel();
@@ -218,17 +217,17 @@ bool Reinforcement::trySetupAtkPos()
 	}
 
 	// If enemies are vertically positionned, our ants try to form a vertical line
-	if (directionVec._row == 0)
+	if (_directionVec._row == 0)
 	{
 		//r_gbb._state._bug << "Making an vertical line : " << closestAntInDirection << std::endl;
 		int y = 0;
 		for (int i = 0; i < _otherEnemiesPos.size() + 1 - y; i++)
 		{
-			Location tmpAtkPos = Location(mostExtremityAnt._row + i * directionVec._col, (closestAntInDirection._col + (1 * (r_gbb._state._attackRadius + 2) * -directionVec._col)));
+			Location tmpAtkPos = Location(mostExtremityAnt._row + i * _directionVec._col, (closestAntInDirection._col + (1 * (r_gbb._state._attackRadius + 2) * -_directionVec._col)));
 			if (r_gbb._state._grid[(tmpAtkPos._row + r_gbb._state._rows) % r_gbb._state._rows][(tmpAtkPos._col + r_gbb._state._cols) % r_gbb._state._cols]._isWater)
 			{
 				y++;
-				tmpAtkPos = Location(mostExtremityAnt._row - y * directionVec._col, (closestAntInDirection._col + (1 * (r_gbb._state._attackRadius + 2) * -directionVec._col)));
+				tmpAtkPos = Location(mostExtremityAnt._row - y * _directionVec._col, (closestAntInDirection._col + (1 * (r_gbb._state._attackRadius + 2) * -_directionVec._col)));
 				i--;
 				if (r_gbb._state._grid[(tmpAtkPos._row + r_gbb._state._rows) % r_gbb._state._rows][(tmpAtkPos._col + r_gbb._state._cols) % r_gbb._state._cols]._isWater) {
 					cancel();

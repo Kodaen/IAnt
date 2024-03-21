@@ -22,6 +22,9 @@ public:
 	// Ants who want to come help for the fight
 	std::vector<Location> _helpingAntPos;
 
+	// Direction from which we are attacking
+	Location _directionVec;
+
 private:
 	// Ant who called for help
 	Location _callingAntPos;
@@ -35,6 +38,7 @@ private:
 	// Determine how far we look for help
 	int _helpRadius;
 
+	// When reinforcement is cancelled, it is no longer valid
 	bool _isValid;
 
 	// ------------ FUNCTIONS ------------ //
@@ -56,7 +60,8 @@ public :
 	bool trySetupAtkPos();
 
 	/// <summary>
-	/// If not enough allies could help, then we 
+	/// If not enough allies could help (because not enough allies nearby or not enough room), then we cancel
+	/// the reinforcement.
 	/// </summary>
 	void cancel();
 

@@ -60,6 +60,9 @@
     <ClCompile Include="InputAllAntsInPosition.cpp">
       <Filter>Behavior Tree\Input\Group Attack</Filter>
     </ClCompile>
+    <ClCompile Include="ActionCharge.cpp">
+      <Filter>Behavior Tree\Action\Group Attack</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Astar\Graph.h">
@@ -179,6 +182,9 @@
     <ClInclude Include="InputAllAntsInPosition.h">
       <Filter>Behavior Tree\Input\Group Attack</Filter>
     </ClInclude>
+    <ClInclude Include="ActionCharge.h">
+      <Filter>Behavior Tree\Action\Group Attack</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Astar">
@@ -222,6 +228,9 @@
     </Filter>
     <Filter Include="Behavior Tree\Input\Group Attack">
       <UniqueIdentifier>{be78b76b-1384-4559-b825-7fa6951b6035}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Behavior Tree\Action\Group Attack">
+      <UniqueIdentifier>{a9593966-f862-4390-a938-fb3063e52dfc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
