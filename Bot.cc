@@ -71,6 +71,7 @@ void Bot::makeMoves()
 
 	for (Location& ant : r_gbb._state._myAnts)
 	{
+		MapSystem::getInstance()->updateSentinelsPoint(ant,r_gbb._state._turn);
 		bt->execute(ant);
 	}
 
