@@ -24,6 +24,7 @@
 #include "ActionApproachEnemy.h"
 #include "ActionCallReinforcement.h"
 #include "ActionCharge.h"
+#include "ActionFlee.h"
 
 
 BehaviorTree::BehaviorTree()
@@ -159,6 +160,10 @@ BehaviorTree& BehaviorTree::action(const ENodeType& actionType)
 
 	case ACTION_CHARGE:
 		act = new ActionCharge(_localBlackboard);
+		break;
+
+	case ACTION_FLEE:
+		act = new ActionFlee(_localBlackboard);
 		break;
 
 	default:

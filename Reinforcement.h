@@ -41,6 +41,9 @@ private:
 	// When reinforcement is cancelled, it is no longer valid
 	bool _isValid;
 
+	bool _allAntsInPosition;
+	bool _antPositionAlreadyChecked;
+
 	// ------------ FUNCTIONS ------------ //
 public :
 	/// <summary>

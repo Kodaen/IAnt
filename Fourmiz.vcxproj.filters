@@ -63,6 +63,9 @@
     <ClCompile Include="ActionCharge.cpp">
       <Filter>Behavior Tree\Action\Group Attack</Filter>
     </ClCompile>
+    <ClCompile Include="ActionFlee.cpp">
+      <Filter>Behavior Tree\Action\Group Attack</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Astar\Graph.h">
@@ -183,6 +186,9 @@
       <Filter>Behavior Tree\Input\Group Attack</Filter>
     </ClInclude>
     <ClInclude Include="ActionCharge.h">
+      <Filter>Behavior Tree\Action\Group Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionFlee.h">
       <Filter>Behavior Tree\Action\Group Attack</Filter>
     </ClInclude>
   </ItemGroup>

@@ -3,7 +3,7 @@
 #include "MapSystem.h"
 
 Reinforcement::Reinforcement(Location callingAntPos, Location enemyPos, int helpRadius)
-	: _callingAntPos(callingAntPos), _enemyPos(enemyPos), _helpRadius(helpRadius), _isValid(true)
+	: _callingAntPos(callingAntPos), _enemyPos(enemyPos), _helpRadius(helpRadius), _isValid(true), _antPositionAlreadyChecked(false), _allAntsInPosition(false)
 {
 	GlobalBlackboard& r_gbb = GlobalBlackboard::singleton();
 	double atkRadius = r_gbb._state._attackRadius;
@@ -20,7 +20,7 @@ Reinforcement::Reinforcement(Location callingAntPos, Location enemyPos, int help
 Reinforcement::Reinforcement(Location callingAntPos, Location enemyPos)
 	: Reinforcement(callingAntPos, enemyPos, 8) { }
 
-Reinforcement::Reinforcement() : _isValid(false)
+Reinforcement::Reinforcement() : _isValid(false), _antPositionAlreadyChecked(false), _allAntsInPosition(false)
 { }
 
 bool Reinforcement::tryAskingHelp()
@@ -327,6 +327,11 @@ bool Reinforcement::isValid()
 
 bool Reinforcement::allAntsInPosition()
 {
+	if (_antPositionAlreadyChecked)
+	{
+		return _allAntsInPosition;
+	}
+
 	for (Location& atkPos : _atkPos) {
 		bool antInAtkPos = false;
 		for (Location& helpingAnt : _helpingAntPos) {
@@ -335,8 +340,14 @@ bool Reinforcement::allAntsInPosition()
 				antInAtkPos = true;
 			}
 		}
-		if (!antInAtkPos)
+		if (!antInAtkPos) {
+			_allAntsInPosition = false;
+			_antPositionAlreadyChecked = true;
 			return false;
+		}
+			
 	}
+	_allAntsInPosition = true;
+	_antPositionAlreadyChecked = true;
 	return true;
 }
