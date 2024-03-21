@@ -293,7 +293,7 @@ void MapSystem::computeSentinelsPoints(const int &viewDistance)
             //If the sentil point already falls on the ground, no further action required for this point
             if (_isCellWalkable[point._row][point._col])
             {
-                _sentinelsPoints.push_back(point);
+                _sentinelsPoints.push_back(new SentinelPoint(point));
                 continue;
             }
 
@@ -302,7 +302,7 @@ void MapSystem::computeSentinelsPoints(const int &viewDistance)
             //Else, we need to put a sentinel point next to the wall
             auto point1 = getClosestGround(point, viewDistance);
             if (point1 == NULL_LOCATION) continue;
-            _sentinelsPoints.push_back(point1);
+            _sentinelsPoints.push_back(new SentinelPoint(point1));
 
             int rowDifference = point1._row - point._row;
             int colDifference = point1._col - point._col;
@@ -317,7 +317,7 @@ void MapSystem::computeSentinelsPoints(const int &viewDistance)
             //Else, we'll have to
             auto point2 = getClosestGround(point, viewDistance, -rowDifference, -colDifference);
             if (point2 == NULL_LOCATION) continue;
-            _sentinelsPoints.push_back(point2);
+            _sentinelsPoints.push_back(new SentinelPoint(point2));
         }
     }
 }
@@ -349,6 +349,15 @@ Location MapSystem::getMostProbableAnthill(Location ant, int team)
     {
         _bug << "FATAL ERROR: big error in \"getMostProbableAnthill\", the anthill wasn't known, we've checked the closest ant hill on the entire map size, and we found nothing, very weird";
         return ant;
+    }
+}
+
+//Must be called for each ant on each turn
+void MapSystem::updateSentinelsPoint(Location ant, int turn)
+{
+    for (auto sentinelPoint : _tiedSentinelPoint[ant._row][ant._col]) 
+    {
+        sentinelPoint->_lastVisit = turn;
     }
 }
 
@@ -390,7 +399,7 @@ void MapSystem::printSentinelsMap()
 /// <param name="origin">Origin of the circle, position of the ant</param>
 /// <param name="maxDistance">View distance of the ant</param>
 /// <returns></returns>
-std::vector<Location> MapSystem::getViewCircles(Location origin, int viewDistance)
+std::vector<Location> MapSystem::getViewCircles(const Location& origin,const int& viewDistance)
 {
     std::vector<Location> result;
 
@@ -426,7 +435,7 @@ void MapSystem::printSentinelsViewMap()
     auto sightMap = std::vector<std::vector<int>>(_rowSize, std::vector<int>(_colSize, 0));
     for each (auto sentinelPoint in _sentinelsPoints)
     {
-        auto fov = getViewCircles(sentinelPoint, 8);
+        auto fov = getViewCircles(sentinelPoint->_location, 8);
         for each (auto cellInSight in fov)
         {
             sightMap[cellInSight._row][cellInSight._col] += 1;

@@ -17,12 +17,24 @@ using namespace std;
 class MapSystem
 {
 private:
+	struct SentinelPoint
+	{
+		Location _location;
+		int _lastVisit;
+		SentinelPoint(Location loc, int lastVisit) : _location(loc), _lastVisit(lastVisit) {};
+		SentinelPoint(Location loc) : _location(loc), _lastVisit(0) {};
+	};
+
 	Astar::Graph<Location> _mapGraph;
 	//Equivalent of a 2D array filled with false,  each cell's status will be accessible by typing isCellWalkable[row][col]
 	std::vector<std::vector<bool>> _isCellWalkable;
 	std::vector<std::vector<Location>> _cellNodes;
 	//The sentinels point are points that "grid" the map, points where explorer should go and from there, see around
-	std::vector<Location> _sentinelsPoints;
+	std::vector<SentinelPoint*> _sentinelsPoints;
+
+	//Each cell on the map is linked to one or more sentinel point that watches over it
+	//walking on one of those cells will increase the lastVisit of the sentinel point
+	std::vector<std::vector<std::vector<SentinelPoint*>>> _tiedSentinelPoint;
 
 	//The location of the anthill that we do not know the team of yet
 	std::vector<Location> _unknowAnthills; 
@@ -44,6 +56,8 @@ private:
 	~MapSystem()
 	{
 		_bug.close();
+		for(auto sentinel : _sentinelsPoints)
+			delete sentinel;
 	}
 
 	static MapSystem *_instance;
@@ -100,11 +114,14 @@ public:
 
 	//Return the most probable anthill for a given ant and team
 	Location getMostProbableAnthill(Location ant, int team);
+
+	//Must be called for each ant on each turn
+	void updateSentinelsPoint(Location ant, int turn);
 #if DEBUG
 	void printMap();
 	void printSentinelsMap();
 	//Show what an ant would see, not very accurate, nor optimized
-	std::vector<Location> getViewCircles(Location origin, int maxDistance);
+	std::vector<Location> getViewCircles(const Location& origin,const int& maxDistance);
 	void printSentinelsViewMap();
 #endif
 };
