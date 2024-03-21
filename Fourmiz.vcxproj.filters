@@ -54,6 +54,12 @@
     <ClCompile Include="InputCalledForReinforcement.cpp">
       <Filter>Behavior Tree\Input\Group Attack</Filter>
     </ClCompile>
+    <ClCompile Include="InputReinforcementIsValid.cpp">
+      <Filter>Behavior Tree\Input\Group Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="InputAllAntsInPosition.cpp">
+      <Filter>Behavior Tree\Input\Group Attack</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Astar\Graph.h">
@@ -165,6 +171,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="InputCalledForReinforcement.h">
+      <Filter>Behavior Tree\Input\Group Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="InputReinforcementIsValid.h">
+      <Filter>Behavior Tree\Input\Group Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="InputAllAntsInPosition.h">
       <Filter>Behavior Tree\Input\Group Attack</Filter>
     </ClInclude>
   </ItemGroup>

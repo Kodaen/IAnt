@@ -86,10 +86,10 @@ void Bot::makeMoves()
 	bt2->selector()		// (SUPPORT)
 			.sequencer()	// [BACKUP]
 				.input(INPUT_CALLED_FOR_REINFORCEMENT)
-				.sequencer()	// [REINFORCEMENT]
+				.selector()	// (REINFORCEMENT)
 					.sequencer()	// [CHARGE ENEMY]
 						.input(INPUT_REINFORCEMENT_IS_VALID)
-				//		.input(INPUT_ALL_ANTS_IN_POSITION)
+						.input(INPUT_ALL_ANTS_IN_POSITION)
 				//		.action(ACTION_CHARGE)
 				//		.selectParent()
 				//	.sequencer()	// [FLEE COMBAT]

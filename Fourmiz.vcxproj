@@ -135,11 +135,13 @@
     <ClCompile Include="DecoratorAlwaysTrue.cpp" />
     <ClCompile Include="DecoratorNot.cpp" />
     <ClCompile Include="GlobalBlackboard.cpp" />
+    <ClCompile Include="InputAllAntsInPosition.cpp" />
     <ClCompile Include="InputCalledForReinforcement.cpp" />
     <ClCompile Include="InputClosestToAnyFood.cpp" />
     <ClCompile Include="InputClosestToMyHill.cpp" />
     <ClCompile Include="InputEnemyNear.cpp" />
     <ClCompile Include="InputIDieByGoingThere.cpp" />
+    <ClCompile Include="InputReinforcementIsValid.cpp" />
     <ClCompile Include="InputWeBothDie.cpp" />
     <ClCompile Include="LocalBlackboard.cpp" />
     <ClCompile Include="MapSystem.cpp" />
@@ -161,11 +163,13 @@
     <ClInclude Include="Bot.h" />
     <ClInclude Include="Bug.h" />
     <ClInclude Include="GlobalBlackboard.h" />
+    <ClInclude Include="InputAllAntsInPosition.h" />
     <ClInclude Include="InputCalledForReinforcement.h" />
     <ClInclude Include="InputClosestToAnyFood.h" />
     <ClInclude Include="InputClosestToMyHill.h" />
     <ClInclude Include="InputEnemyNear.h" />
     <ClInclude Include="InputIDieByGoingThere.h" />
+    <ClInclude Include="InputReinforcementIsValid.h" />
     <ClInclude Include="InputWeBothDie.h" />
     <ClInclude Include="LocalBlackboard.h" />
     <ClInclude Include="Location.h" />

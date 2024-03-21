@@ -11,6 +11,7 @@
 #include "InputClosestToMyHill.h"
 #include "InputCalledForReinforcement.h"
 #include "InputReinforcementIsValid.h"
+#include "InputAllAntsInPosition.h"
 #include "Sequencer.h"
 #include "Selector.h"
 #include "Decorator.h"
@@ -209,6 +210,10 @@ BehaviorTree& BehaviorTree::input(const ENodeType& inputType)
 
 	case INPUT_REINFORCEMENT_IS_VALID:
 		inp = new InputReinforcementIsValid(_localBlackboard);
+		break;
+
+	case INPUT_ALL_ANTS_IN_POSITION:
+		inp = new InputAllAntsInPosition(_localBlackboard);
 		break;
 
 	default:

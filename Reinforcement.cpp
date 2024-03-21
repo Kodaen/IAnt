@@ -325,3 +325,19 @@ bool Reinforcement::isValid()
 {
 	return _isValid;
 }
+
+bool Reinforcement::allAntsInPosition()
+{
+	for (Location& atkPos : _atkPos) {
+		bool antInAtkPos = false;
+		for (Location& helpingAnt : _helpingAntPos) {
+			if (atkPos == helpingAnt)
+			{
+				antInAtkPos = true;
+			}
+		}
+		if (!antInAtkPos)
+			return false;
+	}
+	return true;
+}

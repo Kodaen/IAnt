@@ -64,4 +64,5 @@ public :
 	void reEvaluateLocations(Location& loc1, Location& loc2);
 
 	bool isValid();
+	bool allAntsInPosition();
 };
