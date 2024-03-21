@@ -51,6 +51,9 @@
     <ClCompile Include="ActionCallReinforcement.cpp">
       <Filter>Behavior Tree\Action\Solo Attack</Filter>
     </ClCompile>
+    <ClCompile Include="InputCalledForReinforcement.cpp">
+      <Filter>Behavior Tree\Input\Group Attack</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Astar\Graph.h">
@@ -161,6 +164,9 @@
     <ClInclude Include="Reinforcement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="InputCalledForReinforcement.h">
+      <Filter>Behavior Tree\Input\Group Attack</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Astar">
@@ -201,6 +207,9 @@
     </Filter>
     <Filter Include="Behavior Tree\Action\Solo Attack">
       <UniqueIdentifier>{ab717b40-851f-4fef-a5a9-00dfd85071a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Behavior Tree\Input\Group Attack">
+      <UniqueIdentifier>{be78b76b-1384-4559-b825-7fa6951b6035}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

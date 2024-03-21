@@ -9,6 +9,7 @@
 #include "InputEnemyNear.h"
 #include "InputWeBothDie.h"
 #include "InputClosestToMyHill.h"
+#include "InputCalledForReinforcement.h"
 #include "Sequencer.h"
 #include "Selector.h"
 #include "Decorator.h"
@@ -21,6 +22,7 @@
 #include "ActionApproachEnemy.h"
 #include "ActionCallReinforcement.h"
 
+
 BehaviorTree::BehaviorTree()
 {
 	_root = NULL;
@@ -31,7 +33,8 @@ void BehaviorTree::execute(Location& ant)
 {
 	_localBlackboard.p_ant = &ant;
 
-	_root->update();
+	if (_root != NULL)
+		_root->update();
 
 	// we reset _localBlackboard for next ant.
 	_localBlackboard = LocalBlackboard();
@@ -197,6 +200,10 @@ BehaviorTree& BehaviorTree::input(const ENodeType& inputType)
 
 	case INPUT_CLOSEST_TO_MY_HILL:
 		inp = new InputClosestToMyHill(_localBlackboard);
+		break;
+
+	case INPUT_CALLED_FOR_REINFORCEMENT:
+		inp = new InputCalledForReinforcement(_localBlackboard);
 		break;
 
 	default:

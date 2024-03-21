@@ -20,6 +20,9 @@ Reinforcement::Reinforcement(Location callingAntPos, Location enemyPos, int help
 Reinforcement::Reinforcement(Location callingAntPos, Location enemyPos)
 	: Reinforcement(callingAntPos, enemyPos, 8) { }
 
+Reinforcement::Reinforcement() : _isValid(false)
+{ }
+
 bool Reinforcement::tryAskingHelp()
 {
 	GlobalBlackboard& r_gbb = GlobalBlackboard::singleton();

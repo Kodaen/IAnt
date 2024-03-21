@@ -11,18 +11,20 @@ public:
 
 	Reinforcement(Location callingAntPos, Location enemyPos);
 
+	Reinforcement();
+
 	// ------------ ATTRIBUTES ------------ //
 public:
 	// The enemy we are targeting
 	Location _enemyPos;
 	// Enemies in attack range of enemy we are targeting (_enemyPos)
 	std::vector<Location> _otherEnemiesPos;
+	// Ants who want to come help for the fight
+	std::vector<Location> _helpingAntPos;
 
 private:
 	// Ant who called for help
 	Location _callingAntPos;
-	// Ants who want to come help for the fight
-	std::vector<Location> _helpingAntPos;
 	
 	// Positions for attacking the enemies
 	std::vector<Location> _atkPos;

@@ -67,8 +67,7 @@ void Bot::makeMoves()
 					.selectParent()
 				.action(ACTION_CALL_REINFORCEMENT)
 				.selectParent()
-			.action(ACTION_BLACKBOARD_INFOS)
-				;
+			.action(ACTION_BLACKBOARD_INFOS);
 
 	for (Location& ant : r_gbb._state._myAnts)
 	{
@@ -79,6 +78,36 @@ void Bot::makeMoves()
 	{
 		if (r.tryAskingHelp()) {
 			r.trySetupAtkPos();
+		}
+	}
+
+	BehaviorTree* bt2 = new BehaviorTree();
+
+	bt2->selector()		// (SUPPORT)
+			.sequencer()	// [BACKUP]
+				.input(INPUT_CALLED_FOR_REINFORCEMENT)
+				//.sequencer()	// [REINFORCEMENT]
+				//	.sequencer()	// [CHARGE ENEMY]
+				//		.input(INPUT_REINFORCEMENT_STILL_VALID)
+				//		.input(INPUT_ALL_ANTS_IN_POSITION)
+				//		.action(ACTION_CHARGE)
+				//		.selectParent()
+				//	.sequencer()	// [FLEE COMBAT]
+				//		.decorator(DECORATOR_NOT)
+				//			.input(INPUT_REINFORCEMENT_STILL_VALID)
+				//			.selectParent()
+				//		.decorator(DECORATOR_ALWAYS_TRUE)
+				//			.action(ACTION_FLEE)
+				//			.selectParent()
+				//		.selectParent()
+				//	.action(ACTION_POSITION_YOURSELF)
+		;
+
+	for (Location& ant : r_gbb._state._myAnts)
+	{
+		if (!LocationMapContainsValue(r_gbb._orders, ant))
+		{
+			bt2->execute(ant);
 		}
 	}
 
