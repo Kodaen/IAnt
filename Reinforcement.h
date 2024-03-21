@@ -62,4 +62,6 @@ public :
 
 	int calculateDirection(const Location& enemy, bool checkingOtherAnts);
 	void reEvaluateLocations(Location& loc1, Location& loc2);
+
+	bool isValid();
 };

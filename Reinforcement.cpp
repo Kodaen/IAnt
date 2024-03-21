@@ -320,3 +320,8 @@ void Reinforcement::reEvaluateLocations(Location& loc1, Location& loc2) {
 		loc1._col += cols;
 	}
 }
+
+bool Reinforcement::isValid()
+{
+	return _isValid;
+}
