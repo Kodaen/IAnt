@@ -22,7 +22,7 @@ private:
 	std::vector<std::vector<bool>> _isCellWalkable;
 	std::vector<std::vector<Location>> _cellNodes;
 	//The sentinels point are points that "grid" the map, points where explorer should go and from there, see around
-	std::vector<std::vector<Location>> _sentinelsPoints;
+	std::vector<Location> _sentinelsPoints;
 
 	//The location of the anthill that we do not know the team of yet
 	std::vector<Location> _unknowAnthills; 
@@ -32,7 +32,6 @@ private:
 	int _colSize = 0;
 	int _rowSize = 0;
 	Bug _bug;
-
 	
 
 	void loadMapFromFile(std::ifstream mapFile);
@@ -66,6 +65,7 @@ public:
 
 	static MapSystem* getInstance();
 
+#pragma region  Distance
 	//Return the shortest manhattan distance taking into account the map wrapping
 	float getManhattanDistance(Location from, Location to) {
 		int d1 = abs(from._row - to._row),
@@ -75,47 +75,25 @@ public:
 
 		return dr + dc;
 	}
-	
-	std::vector<Location> getCloseEnoughAnts(std::vector<Location>& ants, Location point, int maxDistance, int maxAntsNumber);
-	std::vector<Location> computeSentinelsPoints(int viewDistance) 
-	{
-		std::vector<Location> walls= {};
-		std::vector<Location> ground= {};
-		for (int row = 0; row < _rowSize; row++)
-		{
-			for (int col = 0; col < _colSize; col++)
-			{
-				if (!_isCellWalkable[row][col])
-				{
-					walls.push_back(Location(row, col));
-				}
-				else
-				{
-					ground.push_back(Location(row, col));
-				}
-			}
-		}
 
-		//We pick a random point on the ground to start the computation
-		Location computedPoint= ground[rand() % ground.size()];
+	//Return the shortest euclidian distance taking into account the map wrapping
+	float squaredEuclidianDistance(Location from, Location to) {
+		int d1 = abs(from._row - to._row),
+			d2 = abs(from._col - to._col),
+			dr = min(d1, _rowSize - d1),
+			dc = min(d2, _colSize - d2);
 
-		int nbrOfSentilPoints = 0;
-		std::vector<Location> _sentinelsPoints= {};
-		while (nbrOfSentilPoints < 1)
-		{
-			auto closeWalls=_mapGraph.findDataOfNodesBetween(computedPoint, 1, viewDistance, true, walls, true, 1);
-			//Far enough of all walls, can move on
-			if (closeWalls.size() == 0)
-			{
-				_sentinelsPoints.push_back(computedPoint);
-				nbrOfSentilPoints++;
-				continue;
-			}
-			
-			//Too close to a wall, should try to back away
-			auto closestWall= closeWalls[0];
-		}
+		return dr * dr + dc * dc;
 	}
+#pragma endregion
+	
+	std::vector<Location> getCloseEnoughAnts(const std::vector<Location>& ants, Location point, int maxDistance, int maxAntsNumber);
+
+	//Will trace circles bigger and bigger around the origin to find the closest ground and return it
+	//The getDistanceBetween function of the graph couldn't be used because here, we're not looking in terms of graph in cost, but in terms of pure geographical distance
+	Location getClosestGround(Location origin, int maxDistance, int forcedXDirection=0, int forcedYDirection=0);
+
+	void computeSentinelsPoints(const int &viewDistance);
 
 	//Each time our ants see an anthill, we register it in the map system to identify all the anthills as fast as possible
 	void registerAnthillsSighting(int team, Location antHill);
@@ -124,6 +102,10 @@ public:
 	Location getMostProbableAnthill(Location ant, int team);
 #if DEBUG
 	void printMap();
+	void printSentinelsMap();
+	//Show what an ant would see, not very accurate, nor optimized
+	std::vector<Location> getViewCircles(Location origin, int maxDistance);
+	void printSentinelsViewMap();
 #endif
 };
 
