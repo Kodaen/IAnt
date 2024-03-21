@@ -32,9 +32,9 @@ private:
 	//The sentinels point are points that "grid" the map, points where explorer should go and from there, see around
 	std::vector<SentinelPoint*> _sentinelsPoints;
 
-	//Each cell on the map is linked to one or more sentinel point that watches over it
+	//Each cell on the map is linked to it's closest sentinel point,
 	//walking on one of those cells will increase the lastVisit of the sentinel point
-	std::vector<std::vector<std::vector<SentinelPoint*>>> _tiedSentinelPoint;
+	std::vector<std::vector<SentinelPoint*>> _tiedSentinelPoint;
 
 	//The location of the anthill that we do not know the team of yet
 	std::vector<Location> _unknowAnthills; 
@@ -117,6 +117,7 @@ public:
 
 	//Must be called for each ant on each turn
 	void updateSentinelsPoint(Location ant, int turn);
+	Location getOldestVisitedSentinelPoint();
 #if DEBUG
 	void printMap();
 	void printSentinelsMap();

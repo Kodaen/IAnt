@@ -265,6 +265,8 @@ void MapSystem::computeSentinelsPoints(const int &viewDistance)
     ...X.....X...
     X.....X.....X
     */
+    vector<Location> sentinelPointLocations;
+    map<Location, SentinelPoint*> sentinelPointsMap;
     int maxDistance = viewDistance + 1;
     //We need to have the points evenly spaced on the col axes, but closest as possible to viewDistance*2 so we find the biggest number inferior to view distance to achieve that
     int colNbrOfPoints = ceil(float(_colSize) / float(maxDistance * 2));
@@ -293,16 +295,20 @@ void MapSystem::computeSentinelsPoints(const int &viewDistance)
             //If the sentil point already falls on the ground, no further action required for this point
             if (_isCellWalkable[point._row][point._col])
             {
-                _sentinelsPoints.push_back(new SentinelPoint(point));
+                auto newSP= new SentinelPoint(point);
+                _sentinelsPoints.push_back(newSP);
+                sentinelPointLocations.push_back(point);
+                sentinelPointsMap[point] = newSP;
                 continue;
             }
-
-            //If 
 
             //Else, we need to put a sentinel point next to the wall
             auto point1 = getClosestGround(point, viewDistance);
             if (point1 == NULL_LOCATION) continue;
-            _sentinelsPoints.push_back(new SentinelPoint(point1));
+            auto newSP = new SentinelPoint(point1);
+            _sentinelsPoints.push_back(newSP);
+            sentinelPointLocations.push_back(point1);
+            sentinelPointsMap[point1] = newSP;
 
             int rowDifference = point1._row - point._row;
             int colDifference = point1._col - point._col;
@@ -317,9 +323,30 @@ void MapSystem::computeSentinelsPoints(const int &viewDistance)
             //Else, we'll have to
             auto point2 = getClosestGround(point, viewDistance, -rowDifference, -colDifference);
             if (point2 == NULL_LOCATION) continue;
-            _sentinelsPoints.push_back(new SentinelPoint(point2));
+            auto newSP = new SentinelPoint(point2);
+            _sentinelsPoints.push_back(newSP);
+            sentinelPointLocations.push_back(point2);
+            sentinelPointsMap[point2] = newSP;
         }
     }
+
+    //We need to tie each cell of the map to the closest sentinel point, so we can find the most interesting sentinel point in every situation
+    //Based on the last time it was "visited" by an ant. Being visited means that an ant walked on a cell which is tied to a sentinel point
+    //We use BFS to find the closest sentinel point for each cell instead of a simple distance calculation because we want to take wrapping into account this time
+    for (int row = 0; row < _rowSize; row++)
+	{
+		for (int col = 0; col < _colSize; col++)
+		{
+			if (!_isCellWalkable[row][col]) continue;
+			auto closestSentinelPoint = _mapGraph.findDataOfNodesBetween(Location(row, col), 0, INT_MAX, true, sentinelPointLocations, true, 1);
+			if (closestSentinelPoint.empty())
+			{
+				_bug << "FATAL ERROR: big error in \"computeSentinelsPoints\", the closest sentinel point wasn't found, we've checked the closest sentinel point on the entire map size, and we found nothing, very weird";
+				continue;
+			}
+			_tiedSentinelPoint[row][col]=sentinelPointsMap[Location(row,col)];
+		}
+	}
 }
 
 //Each time our ants see an anthill, we register it in the map system to identify all the anthills as fast as possible
@@ -355,10 +382,21 @@ Location MapSystem::getMostProbableAnthill(Location ant, int team)
 //Must be called for each ant on each turn
 void MapSystem::updateSentinelsPoint(Location ant, int turn)
 {
-    for (auto sentinelPoint : _tiedSentinelPoint[ant._row][ant._col]) 
+     _tiedSentinelPoint[ant._row][ant._col]->_lastVisit = turn;
+}
+
+Location MapSystem::getOldestVisitedSentinelPoint()
+{
+    int oldestVisitTurn = INT_MAX;
+    Location oldestVisitedSentinelPoint = NULL_LOCATION;
+
+    for each (auto sentinelPoint in _sentinelsPoints)
     {
-        sentinelPoint->_lastVisit = turn;
+        if (sentinelPoint->_lastVisit >= oldestVisitTurn) continue;
+        oldestVisitTurn = sentinelPoint->_lastVisit;
+        oldestVisitedSentinelPoint = sentinelPoint->_location;
     }
+    return oldestVisitedSentinelPoint;
 }
 
 #if DEBUG
