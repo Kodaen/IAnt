@@ -66,6 +66,7 @@ void Bot::makeMoves()
 					.selectParent()
 				//.action(ACTION_CALL_BACKUP)
 				.selectParent()
+			.action(ACTION_EXPLORE)	// [EXPLORE]
 			.action(ACTION_BLACKBOARD_INFOS)
 				;
 
@@ -76,116 +77,7 @@ void Bot::makeMoves()
 	}
 
 
-	// add all locations to unseen tiles set, run once
-	if (_unseenTiles.empty()) {
-		for (int _row = 0; _row < r_gbb._state._rows; _row++) {
-			for (int _col = 0; _col < r_gbb._state._cols; _col++) {
-				_unseenTiles.insert(new Location(_row, _col));
-			}
-		}
-	}
-
-	for (std::set<Location*>::iterator it = _unseenTiles.begin(); it != _unseenTiles.end();) {
-		if (r_gbb._state._grid[(*it)->_row][(*it)->_col]._isVisible) {
-			delete* it;
-			it = _unseenTiles.erase(it);
-		}
-		else {
-			++it;
-		}
-	}
-
-	// prevent stepping on own hill
-	for (Location myHill : r_gbb._state._myHills) {
-		Location* mHill = new Location(myHill._row, myHill._col);
-
-		r_gbb._orders.insert({ mHill,new Location(-1,-1) });
-	}
-
-	// Go to close food
-	std::map<Location, Location> foodTargets = std::map<Location, Location>();
-	std::vector<Route> foodRoutes;
-	std::vector<Location> sortedFood = r_gbb._state._food;
-	std::vector<Location> sortedAnts = r_gbb._state._myAnts;
-
-	//// Calculate all routes from ants to food
-	//for (Location foodLoc : sortedFood) {
-	//	for (Location antLoc : sortedAnts) {
-	//		int manhattanDistance = r_gbb._state.manhattanDistance(antLoc, foodLoc);
-	//		Route route(antLoc, foodLoc, manhattanDistance);
-	//		foodRoutes.push_back(route);
-	//	}
-	//}
-
-	//// Sort routes from ants to food from the shortest to the longest
-	//std::sort(foodRoutes.begin(), foodRoutes.end());
-	//// We send the closest ants first, some ants my not move because there is no food left
-	//for (Route& route : foodRoutes) {
-	//	if (foodTargets.count(route.getEnd()) == 0
-	//		&& !LocationMapContainsValue(foodTargets, route.getStart())
-	//		&& doMoveLocation(route.getStart(), route.getEnd())) {
-	//		foodTargets[route.getEnd()] = route.getStart();
-	//	}
-	//}
-
-	// Add new hills to set
-	for (Location enemyHill : r_gbb._state._enemyHills) {
-		if (_enemyHills.count(&enemyHill) == 0) {
-			_enemyHills.insert(&enemyHill);
-		}
-	}
-
-	// Attack hills
-	std::vector<Route> hillRoutes;
-	for (Location* hillLoc : _enemyHills) {
-		for (Location antLoc : sortedAnts) {
-			if (!LocationMapContainsValue(r_gbb._orders, antLoc)) {
-				int manhattanDistance = r_gbb._state.manhattanDistance(antLoc, *hillLoc);
-				Route route = Route(antLoc, *hillLoc, manhattanDistance);
-				hillRoutes.push_back(route);
-			}
-		}
-	}
-	std::sort(hillRoutes.begin(), hillRoutes.end());
-	for (Route route : hillRoutes) {
-		doMoveLocation(route.getStart(), route.getEnd());
-	}
-
-	// Explore unseen areas
-	for (Location antLoc : sortedAnts) {
-		if (!LocationMapContainsValue(r_gbb._orders, antLoc)) {
-
-			std::vector<Route> unseenRoutes;
-			for (const Location* unseenLoc : _unseenTiles) {
-				int manhattanDistance = r_gbb._state.manhattanDistance(antLoc, *unseenLoc);
-				if (manhattanDistance > 30) continue;
-				Route route = Route(antLoc, *unseenLoc, manhattanDistance);
-				unseenRoutes.push_back(route);
-			}
-			std::sort(unseenRoutes.begin(), unseenRoutes.end());
-			for (Route route : unseenRoutes) {
-				if (doMoveLocation(route.getStart(), route.getEnd())) {
-					break;
-				}
-			}
-		}
-	}
-
-	// Unblock hills
-	for (Location myHill : r_gbb._state._myHills) {
-		auto it = std::find(r_gbb._state._myAnts.cbegin(), r_gbb._state._myAnts.cend(), myHill);
-		if (it != r_gbb._state._myAnts.end() && !LocationMapContainsValue(r_gbb._orders, { it->_row, it->_col })) {
-			// If a ant blocks hill, move it if possible
-			for (int d = 0; d < TDIRECTIONS; d++)
-			{
-				if (doMoveDirection(myHill, d))
-				{
-					break;
-				}
-			}
-		}
-	}
-
+	
 	r_gbb._state._bug << "time taken: " << r_gbb._state._timer.getTime() << "ms" << endl << endl;
 };
 

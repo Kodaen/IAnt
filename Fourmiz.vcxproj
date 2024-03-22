@@ -128,6 +128,7 @@
     <ClCompile Include="ActionApproachEnemy.cpp" />
     <ClCompile Include="ActionApproachFood.cpp" />
     <ClCompile Include="ActionCalcTrajForFood.cpp" />
+    <ClCompile Include="ActionExplore.cpp" />
     <ClCompile Include="ActionGetClosestFood.cpp" />
     <ClCompile Include="BehaviorTree.cpp" />
     <ClCompile Include="Bot.cc" />
@@ -150,6 +151,7 @@
     <ClInclude Include="ActionApproachFood.h" />
     <ClInclude Include="ActionBlackboardInfos.h" />
     <ClInclude Include="ActionCalcTrajForFood.h" />
+    <ClInclude Include="ActionExplore.h" />
     <ClInclude Include="ActionGetClosestFood.h" />
     <ClInclude Include="Astar\Graph.h" />
     <ClInclude Include="Astar\Node.h" />

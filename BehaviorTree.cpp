@@ -19,6 +19,7 @@
 #include "ActionCalcTrajForFood.h"
 #include "ActionGetClosestFood.h"
 #include "ActionApproachEnemy.h"
+#include "ActionExplore.h"
 
 BehaviorTree::BehaviorTree()
 {

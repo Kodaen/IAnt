@@ -37,6 +37,7 @@ void MapSystem::setup()
     loadMapFromFile(ifstream(MAP_FILE, ifstream::in));
     auto pathData = findPath(Location(6, 1), Location(43, 3));
 
+#if DEBUG
     _bug << endl;
     printMap();
     _bug << endl;
@@ -50,6 +51,7 @@ void MapSystem::setup()
     _bug << endl;
     printSentinelsViewMap();
     _bug << endl;
+#endif
 }
 
 //Returns 0 if cell is not walkable, 1 if it is, 2 if it is an anthill
@@ -323,7 +325,7 @@ void MapSystem::computeSentinelsPoints(const int &viewDistance)
             //Else, we'll have to
             auto point2 = getClosestGround(point, viewDistance, -rowDifference, -colDifference);
             if (point2 == NULL_LOCATION) continue;
-            auto newSP = new SentinelPoint(point2);
+            newSP = new SentinelPoint(point2);
             _sentinelsPoints.push_back(newSP);
             sentinelPointLocations.push_back(point2);
             sentinelPointsMap[point2] = newSP;
@@ -390,12 +392,16 @@ Location MapSystem::getOldestVisitedSentinelPoint()
     int oldestVisitTurn = INT_MAX;
     Location oldestVisitedSentinelPoint = NULL_LOCATION;
 
+    _bug << "Oldest visited sentinel point requested, here is the state of our sentinel vector: " << endl;
+
     for each (auto sentinelPoint in _sentinelsPoints)
     {
+        _bug << "\t" << sentinelPoint->_location << " last visit:" << sentinelPoint->_lastVisit << endl;
         if (sentinelPoint->_lastVisit >= oldestVisitTurn) continue;
         oldestVisitTurn = sentinelPoint->_lastVisit;
         oldestVisitedSentinelPoint = sentinelPoint->_location;
     }
+    _bug << "Returning " << oldestVisitedSentinelPoint << endl << endl;
     return oldestVisitedSentinelPoint;
 }
 
