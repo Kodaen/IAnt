@@ -94,7 +94,7 @@
       <SubSystem>Console</SubSystem>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)\map.map" "$(TargetDir)\map.map"</Command>
+      <Command>copy "$(SolutionDir)\map.map" "$(TargetDir)\map.map</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

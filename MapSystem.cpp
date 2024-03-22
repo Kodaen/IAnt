@@ -36,13 +36,12 @@ void MapSystem::setup()
 {
     loadMapFromFile(ifstream(MAP_FILE, ifstream::in));
     auto pathData = findPath(Location(6, 1), Location(43, 3));
-
+    computeSentinelsPoints(8);
+   
 #if DEBUG
     _bug << endl;
     printMap();
     _bug << endl;
-
-    computeSentinelsPoints(8);
 
     _bug << endl;
     printSentinelsMap();
@@ -267,8 +266,8 @@ void MapSystem::computeSentinelsPoints(const int &viewDistance)
     ...X.....X...
     X.....X.....X
     */
-    vector<Location> sentinelPointLocations;
     map<Location, SentinelPoint*> sentinelPointsMap;
+    _tiedSentinelPoint = std::vector<std::vector<SentinelPoint*>>(_rowSize, std::vector<SentinelPoint*>(_colSize, nullptr));
     int maxDistance = viewDistance + 1;
     //We need to have the points evenly spaced on the col axes, but closest as possible to viewDistance*2 so we find the biggest number inferior to view distance to achieve that
     int colNbrOfPoints = ceil(float(_colSize) / float(maxDistance * 2));
@@ -280,7 +279,7 @@ void MapSystem::computeSentinelsPoints(const int &viewDistance)
     //Because we have a little less distance than the maximum allowed, it gives us a tolerance that we'll benefit from later
     int colTolerance = maxDistance *2 - colDistanceBetweenPoints;
     int rowTolerance= maxDistance - rowDistanceBetweenPoints;
-
+    
     //Now that everything is calculated, we can add the points
     for (int i = 0; i < colNbrOfPoints; i++)
     {
@@ -299,7 +298,7 @@ void MapSystem::computeSentinelsPoints(const int &viewDistance)
             {
                 auto newSP= new SentinelPoint(point);
                 _sentinelsPoints.push_back(newSP);
-                sentinelPointLocations.push_back(point);
+                _sentinelPointsLocations.push_back(point);
                 sentinelPointsMap[point] = newSP;
                 continue;
             }
@@ -309,7 +308,7 @@ void MapSystem::computeSentinelsPoints(const int &viewDistance)
             if (point1 == NULL_LOCATION) continue;
             auto newSP = new SentinelPoint(point1);
             _sentinelsPoints.push_back(newSP);
-            sentinelPointLocations.push_back(point1);
+            _sentinelPointsLocations.push_back(point1);
             sentinelPointsMap[point1] = newSP;
 
             int rowDifference = point1._row - point._row;
@@ -327,11 +326,11 @@ void MapSystem::computeSentinelsPoints(const int &viewDistance)
             if (point2 == NULL_LOCATION) continue;
             newSP = new SentinelPoint(point2);
             _sentinelsPoints.push_back(newSP);
-            sentinelPointLocations.push_back(point2);
+            _sentinelPointsLocations.push_back(point2);
             sentinelPointsMap[point2] = newSP;
         }
     }
-
+   
     //We need to tie each cell of the map to the closest sentinel point, so we can find the most interesting sentinel point in every situation
     //Based on the last time it was "visited" by an ant. Being visited means that an ant walked on a cell which is tied to a sentinel point
     //We use BFS to find the closest sentinel point for each cell instead of a simple distance calculation because we want to take wrapping into account this time
@@ -340,13 +339,15 @@ void MapSystem::computeSentinelsPoints(const int &viewDistance)
 		for (int col = 0; col < _colSize; col++)
 		{
 			if (!_isCellWalkable[row][col]) continue;
-			auto closestSentinelPoint = _mapGraph.findDataOfNodesBetween(Location(row, col), 0, INT_MAX, true, sentinelPointLocations, true, 1);
+
+			auto closestSentinelPoint = _mapGraph.findDataOfNodesBetween(Location(row, col), 0, INT_MAX, true, _sentinelPointsLocations, true, 1);
 			if (closestSentinelPoint.empty())
 			{
 				_bug << "FATAL ERROR: big error in \"computeSentinelsPoints\", the closest sentinel point wasn't found, we've checked the closest sentinel point on the entire map size, and we found nothing, very weird";
 				continue;
 			}
-			_tiedSentinelPoint[row][col]=sentinelPointsMap[Location(row,col)];
+
+			_tiedSentinelPoint[row][col]=sentinelPointsMap[closestSentinelPoint[0]];
 		}
 	}
 }
@@ -427,7 +428,7 @@ void MapSystem::printSentinelsMap()
     {
         for (int col = 0; col < _colSize; col++)
         {
-            if (std::count(_sentinelsPoints.begin(), _sentinelsPoints.end(), Location(row, col))) {
+            if (std::count(_sentinelPointsLocations.begin(), _sentinelPointsLocations.end(), Location(row, col))) {
                 _bug << "%";
                 continue;
             }

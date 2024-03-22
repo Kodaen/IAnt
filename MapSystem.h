@@ -31,6 +31,7 @@ private:
 	std::vector<std::vector<Location>> _cellNodes;
 	//The sentinels point are points that "grid" the map, points where explorer should go and from there, see around
 	std::vector<SentinelPoint*> _sentinelsPoints;
+	std::vector<Location> _sentinelPointsLocations;
 
 	//Each cell on the map is linked to it's closest sentinel point,
 	//walking on one of those cells will increase the lastVisit of the sentinel point

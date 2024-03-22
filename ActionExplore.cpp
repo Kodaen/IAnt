@@ -11,7 +11,7 @@ ActionExplore::~ActionExplore()
 EStatus ActionExplore::doAction()
 {
 	EStatus res = BH_FAILURE;
-
+	return res;
 	auto targetLocation=MapSystem::getInstance()->getOldestVisitedSentinelPoint();
 	GlobalBlackboard& r_gbb = GlobalBlackboard::singleton();
 	GlobalBlackboard::singleton()._state._bug << "Exploring, going to :" << targetLocation << std::endl;
