@@ -11,11 +11,13 @@ ActionExplore::~ActionExplore()
 EStatus ActionExplore::doAction()
 {
 	EStatus res = BH_FAILURE;
-	return res;
+
+	auto antLoc = *(_blackboard->p_ant);
 	auto targetLocation=MapSystem::getInstance()->getOldestVisitedSentinelPoint();
+	auto moveLocation = MapSystem::getInstance()->moveToward(antLoc, targetLocation);
 	GlobalBlackboard& r_gbb = GlobalBlackboard::singleton();
-	GlobalBlackboard::singleton()._state._bug << "Exploring, going to :" << targetLocation << std::endl;
-	if (r_gbb.singleton().doMoveLocation(*(_blackboard->p_ant), _blackboard->_nextLocation)) {
+	GlobalBlackboard::singleton()._state._bug << "Exploring, going to :" << targetLocation << " from: "<<antLoc<<" passing to: "<<moveLocation<<std::endl;
+	if (r_gbb.singleton().doMoveLocation(antLoc, moveLocation)) {
 		res = BH_SUCCESS;
 	}
 	

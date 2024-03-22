@@ -60,11 +60,12 @@ void Bot::makeMoves()
 				.input(INPUT_ENEMY_NEAR)
 				.sequencer()		// [FIGHT ENEMY]
 					.sequencer()		// [SOLO COMBAT]
-					.input(INPUT_WE_BOTH_DIE)
-					.input(INPUT_CLOSEST_TO_MY_HILL)
-					.action(ACTION_APPROACH_ENEMY)
-					.selectParent()
+						.input(INPUT_WE_BOTH_DIE)
+						.input(INPUT_CLOSEST_TO_MY_HILL)
+						.action(ACTION_APPROACH_ENEMY)
+						.selectParent()
 				//.action(ACTION_CALL_BACKUP)
+					.selectParent()
 				.selectParent()
 			.action(ACTION_EXPLORE)	// [EXPLORE]
 			.action(ACTION_BLACKBOARD_INFOS)

@@ -241,7 +241,7 @@ Location MapSystem::getClosestGround(Location origin, int maxDistance, int force
                     if (currentPoint._col<0) currentPoint._col += _colSize;
                     if (currentPoint._row<0) currentPoint._row += _rowSize;
 
-                    if (!_isCellWalkable[currentPoint._row][currentPoint._col])
+                    if (_isCellWalkable[currentPoint._row][currentPoint._col])
                     {
                         return currentPoint;
                     }
