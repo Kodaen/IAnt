@@ -77,8 +77,7 @@ void Bot::makeMoves()
 		bt->execute(ant);
 	}
 
-
-	
+	r_gbb.emptyExplorationCache();
 	r_gbb._state._bug << "time taken: " << r_gbb._state._timer.getTime() << "ms" << endl << endl;
 };
 

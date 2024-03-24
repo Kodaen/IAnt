@@ -267,7 +267,7 @@ void MapSystem::computeSentinelsPoints(const int &viewDistance)
     X.....X.....X
     */
     map<Location, SentinelPoint*> sentinelPointsMap;
-    _tiedSentinelPoint = std::vector<std::vector<SentinelPoint*>>(_rowSize, std::vector<SentinelPoint*>(_colSize, nullptr));
+    p_tiedSentinelPoints = std::vector<std::vector<SentinelPoint*>>(_rowSize, std::vector<SentinelPoint*>(_colSize, nullptr));
     int maxDistance = viewDistance + 1;
     //We need to have the points evenly spaced on the col axes, but closest as possible to viewDistance*2 so we find the biggest number inferior to view distance to achieve that
     int colNbrOfPoints = ceil(float(_colSize) / float(maxDistance * 2));
@@ -297,7 +297,7 @@ void MapSystem::computeSentinelsPoints(const int &viewDistance)
             if (_isCellWalkable[point._row][point._col])
             {
                 auto newSP= new SentinelPoint(point);
-                _sentinelsPoints.push_back(newSP);
+                p_sentinelsPoints.push_back(newSP);
                 _sentinelPointsLocations.push_back(point);
                 sentinelPointsMap[point] = newSP;
                 continue;
@@ -307,7 +307,7 @@ void MapSystem::computeSentinelsPoints(const int &viewDistance)
             auto point1 = getClosestGround(point, viewDistance);
             if (point1 == NULL_LOCATION) continue;
             auto newSP = new SentinelPoint(point1);
-            _sentinelsPoints.push_back(newSP);
+            p_sentinelsPoints.push_back(newSP);
             _sentinelPointsLocations.push_back(point1);
             sentinelPointsMap[point1] = newSP;
 
@@ -325,7 +325,7 @@ void MapSystem::computeSentinelsPoints(const int &viewDistance)
             auto point2 = getClosestGround(point, viewDistance, -rowDifference, -colDifference);
             if (point2 == NULL_LOCATION) continue;
             newSP = new SentinelPoint(point2);
-            _sentinelsPoints.push_back(newSP);
+            p_sentinelsPoints.push_back(newSP);
             _sentinelPointsLocations.push_back(point2);
             sentinelPointsMap[point2] = newSP;
         }
@@ -347,7 +347,7 @@ void MapSystem::computeSentinelsPoints(const int &viewDistance)
 				continue;
 			}
 
-			_tiedSentinelPoint[row][col]=sentinelPointsMap[closestSentinelPoint[0]];
+			p_tiedSentinelPoints[row][col]=sentinelPointsMap[closestSentinelPoint[0]];
 		}
 	}
 }
@@ -385,24 +385,21 @@ Location MapSystem::getMostProbableAnthill(Location ant, int team)
 //Must be called for each ant on each turn
 void MapSystem::updateSentinelsPoint(Location ant, int turn)
 {
-     _tiedSentinelPoint[ant._row][ant._col]->_lastVisit = turn;
+     p_tiedSentinelPoints[ant._row][ant._col]->_lastVisit = turn;
 }
 
-Location MapSystem::getOldestVisitedSentinelPoint()
+MapSystem::SentinelPoint MapSystem::getOldestVisitedSentinelPoint()
 {
     int oldestVisitTurn = INT_MAX;
-    Location oldestVisitedSentinelPoint = NULL_LOCATION;
+    SentinelPoint oldestVisitedSentinelPoint;
 
-    _bug << "Oldest visited sentinel point requested, here is the state of our sentinel vector: " << endl;
-
-    for each (auto sentinelPoint in _sentinelsPoints)
+    for each (auto sentinelPoint in p_sentinelsPoints)
     {
-        _bug << "\t" << sentinelPoint->_location << " last visit:" << sentinelPoint->_lastVisit << endl;
         if (sentinelPoint->_lastVisit >= oldestVisitTurn) continue;
         oldestVisitTurn = sentinelPoint->_lastVisit;
-        oldestVisitedSentinelPoint = sentinelPoint->_location;
+        oldestVisitedSentinelPoint = *sentinelPoint;
     }
-    _bug << "Returning " << oldestVisitedSentinelPoint << endl << endl;
+
     return oldestVisitedSentinelPoint;
 }
 
@@ -478,7 +475,7 @@ std::vector<Location> MapSystem::getViewCircles(const Location& origin,const int
 void MapSystem::printSentinelsViewMap()
 {
     auto sightMap = std::vector<std::vector<int>>(_rowSize, std::vector<int>(_colSize, 0));
-    for each (auto sentinelPoint in _sentinelsPoints)
+    for each (auto sentinelPoint in p_sentinelsPoints)
     {
         auto fov = getViewCircles(sentinelPoint->_location, 8);
         for each (auto cellInSight in fov)

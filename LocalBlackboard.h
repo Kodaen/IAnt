@@ -20,6 +20,8 @@ public:
 	std::vector<NearbyFoodAnts> _nearbyFood;
 	Location _targetFood;
 	Location _targetEnemy;
+	Location _targetSentinelPoint;
+	int _targetSentinelLastVisitedCache;
 
 	Location _nextLocation;
 

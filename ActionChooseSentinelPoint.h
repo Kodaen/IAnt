@@ -1,12 +1,12 @@
 #pragma once
 #include "Action.h"
-class ActionExplore :
-    public Action
+class ActionChooseSentinelPoint :
+	public Action
 {
 	// ------------ CSTR & DSTR ------------ //
 public:
-	ActionExplore(LocalBlackboard& _blackboard);
-	~ActionExplore();
+	ActionChooseSentinelPoint(LocalBlackboard& _blackboard);
+	~ActionChooseSentinelPoint();
 
 	// ------------ FUNCTIONS ------------ //
 public:

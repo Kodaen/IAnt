@@ -16,26 +16,29 @@ using namespace std;
 /// </summary>
 class MapSystem
 {
-private:
+public:
 	struct SentinelPoint
 	{
 		Location _location;
 		int _lastVisit;
 		SentinelPoint(Location loc, int lastVisit) : _location(loc), _lastVisit(lastVisit) {};
 		SentinelPoint(Location loc) : _location(loc), _lastVisit(0) {};
+		SentinelPoint() : _location(NULL_LOCATION), _lastVisit(0) {};	
 	};
+private:
+
 
 	Astar::Graph<Location> _mapGraph;
 	//Equivalent of a 2D array filled with false,  each cell's status will be accessible by typing isCellWalkable[row][col]
 	std::vector<std::vector<bool>> _isCellWalkable;
 	std::vector<std::vector<Location>> _cellNodes;
 	//The sentinels point are points that "grid" the map, points where explorer should go and from there, see around
-	std::vector<SentinelPoint*> _sentinelsPoints;
+	std::vector<SentinelPoint*> p_sentinelsPoints;
 	std::vector<Location> _sentinelPointsLocations;
 
 	//Each cell on the map is linked to it's closest sentinel point,
 	//walking on one of those cells will increase the lastVisit of the sentinel point
-	std::vector<std::vector<SentinelPoint*>> _tiedSentinelPoint;
+	std::vector<std::vector<SentinelPoint*>> p_tiedSentinelPoints;
 
 	//The location of the anthill that we do not know the team of yet
 	std::vector<Location> _unknowAnthills; 
@@ -57,7 +60,7 @@ private:
 	~MapSystem()
 	{
 		_bug.close();
-		for(auto sentinel : _sentinelsPoints)
+		for(auto sentinel : p_sentinelsPoints)
 			delete sentinel;
 	}
 
@@ -110,6 +113,7 @@ public:
 
 	void computeSentinelsPoints(const int &viewDistance);
 
+
 	//Each time our ants see an anthill, we register it in the map system to identify all the anthills as fast as possible
 	void registerAnthillsSighting(int team, Location antHill);
 
@@ -118,7 +122,7 @@ public:
 
 	//Must be called for each ant on each turn
 	void updateSentinelsPoint(Location ant, int turn);
-	Location getOldestVisitedSentinelPoint();
+	SentinelPoint getOldestVisitedSentinelPoint();
 #if DEBUG
 	void printMap();
 	void printSentinelsMap();

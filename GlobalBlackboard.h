@@ -28,6 +28,11 @@ public :
 	std::map<Location*, Location*> _orders;
 
 	std::vector<NearbyFoodAnts> _nearbyFoodAnts;
+	/* 
+	Key: Location of the sentinel point currently target by an ant.
+	Value: Location of the ant,
+	*/
+	std::map<Location,MapSystem::SentinelPoint*> p_explorationCacheEntries;
 
 	// ------------ FUNCTIONS ------------ //
 public :
@@ -37,4 +42,7 @@ public :
 
 	inline bool LocationMapContainsKey(std::map<Location*, Location*>& locMap, const Location& key);
 
+	void emptyExplorationCache() {
+		p_explorationCacheEntries.clear();
+	};
 };
