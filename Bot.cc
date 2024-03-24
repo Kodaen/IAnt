@@ -65,7 +65,7 @@ void Bot::makeMoves()
 						/*.input(INPUT_CLOSEST_TO_MY_HILL)
 						.action(ACTION_APPROACH_ENEMY)*/
 						//.selectParent()
-					.action(ACTION_CALL_REINFORCEMENT);
+					.action(ACTION_CALL_REINFORCEMENT)
 					.selectParent()
 				.selectParent()
 			.action(ACTION_EXPLORE)	// [EXPLORE]
