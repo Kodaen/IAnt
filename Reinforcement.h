@@ -25,12 +25,14 @@ public:
 	// Direction from which we are attacking
 	Location _directionVec;
 
+	// Positions for attacking the enemies
+	std::vector<Location> _atkPos;
+
 private:
 	// Ant who called for help
 	Location _callingAntPos;
 	
-	// Positions for attacking the enemies
-	std::vector<Location> _atkPos;
+
 
 	// Direction from which we are attacking
 	int _atkDirection;

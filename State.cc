@@ -353,8 +353,10 @@ istream& operator>>(istream &is, State &_state)
                 is >> _row >> _col >> player;
                 _state._grid[_row][_col]._isHill = 1;
                 _state._grid[_row][_col]._hillPlayer = player;
-                if(player == 0)
+                if (player == 0) {
                     _state._myHills.push_back(Location(_row, _col));
+                    MapSystem::getInstance()->registerAnthillsSighting(player, Location(_row, _col));
+                }
                 else {
 
                     _state._enemyHills.push_back(Location(_row, _col));

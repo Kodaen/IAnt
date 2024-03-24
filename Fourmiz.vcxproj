@@ -132,6 +132,7 @@
     <ClCompile Include="ActionCharge.cpp" />
     <ClCompile Include="ActionFlee.cpp" />
     <ClCompile Include="ActionGetClosestFood.cpp" />
+    <ClCompile Include="ActionPositionMyself.cpp" />
     <ClCompile Include="BehaviorTree.cpp" />
     <ClCompile Include="Bot.cc" />
     <ClCompile Include="DecoratorAlwaysTrue.cpp" />
@@ -161,6 +162,7 @@
     <ClInclude Include="ActionCharge.h" />
     <ClInclude Include="ActionFlee.h" />
     <ClInclude Include="ActionGetClosestFood.h" />
+    <ClInclude Include="ActionPositionMyself.h" />
     <ClInclude Include="Astar\Graph.h" />
     <ClInclude Include="Astar\Node.h" />
     <ClInclude Include="BehaviorTree.h" />

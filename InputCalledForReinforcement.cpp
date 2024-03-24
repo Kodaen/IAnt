@@ -13,10 +13,10 @@ EStatus InputCalledForReinforcement::checkCondition()
 	GlobalBlackboard& r_gbb = GlobalBlackboard::singleton();
 	Location* currentAnt = _blackboard->p_ant;
 
-	for (Reinforcement reinforcement : r_gbb._reinforcements) {
-		for (Location helpingAnt : reinforcement._helpingAntPos) {
+	for (Reinforcement& reinforcement : r_gbb._reinforcements) {
+		for (Location& helpingAnt : reinforcement._helpingAntPos) {
 			if (*(currentAnt) == helpingAnt) {
-				_blackboard->_reinforcement = reinforcement;
+				_blackboard->_reinforcement = &reinforcement;
 				return BH_SUCCESS;
 			}
 		}

@@ -36,7 +36,6 @@ void Bot::makeMoves()
 	r_gbb._state._bug << r_gbb._state << endl;
 
 	BehaviorTree* bt = new BehaviorTree();
-
 	for (auto& pair : r_gbb._orders) {
 		delete pair.first;
 		delete pair.second;
@@ -61,13 +60,12 @@ void Bot::makeMoves()
 				.input(INPUT_ENEMY_NEAR)
 				.selector()		// (FIGHT ENEMY)
 					.sequencer()		// [SOLO COMBAT]
-					.input(INPUT_WE_BOTH_DIE)
-					//.input(INPUT_CLOSEST_TO_MY_HILL)
-					.action(ACTION_APPROACH_ENEMY)
-					.selectParent()
-				.action(ACTION_CALL_REINFORCEMENT)
-				.selectParent()
-			.action(ACTION_BLACKBOARD_INFOS);
+						//.input(INPUT_WE_BOTH_DIE)
+						.input(INPUT_FAILURE)
+						/*.input(INPUT_CLOSEST_TO_MY_HILL)
+						.action(ACTION_APPROACH_ENEMY)*/
+						.selectParent()
+					.action(ACTION_CALL_REINFORCEMENT);
 
 	for (Location& ant : r_gbb._state._myAnts)
 	{
@@ -88,19 +86,19 @@ void Bot::makeMoves()
 				.input(INPUT_CALLED_FOR_REINFORCEMENT)
 				.selector()	// (REINFORCEMENT)
 					.sequencer()	// [CHARGE ENEMY]
+					.input(INPUT_REINFORCEMENT_IS_VALID)
+					.input(INPUT_ALL_ANTS_IN_POSITION)
+					.action(ACTION_CHARGE)
+					.selectParent()
+				.sequencer()	// [FLEE COMBAT]
+					.decorator(DECORATOR_NOT)
 						.input(INPUT_REINFORCEMENT_IS_VALID)
-						.input(INPUT_ALL_ANTS_IN_POSITION)
-						.action(ACTION_CHARGE)
 						.selectParent()
-					.sequencer()	// [FLEE COMBAT]
-						.decorator(DECORATOR_NOT)
-							.input(INPUT_REINFORCEMENT_IS_VALID)
-							.selectParent()
-						.decorator(DECORATOR_ALWAYS_TRUE)
-							.action(ACTION_FLEE)
-							.selectParent()
-				//		.selectParent()
-				//	.action(ACTION_POSITION_YOURSELF)
+					.decorator(DECORATOR_ALWAYS_TRUE)
+						.action(ACTION_FLEE)
+						.selectParent()
+					.selectParent()
+				.action(ACTION_POSITION_MYSELF)
 		;
 
 	for (Location& ant : r_gbb._state._myAnts)
@@ -166,25 +164,64 @@ void Bot::makeMoves()
 
 	// Add new hills to set
 	for (Location enemyHill : r_gbb._state._enemyHills) {
-		if (_enemyHills.count(&enemyHill) == 0) {
-			_enemyHills.insert(&enemyHill);
+		if (_enemyHills.count(enemyHill) == 0) {
+			_enemyHills.insert(enemyHill);
 		}
 	}
 
 	// Attack hills
-	std::vector<Route> hillRoutes;
-	for (Location* hillLoc : _enemyHills) {
-		for (Location antLoc : sortedAnts) {
+	//std::vector<Route> hillRoutes;
+	//for (Location* hillLoc : _enemyHills) {
+	//	for (Location antLoc : sortedAnts) {
+	//		if (!LocationMapContainsValue(r_gbb._orders, antLoc)) {
+	//			int manhattanDistance = r_gbb._state.manhattanDistance(antLoc, *hillLoc);
+	//			Route route = Route(antLoc, *hillLoc, manhattanDistance);
+	//			hillRoutes.push_back(route);
+	//		}
+	//	}
+	//}
+	//std::sort(hillRoutes.begin(), hillRoutes.end());
+	//for (Route route : hillRoutes) {
+	//	r_gbb.doMoveLocation(route.getStart(), route.getEnd());
+	//}
+
+	for (int i = _enemyHills.size() - 1; i >= 0; i--)
+	{
+		for (Location& antLoc : sortedAnts) {
 			if (!LocationMapContainsValue(r_gbb._orders, antLoc)) {
-				int manhattanDistance = r_gbb._state.manhattanDistance(antLoc, *hillLoc);
-				Route route = Route(antLoc, *hillLoc, manhattanDistance);
-				hillRoutes.push_back(route);
+				int manhattanDistance = r_gbb._state.manhattanDistance(antLoc, *next(_enemyHills.begin(), i));
+				if (manhattanDistance < 70)
+				{
+					Location _nextLocation = MapSystem::getInstance()->moveToward(antLoc, *next(_enemyHills.begin(), i));
+					r_gbb.singleton().doMoveLocation(antLoc, _nextLocation);
+					if (_nextLocation == *next(_enemyHills.begin(), i))
+					{
+						_enemyHills.erase(*next(_enemyHills.begin(), i));
+						break;
+					}
+
+				}
 			}
 		}
 	}
-	std::sort(hillRoutes.begin(), hillRoutes.end());
-	for (Route route : hillRoutes) {
-		doMoveLocation(route.getStart(), route.getEnd());
+
+	for (Location hillLoc : _enemyHills) {
+		for (Location& antLoc : sortedAnts) {
+			if (!LocationMapContainsValue(r_gbb._orders, antLoc)) {
+				int manhattanDistance = r_gbb._state.manhattanDistance(antLoc, hillLoc);
+				if (manhattanDistance < 70)
+				{
+					Location _nextLocation = MapSystem::getInstance()->moveToward(antLoc, hillLoc);
+					r_gbb.singleton().doMoveLocation(antLoc, _nextLocation);
+					if (_nextLocation == hillLoc)
+					{
+						_enemyHills.erase(hillLoc);
+						break;
+					}
+					
+				}
+			}
+		}
 	}
 
 	// Explore unseen areas
@@ -260,13 +297,13 @@ bool Bot::doMoveLocation(const Location& antLoc, const Location& destLoc) {
 // TODO : Doesn't work properly when the closest ant cannot go directly to food due to obstacle
 void Bot::associateFoodToNearbyAnts() {
 	for (Location& food : r_gbb._state._food) {
-		 //r_gbb._state._bug << "	Food (" << food._row << ", " << food._col << ")" << endl;
-		//r_gbb._state._bug << "Nearby ants :" << endl;
+		//r_gbb._state._bug << "	Food (" << food._row << ", " << food._col << ")" << endl;
+	   //r_gbb._state._bug << "Nearby ants :" << endl;
 
 		std::vector<Location> closestAnts = MapSystem::getInstance()->getCloseEnoughAnts(r_gbb._state._myAnts, food, 15, 1);
 		if (closestAnts.size() == 0) continue;
 
-		NearbyFoodAnts NFA = {food, closestAnts[0]};
+		NearbyFoodAnts NFA = { food, closestAnts[0] };
 
 		r_gbb._nearbyFoodAnts.push_back(NFA);
 

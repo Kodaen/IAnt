@@ -25,6 +25,13 @@ bool GlobalBlackboard::doMoveDirection(const Location& antLoc, int direction)
 	}
 }
 
+void GlobalBlackboard::standStill(const Location& antLoc)
+{
+	Location* newAntLoc = new Location(antLoc._row, antLoc._col);
+	Location* newLoc = new Location(antLoc._row, antLoc._col);
+	_orders.insert({ newLoc, newAntLoc });
+}
+
 bool GlobalBlackboard::doMoveLocation(const Location& antLoc, const Location& destLoc)
 {
 	// TODO : Don't move if Location is not reachable for some reason (shouldn't happen but just in case)
@@ -51,7 +58,7 @@ bool GlobalBlackboard::pushReinforcement(const Reinforcement& newReinforcement)
 		}
 	}
 	// TODO : remove debug log
-	// _state._bug << "New call for reinforcement here : " << newReinforcement._enemyPos << std::endl;
+	//_state._bug << "New call for reinforcement here : " << newReinforcement._enemyPos << std::endl;
 	_reinforcements.push_back(newReinforcement);
 	return true;
 }

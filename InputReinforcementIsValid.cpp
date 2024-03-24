@@ -10,7 +10,7 @@ InputReinforcementIsValid::~InputReinforcementIsValid()
 
 EStatus InputReinforcementIsValid::checkCondition()
 {
-	if (_blackboard->_reinforcement.isValid()) {
+	if (_blackboard->_reinforcement->isValid()) {
 		//GlobalBlackboard::singleton()._state._bug << "This Reinforcement is valid : " << _blackboard->_reinforcement._enemyPos << std::endl;
 		//GlobalBlackboard::singleton()._state._bug << "current Ant : " << *_blackboard->p_ant << std::endl;
 		return BH_SUCCESS;

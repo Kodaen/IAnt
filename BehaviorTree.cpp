@@ -25,6 +25,7 @@
 #include "ActionCallReinforcement.h"
 #include "ActionCharge.h"
 #include "ActionFlee.h"
+#include "ActionPositionMyself.h"
 
 
 BehaviorTree::BehaviorTree()
@@ -164,6 +165,10 @@ BehaviorTree& BehaviorTree::action(const ENodeType& actionType)
 
 	case ACTION_FLEE:
 		act = new ActionFlee(_localBlackboard);
+		break;
+
+	case ACTION_POSITION_MYSELF:
+		act = new ActionPositionMyself(_localBlackboard);
 		break;
 
 	default:

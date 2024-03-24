@@ -24,7 +24,7 @@ public:
 
 	Location _nextLocation;
 
-	Reinforcement _reinforcement;
+	Reinforcement* _reinforcement;
 
 	// ------------ FUNCTIONS ------------ //
 };

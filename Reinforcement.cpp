@@ -1,6 +1,9 @@
+#define NOMINMAX
 #include "Reinforcement.h"
 #include "GlobalBlackboard.h"
 #include "MapSystem.h"
+
+#include <algorithm>
 
 Reinforcement::Reinforcement(Location callingAntPos, Location enemyPos, int helpRadius)
 	: _callingAntPos(callingAntPos), _enemyPos(enemyPos), _helpRadius(helpRadius), _isValid(true), _antPositionAlreadyChecked(false), _allAntsInPosition(false)
@@ -29,6 +32,8 @@ bool Reinforcement::tryAskingHelp()
 	// Get all ally ants nearby
 	std::vector<Location> closeAllyAnts = MapSystem::getInstance()->getCloseEnoughAnts(r_gbb._state._myAnts, _callingAntPos, _helpRadius, _otherEnemiesPos.size() + 10);
 
+	bool res = true;
+
 	// Remove ants which already acted 
 	for (int i = closeAllyAnts.size() - 1; i >= 0; i--)
 	{
@@ -41,22 +46,22 @@ bool Reinforcement::tryAskingHelp()
 	// Check if we got enough allies to help for the fight
 	if (closeAllyAnts.size() < _otherEnemiesPos.size()) {
 		// TODO : remove debug log
-		//r_gbb._state._bug << "Not enough allies nearby to join the fight : " << _enemyPos << std::endl;
+		r_gbb._state._bug << "Not enough allies nearby to join the fight : " << _enemyPos << std::endl;
 		cancel();
-		return false;
+		res = false;
 	}
 
 	// Put the right number of ally ants in the vector.
-	_helpingAntPos = { closeAllyAnts.begin(), closeAllyAnts.begin() + _otherEnemiesPos.size() };
+	_helpingAntPos = { closeAllyAnts.begin(), closeAllyAnts.begin() + std::min(closeAllyAnts.size(), _otherEnemiesPos.size()) };
 	_helpingAntPos.push_back(_callingAntPos);
 
 	for each (Location helpingAnt in _helpingAntPos)
 	{
+		
 		// TODO : remove debug log
 		// r_gbb._state._bug << helpingAnt << " can help for this fight : " << _enemyPos << " where there is : " << _otherEnemiesPos.size() << std::endl;
 	}
-
-	return true;
+	return res;
 }
 
 bool Reinforcement::trySetupAtkPos()
@@ -198,11 +203,11 @@ bool Reinforcement::trySetupAtkPos()
 
 		for (int i = 0; i < _otherEnemiesPos.size() + 1 - y; i++)
 		{
-			Location tmpAtkPos = Location((closestAntInDirection._row + (1 * (r_gbb._state._attackRadius + 2) * -_directionVec._row)), mostExtremityAnt._col + i * _directionVec._row);
+			Location tmpAtkPos = Location((closestAntInDirection._row + (1 * (r_gbb._state._attackRadius + 1) * -_directionVec._row)), mostExtremityAnt._col + i * _directionVec._row);
 			if (r_gbb._state._grid[(tmpAtkPos._row + r_gbb._state._rows) % r_gbb._state._rows][(tmpAtkPos._col + r_gbb._state._cols) % r_gbb._state._cols]._isWater)
 			{
 				y++;
-				tmpAtkPos = Location((closestAntInDirection._row + (1 * (r_gbb._state._attackRadius + 2) * -_directionVec._row)), mostExtremityAnt._col - y * _directionVec._row);
+				tmpAtkPos = Location((closestAntInDirection._row + (1 * (r_gbb._state._attackRadius + 1) * -_directionVec._row)), mostExtremityAnt._col - y * _directionVec._row);
 				i--;
 				if (r_gbb._state._grid[(tmpAtkPos._row + r_gbb._state._rows) % r_gbb._state._rows][(tmpAtkPos._col + r_gbb._state._cols) % r_gbb._state._cols]._isWater) {
 					cancel();
@@ -223,11 +228,11 @@ bool Reinforcement::trySetupAtkPos()
 		int y = 0;
 		for (int i = 0; i < _otherEnemiesPos.size() + 1 - y; i++)
 		{
-			Location tmpAtkPos = Location(mostExtremityAnt._row + i * _directionVec._col, (closestAntInDirection._col + (1 * (r_gbb._state._attackRadius + 2) * -_directionVec._col)));
+			Location tmpAtkPos = Location(mostExtremityAnt._row + i * _directionVec._col, (closestAntInDirection._col + (1 * (r_gbb._state._attackRadius + 1) * -_directionVec._col)));
 			if (r_gbb._state._grid[(tmpAtkPos._row + r_gbb._state._rows) % r_gbb._state._rows][(tmpAtkPos._col + r_gbb._state._cols) % r_gbb._state._cols]._isWater)
 			{
 				y++;
-				tmpAtkPos = Location(mostExtremityAnt._row - y * _directionVec._col, (closestAntInDirection._col + (1 * (r_gbb._state._attackRadius + 2) * -_directionVec._col)));
+				tmpAtkPos = Location(mostExtremityAnt._row - y * _directionVec._col, (closestAntInDirection._col + (1 * (r_gbb._state._attackRadius + 1) * -_directionVec._col)));
 				i--;
 				if (r_gbb._state._grid[(tmpAtkPos._row + r_gbb._state._rows) % r_gbb._state._rows][(tmpAtkPos._col + r_gbb._state._cols) % r_gbb._state._cols]._isWater) {
 					cancel();

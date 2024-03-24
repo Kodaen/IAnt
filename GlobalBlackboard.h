@@ -36,6 +36,7 @@ public :
 public :
 	// move to tile if tile is walkable and another ant doesn't already want to walk here
 	bool doMoveDirection(const Location& antLoc, int direction);
+	void standStill(const Location& antLoc);
 	bool doMoveLocation(const Location& antLoc, const Location& destLoc);
 
 	bool pushReinforcement(const Reinforcement& newReinforcement);
