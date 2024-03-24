@@ -59,16 +59,22 @@ void Bot::makeMoves()
 			.sequencer()	// [SOLO ATTACK]
 				.input(INPUT_ENEMY_NEAR)
 				.selector()		// (FIGHT ENEMY)
-					.sequencer()		// [SOLO COMBAT]
+					//.sequencer()		// [SOLO COMBAT]
 						//.input(INPUT_WE_BOTH_DIE)
-						.input(INPUT_FAILURE)
+						//.input(INPUT_FAILURE)
 						/*.input(INPUT_CLOSEST_TO_MY_HILL)
 						.action(ACTION_APPROACH_ENEMY)*/
-						.selectParent()
+						//.selectParent()
 					.action(ACTION_CALL_REINFORCEMENT);
+					.selectParent()
+				.selectParent()
+			.action(ACTION_EXPLORE)	// [EXPLORE]
+			.action(ACTION_BLACKBOARD_INFOS)
+				;
 
 	for (Location& ant : r_gbb._state._myAnts)
 	{
+		MapSystem::getInstance()->updateSentinelsPoint(ant,r_gbb._state._turn);
 		bt->execute(ant);
 	}
 
@@ -109,7 +115,6 @@ void Bot::makeMoves()
 		}
 	}
 
-
 	// add all locations to unseen tiles set, run once
 	if (_unseenTiles.empty()) {
 		for (int _row = 0; _row < r_gbb._state._rows; _row++) {
@@ -136,31 +141,10 @@ void Bot::makeMoves()
 		r_gbb._orders.insert({ mHill,new Location(-1,-1) });
 	}
 
-	// Go to close food
 	std::map<Location, Location> foodTargets = std::map<Location, Location>();
 	std::vector<Route> foodRoutes;
 	std::vector<Location> sortedFood = r_gbb._state._food;
 	std::vector<Location> sortedAnts = r_gbb._state._myAnts;
-
-	//// Calculate all routes from ants to food
-	//for (Location foodLoc : sortedFood) {
-	//	for (Location antLoc : sortedAnts) {
-	//		int manhattanDistance = r_gbb._state.manhattanDistance(antLoc, foodLoc);
-	//		Route route(antLoc, foodLoc, manhattanDistance);
-	//		foodRoutes.push_back(route);
-	//	}
-	//}
-
-	//// Sort routes from ants to food from the shortest to the longest
-	//std::sort(foodRoutes.begin(), foodRoutes.end());
-	//// We send the closest ants first, some ants my not move because there is no food left
-	//for (Route& route : foodRoutes) {
-	//	if (foodTargets.count(route.getEnd()) == 0
-	//		&& !LocationMapContainsValue(foodTargets, route.getStart())
-	//		&& doMoveLocation(route.getStart(), route.getEnd())) {
-	//		foodTargets[route.getEnd()] = route.getStart();
-	//	}
-	//}
 
 	// Add new hills to set
 	for (Location enemyHill : r_gbb._state._enemyHills) {
@@ -170,21 +154,6 @@ void Bot::makeMoves()
 	}
 
 	// Attack hills
-	//std::vector<Route> hillRoutes;
-	//for (Location* hillLoc : _enemyHills) {
-	//	for (Location antLoc : sortedAnts) {
-	//		if (!LocationMapContainsValue(r_gbb._orders, antLoc)) {
-	//			int manhattanDistance = r_gbb._state.manhattanDistance(antLoc, *hillLoc);
-	//			Route route = Route(antLoc, *hillLoc, manhattanDistance);
-	//			hillRoutes.push_back(route);
-	//		}
-	//	}
-	//}
-	//std::sort(hillRoutes.begin(), hillRoutes.end());
-	//for (Route route : hillRoutes) {
-	//	r_gbb.doMoveLocation(route.getStart(), route.getEnd());
-	//}
-
 	for (int i = _enemyHills.size() - 1; i >= 0; i--)
 	{
 		for (Location& antLoc : sortedAnts) {

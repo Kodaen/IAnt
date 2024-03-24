@@ -69,6 +69,10 @@
     <ClCompile Include="ActionPositionMyself.cpp">
       <Filter>Behavior Tree\Action\Group Attack</Filter>
     </ClCompile>
+    <ClCompile Include="InputClosestToMyHill.cpp" />
+    <ClCompile Include="ActionExplore.cpp">
+      <Filter>Behavior Tree\Action\Explore</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Astar\Graph.h">
@@ -197,6 +201,10 @@
     <ClInclude Include="ActionPositionMyself.h">
       <Filter>Behavior Tree\Action\Group Attack</Filter>
     </ClInclude>
+    <ClInclude Include="InputClosestToMyHill.h" />
+    <ClInclude Include="ActionExplore.h">
+      <Filter>Behavior Tree\Action\Explore</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Astar">
@@ -243,6 +251,9 @@
     </Filter>
     <Filter Include="Behavior Tree\Action\Group Attack">
       <UniqueIdentifier>{a9593966-f862-4390-a938-fb3063e52dfc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Behavior Tree\Action\Explore">
+      <UniqueIdentifier>{55713e38-b54c-4a18-8fff-ba85b90b5c3b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

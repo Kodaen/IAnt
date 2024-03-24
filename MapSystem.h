@@ -17,9 +17,25 @@ using namespace std;
 class MapSystem
 {
 private:
+	struct SentinelPoint
+	{
+		Location _location;
+		int _lastVisit;
+		SentinelPoint(Location loc, int lastVisit) : _location(loc), _lastVisit(lastVisit) {};
+		SentinelPoint(Location loc) : _location(loc), _lastVisit(0) {};
+	};
+
 	Astar::Graph<Location> _mapGraph;
 	//Equivalent of a 2D array filled with false,  each cell's status will be accessible by typing isCellWalkable[row][col]
 	std::vector<std::vector<bool>> _isCellWalkable;
+	std::vector<std::vector<Location>> _cellNodes;
+	//The sentinels point are points that "grid" the map, points where explorer should go and from there, see around
+	std::vector<SentinelPoint*> _sentinelsPoints;
+	std::vector<Location> _sentinelPointsLocations;
+
+	//Each cell on the map is linked to it's closest sentinel point,
+	//walking on one of those cells will increase the lastVisit of the sentinel point
+	std::vector<std::vector<SentinelPoint*>> _tiedSentinelPoint;
 
 	//The location of the anthill that we do not know the team of yet
 	std::vector<Location> _unknowAnthills; 
@@ -29,6 +45,7 @@ private:
 	int _colSize = 0;
 	int _rowSize = 0;
 	Bug _bug;
+	
 
 	void loadMapFromFile(std::ifstream mapFile);
 
@@ -40,6 +57,8 @@ private:
 	~MapSystem()
 	{
 		_bug.close();
+		for(auto sentinel : _sentinelsPoints)
+			delete sentinel;
 	}
 
 	static MapSystem *_instance;
@@ -61,49 +80,51 @@ public:
 
 	static MapSystem* getInstance();
 
+#pragma region  Distance
 	//Return the shortest manhattan distance taking into account the map wrapping
 	float getManhattanDistance(Location from, Location to) {
 		int d1 = abs(from._row - to._row),
 			d2 = abs(from._col - to._col),
 			dr = min(d1, _rowSize - d1),
 			dc = min(d2, _colSize - d2);
+
 		return dr + dc;
 	}
 
-	//Returns the ant closest to a given point, if there are multiple ants at the same distance, the first one found will be returned in priority
+	//Return the shortest euclidian distance taking into account the map wrapping
+	float squaredEuclidianDistance(Location from, Location to) {
+		int d1 = abs(from._row - to._row),
+			d2 = abs(from._col - to._col),
+			dr = min(d1, _rowSize - d1),
+			dc = min(d2, _colSize - d2);
+
+		return dr * dr + dc * dc;
+	}
+#pragma endregion
+	
 	std::vector<Location> getCloseEnoughAnts(const std::vector<Location>& ants, Location point, int maxDistance, int maxAntsNumber);
 
+	//Will trace circles bigger and bigger around the origin to find the closest ground and return it
+	//The getDistanceBetween function of the graph couldn't be used because here, we're not looking in terms of graph in cost, but in terms of pure geographical distance
+	Location getClosestGround(Location origin, int maxDistance, int forcedXDirection=0, int forcedYDirection=0);
+
+	void computeSentinelsPoints(const int &viewDistance);
+
 	//Each time our ants see an anthill, we register it in the map system to identify all the anthills as fast as possible
-	void registerAnthillsSighting(int team, Location antHill)
-	{
-		//If we have no unknow anthills left, we can ignore this sighting
-		if (_unknowAnthills.empty()) return;
-		_knowAnthills[team] = antHill;
-		_unknowAnthills.erase(std::remove(_unknowAnthills.begin(), _unknowAnthills.end(), antHill), _unknowAnthills.end());
-		//If we have only one anthill left, we can register it as the anthill of the team
-		if (_unknowAnthills.size() == 1)
-		{
-			_knowAnthills[team] = _unknowAnthills[0];
-			_unknowAnthills.clear();
-			return;
-		}
-	}
+	void registerAnthillsSighting(int team, Location antHill);
 
 	//Return the most probable anthill for a given ant and team
-	Location getMostProbableAnthill(Location ant, int team)
-	{
-		//If we have found the anthill of the ant's team, we return it
-		if (_knowAnthills.find(team) != _knowAnthills.end()) return _knowAnthills[team];
-		//If we have not found the anthill of the ant's team, we return the closest anthill
-		auto closestAnthills = _mapGraph.findDataOfNodesBetween(ant, 0, INT_MAX, true, _unknowAnthills, true, 1);
-		if (closestAnthills.empty()) 
-		{
-			_bug << "FATAL ERROR: big error in \"getMostProbableAnthill\", the anthill wasn't known, we've checked the closest ant hill on the entire map size, and we found nothing, very weird";
-			return ant;
-		}
-	}
+	Location getMostProbableAnthill(Location ant, int team);
+
+	//Must be called for each ant on each turn
+	void updateSentinelsPoint(Location ant, int turn);
+	Location getOldestVisitedSentinelPoint();
 #if DEBUG
 	void printMap();
+	void printSentinelsMap();
+	//Show what an ant would see, not very accurate, nor optimized
+	std::vector<Location> getViewCircles(const Location& origin,const int& maxDistance);
+	void printSentinelsViewMap();
 #endif
 };
 
