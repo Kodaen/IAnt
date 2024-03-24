@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "Location.h"
+#include "Reinforcement.h"
 #include "NearbyFoodAnts.h"
 
 class LocalBlackboard
@@ -22,6 +23,8 @@ public:
 	Location _targetEnemy;
 
 	Location _nextLocation;
+
+	Reinforcement* _reinforcement;
 
 	// ------------ FUNCTIONS ------------ //
 };

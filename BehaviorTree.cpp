@@ -9,6 +9,9 @@
 #include "InputEnemyNear.h"
 #include "InputWeBothDie.h"
 #include "InputClosestToMyHill.h"
+#include "InputCalledForReinforcement.h"
+#include "InputReinforcementIsValid.h"
+#include "InputAllAntsInPosition.h"
 #include "Sequencer.h"
 #include "Selector.h"
 #include "Decorator.h"
@@ -19,6 +22,10 @@
 #include "ActionCalcTrajForFood.h"
 #include "ActionGetClosestFood.h"
 #include "ActionApproachEnemy.h"
+#include "ActionCallReinforcement.h"
+#include "ActionCharge.h"
+#include "ActionFlee.h"
+#include "ActionPositionMyself.h"
 #include "ActionExplore.h"
 
 BehaviorTree::BehaviorTree()
@@ -31,7 +38,8 @@ void BehaviorTree::execute(Location& ant)
 {
 	_localBlackboard.p_ant = &ant;
 
-	_root->update();
+	if (_root != NULL)
+		_root->update();
 
 	// we reset _localBlackboard for next ant.
 	_localBlackboard = LocalBlackboard();
@@ -146,9 +154,27 @@ BehaviorTree& BehaviorTree::action(const ENodeType& actionType)
 	case ACTION_APPROACH_ENEMY:
 		act = new ActionApproachEnemy(_localBlackboard);
 		break;
+
+	case ACTION_CALL_REINFORCEMENT:
+		act = new ActionCallReinforcement(_localBlackboard);
+		break;
+
+	case ACTION_CHARGE:
+		act = new ActionCharge(_localBlackboard);
+		break;
+
+	case ACTION_FLEE:
+		act = new ActionFlee(_localBlackboard);
+		break;
+
+	case ACTION_POSITION_MYSELF:
+		act = new ActionPositionMyself(_localBlackboard);
+		break;
+
 	case ACTION_EXPLORE:
 		act = new ActionExplore(_localBlackboard);
 		break;
+
 	default:
 		act = new Action(_localBlackboard);
 		break;
@@ -195,6 +221,18 @@ BehaviorTree& BehaviorTree::input(const ENodeType& inputType)
 
 	case INPUT_CLOSEST_TO_MY_HILL:
 		inp = new InputClosestToMyHill(_localBlackboard);
+		break;
+
+	case INPUT_CALLED_FOR_REINFORCEMENT:
+		inp = new InputCalledForReinforcement(_localBlackboard);
+		break;
+
+	case INPUT_REINFORCEMENT_IS_VALID:
+		inp = new InputReinforcementIsValid(_localBlackboard);
+		break;
+
+	case INPUT_ALL_ANTS_IN_POSITION:
+		inp = new InputAllAntsInPosition(_localBlackboard);
 		break;
 
 	default:

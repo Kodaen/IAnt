@@ -44,6 +44,31 @@
     <ClCompile Include="ActionApproachEnemy.cpp">
       <Filter>Behavior Tree\Action\Solo Attack</Filter>
     </ClCompile>
+    <ClCompile Include="Reinforcement.cpp" />
+    <ClCompile Include="InputClosestToMyHill.cpp">
+      <Filter>Behavior Tree\Input\Solo Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionCallReinforcement.cpp">
+      <Filter>Behavior Tree\Action\Solo Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="InputCalledForReinforcement.cpp">
+      <Filter>Behavior Tree\Input\Group Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="InputReinforcementIsValid.cpp">
+      <Filter>Behavior Tree\Input\Group Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="InputAllAntsInPosition.cpp">
+      <Filter>Behavior Tree\Input\Group Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionCharge.cpp">
+      <Filter>Behavior Tree\Action\Group Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionFlee.cpp">
+      <Filter>Behavior Tree\Action\Group Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionPositionMyself.cpp">
+      <Filter>Behavior Tree\Action\Group Attack</Filter>
+    </ClCompile>
     <ClCompile Include="InputClosestToMyHill.cpp" />
     <ClCompile Include="ActionExplore.cpp">
       <Filter>Behavior Tree\Action\Explore</Filter>
@@ -149,6 +174,33 @@
     <ClInclude Include="ActionApproachEnemy.h">
       <Filter>Behavior Tree\Action\Solo Attack</Filter>
     </ClInclude>
+    <ClInclude Include="InputClosestToMyHill.h">
+      <Filter>Behavior Tree\Input\Solo Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionCallReinforcement.h">
+      <Filter>Behavior Tree\Action\Solo Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="Reinforcement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InputCalledForReinforcement.h">
+      <Filter>Behavior Tree\Input\Group Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="InputReinforcementIsValid.h">
+      <Filter>Behavior Tree\Input\Group Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="InputAllAntsInPosition.h">
+      <Filter>Behavior Tree\Input\Group Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionCharge.h">
+      <Filter>Behavior Tree\Action\Group Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionFlee.h">
+      <Filter>Behavior Tree\Action\Group Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionPositionMyself.h">
+      <Filter>Behavior Tree\Action\Group Attack</Filter>
+    </ClInclude>
     <ClInclude Include="InputClosestToMyHill.h" />
     <ClInclude Include="ActionExplore.h">
       <Filter>Behavior Tree\Action\Explore</Filter>
@@ -193,6 +245,12 @@
     </Filter>
     <Filter Include="Behavior Tree\Action\Solo Attack">
       <UniqueIdentifier>{ab717b40-851f-4fef-a5a9-00dfd85071a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Behavior Tree\Input\Group Attack">
+      <UniqueIdentifier>{be78b76b-1384-4559-b825-7fa6951b6035}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Behavior Tree\Action\Group Attack">
+      <UniqueIdentifier>{a9593966-f862-4390-a938-fb3063e52dfc}</UniqueIdentifier>
     </Filter>
     <Filter Include="Behavior Tree\Action\Explore">
       <UniqueIdentifier>{55713e38-b54c-4a18-8fff-ba85b90b5c3b}</UniqueIdentifier>
