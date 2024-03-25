@@ -4,6 +4,7 @@
 
 #include "State.h"
 #include "NearbyFoodAnts.h"
+#include "MapSystem.h"
 
 class GlobalBlackboard
 {
@@ -32,7 +33,7 @@ public :
 	Key: Location of the sentinel point currently target by an ant.
 	Value: Location of the ant,
 	*/
-	std::map<Location,MapSystem::SentinelPoint*> p_explorationCacheEntries;
+	std::map<MapSystem::SentinelPoint,Location> _explorationCacheEntries;
 
 	// ------------ FUNCTIONS ------------ //
 public :
@@ -43,6 +44,10 @@ public :
 	inline bool LocationMapContainsKey(std::map<Location*, Location*>& locMap, const Location& key);
 
 	void emptyExplorationCache() {
-		p_explorationCacheEntries.clear();
+		_explorationCacheEntries.clear();
+	};
+
+	bool isSentinelPointInExplorationCache(const MapSystem::SentinelPoint& sp) {
+		return _explorationCacheEntries.count(sp);
 	};
 };

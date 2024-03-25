@@ -19,7 +19,8 @@
 #include "ActionCalcTrajForFood.h"
 #include "ActionGetClosestFood.h"
 #include "ActionApproachEnemy.h"
-#include "ActionExplore.h"
+#include "ActionChooseSentinelPoint.h"
+#include "ActionApproachSentinelPoint.h"
 
 BehaviorTree::BehaviorTree()
 {
@@ -146,8 +147,11 @@ BehaviorTree& BehaviorTree::action(const ENodeType& actionType)
 	case ACTION_APPROACH_ENEMY:
 		act = new ActionApproachEnemy(_localBlackboard);
 		break;
-	case ACTION_EXPLORE:
-		act = new ActionExplore(_localBlackboard);
+	case ACTION_CHOOSE_SENTINEL_POINT:
+		act = new ActionChooseSentinelPoint(_localBlackboard);
+		break;
+	case ACTION_APPROACH_SENTINEL_POINT:
+		act = new ActionApproachSentinelPoint(_localBlackboard);
 		break;
 	default:
 		act = new Action(_localBlackboard);

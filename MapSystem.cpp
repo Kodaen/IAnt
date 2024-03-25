@@ -388,19 +388,17 @@ void MapSystem::updateSentinelsPoint(Location ant, int turn)
      p_tiedSentinelPoints[ant._row][ant._col]->_lastVisit = turn;
 }
 
-MapSystem::SentinelPoint MapSystem::getOldestVisitedSentinelPoint()
+std::vector<MapSystem::SentinelPoint> MapSystem::getOldestToNewestVisitedSentinelPoint()
 {
-    int oldestVisitTurn = INT_MAX;
-    SentinelPoint oldestVisitedSentinelPoint;
+    std::vector<SentinelPoint> returnVector;
+    sort(p_sentinelsPoints.begin(), p_sentinelsPoints.end(), [](SentinelPoint* a, SentinelPoint* b) {return a->_lastVisit < b->_lastVisit; });
 
     for each (auto sentinelPoint in p_sentinelsPoints)
     {
-        if (sentinelPoint->_lastVisit >= oldestVisitTurn) continue;
-        oldestVisitTurn = sentinelPoint->_lastVisit;
-        oldestVisitedSentinelPoint = *sentinelPoint;
+        returnVector.push_back(*sentinelPoint);
     }
 
-    return oldestVisitedSentinelPoint;
+    return returnVector;
 }
 
 #if DEBUG

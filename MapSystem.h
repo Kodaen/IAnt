@@ -24,6 +24,16 @@ public:
 		SentinelPoint(Location loc, int lastVisit) : _location(loc), _lastVisit(lastVisit) {};
 		SentinelPoint(Location loc) : _location(loc), _lastVisit(0) {};
 		SentinelPoint() : _location(NULL_LOCATION), _lastVisit(0) {};	
+		bool isNull() { return _location == NULL_LOCATION; }
+
+		//While it could be tempting to compare the lastVisit to provide easier sorting of sentinel points, it would be a mistake
+		//Because the < operator is used by maps to identify keys, so we need to use values that wouldn't be shared by two sentinels points
+		//Using the last visit would mean that at start, the map basically consider that every sentinel point is the same key
+		//Is we ever need to sort sentinel points, we'll simply supply the sorting function a function that will compare the lastVisit
+		bool operator<(const SentinelPoint& other) const
+		{
+			return _location < other._location;
+		}
 	};
 private:
 
@@ -122,7 +132,7 @@ public:
 
 	//Must be called for each ant on each turn
 	void updateSentinelsPoint(Location ant, int turn);
-	SentinelPoint getOldestVisitedSentinelPoint();
+	std::vector<SentinelPoint> getOldestToNewestVisitedSentinelPoint();
 #if DEBUG
 	void printMap();
 	void printSentinelsMap();

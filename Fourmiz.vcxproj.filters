@@ -45,7 +45,10 @@
       <Filter>Behavior Tree\Action\Solo Attack</Filter>
     </ClCompile>
     <ClCompile Include="InputClosestToMyHill.cpp" />
-    <ClCompile Include="ActionExplore.cpp">
+    <ClCompile Include="ActionApproachSentinelPoint.cpp">
+      <Filter>Behavior Tree\Action\Explore</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionChooseSentinelPoint.cpp">
       <Filter>Behavior Tree\Action\Explore</Filter>
     </ClCompile>
   </ItemGroup>
@@ -150,7 +153,10 @@
       <Filter>Behavior Tree\Action\Solo Attack</Filter>
     </ClInclude>
     <ClInclude Include="InputClosestToMyHill.h" />
-    <ClInclude Include="ActionExplore.h">
+    <ClInclude Include="ActionApproachSentinelPoint.h">
+      <Filter>Behavior Tree\Action\Explore</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionChooseSentinelPoint.h">
       <Filter>Behavior Tree\Action\Explore</Filter>
     </ClInclude>
   </ItemGroup>

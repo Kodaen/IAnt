@@ -4,6 +4,7 @@
 
 #include "Location.h"
 #include "NearbyFoodAnts.h"
+#include "MapSystem.h"
 
 class LocalBlackboard
 {
@@ -20,7 +21,7 @@ public:
 	std::vector<NearbyFoodAnts> _nearbyFood;
 	Location _targetFood;
 	Location _targetEnemy;
-	Location _targetSentinelPoint;
+	MapSystem::SentinelPoint _targetSentinelPoint;
 	int _targetSentinelLastVisitedCache;
 
 	Location _nextLocation;

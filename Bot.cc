@@ -67,7 +67,10 @@ void Bot::makeMoves()
 				//.action(ACTION_CALL_BACKUP)
 					.selectParent()
 				.selectParent()
-			.action(ACTION_EXPLORE)	// [EXPLORE]
+			.sequencer()	// [EXPLORE]
+				.action(ACTION_CHOOSE_SENTINEL_POINT)
+				.action(ACTION_APPROACH_SENTINEL_POINT)
+				.selectParent()
 			.action(ACTION_BLACKBOARD_INFOS)
 				;
 
