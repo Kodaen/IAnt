@@ -37,6 +37,22 @@ bool GlobalBlackboard::doMoveLocation(const Location& antLoc, const Location& de
 	return false;
 }
 
+bool GlobalBlackboard::canMoveLocation(const Location& antLoc, const Location& destLoc)
+{
+	// Is there an ant here?
+	if (_state._grid[destLoc._row][destLoc._col]._isMyAnt)
+		return false;
+
+	// Is Location walkable and no ant wants to move at Location?
+	if (!_state._grid[destLoc._row][destLoc._col]._isWater && !LocationMapContainsKey(_orders, destLoc))
+	{
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
 bool GlobalBlackboard::LocationMapContainsKey(std::map<Location*, Location*>& locMap, const Location& key) {
 	for (std::map<Location*, Location*>::iterator it = locMap.begin(); it != locMap.end(); ++it) {
 		if ((*it->first) == key)

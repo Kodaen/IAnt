@@ -1,6 +1,8 @@
+#pragma once
 #include "MapSystem.h"
 #include <bitset>
 #include "State.h"
+#include "GlobalBlackboard.h"
 
 #define MAP_FILE "map.map"
 #define MAP_LINE_INDICATOR 'm'
@@ -173,6 +175,8 @@ void MapSystem::loadMapFromFile(ifstream mapFile)
 Astar::PathData<Location>  MapSystem::findPath(Location from, Location to)
 {
     auto heuristic = [this](Location a, Location b) -> float {
+        if(GlobalBlackboard::singleton().canMoveLocation(a,b))
+			return 9999999; //Random big number
         return this->getManhattanDistance(a, b);
     };
 

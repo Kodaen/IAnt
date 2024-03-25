@@ -40,6 +40,7 @@ public :
 	// move to tile if tile is walkable and another ant doesn't already want to walk here
 	bool doMoveDirection(const Location& antLoc, int direction);
 	bool doMoveLocation(const Location& antLoc, const Location& destLoc);
+	bool canMoveLocation(const Location& antLoc, const Location& destLoc);
 
 	inline bool LocationMapContainsKey(std::map<Location*, Location*>& locMap, const Location& key);
 
