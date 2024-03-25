@@ -180,7 +180,7 @@ void Bot::makeMoves()
 		if (LocationMapContainsValue(r_gbb._orders, antLoc)) continue;
 
 		//First choice: Get the closest unknown anthill and explore it
-		auto targetLocation = MapSystem::getInstance()->getClosestUnknownAnthill(antLoc,16);
+		auto targetLocation = MapSystem::getInstance()->moveTowardClosestUnknownAnthill(antLoc);
 
 		//Second choice: Get to the closest unknown sentinel point
 		if (targetLocation == NULL_LOCATION)

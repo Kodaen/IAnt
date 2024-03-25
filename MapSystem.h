@@ -118,7 +118,8 @@ public:
 
 	//Must be called for each ant on each turn
 	void updateSentinelsPoint(Location ant, int turn);
-	Location getClosestUnknownAnthill(Location ant, int maxDistance=16);
+	Location moveTowardClosestUnknownAnthill(Location ant);
+
 	std::vector<SentinelPoint*> getSentinelPoints()
 	{
 		return _sentinelsPoints;

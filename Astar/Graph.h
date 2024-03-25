@@ -33,6 +33,7 @@ namespace Astar {
 				_cost = INVALID_PATH_COST;
 			}
 		}
+		PathData() :_isValid(false), _cost(INVALID_PATH_COST) {}
 	};
 
 

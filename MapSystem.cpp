@@ -389,12 +389,20 @@ void MapSystem::updateSentinelsPoint(Location ant, int turn)
      _tiedSentinelPoint[ant._row][ant._col]->_lastVisit = turn;
 }
 
-Location MapSystem::getClosestUnknownAnthill(Location ant, int maxDistance) 
+Location MapSystem::moveTowardClosestUnknownAnthill(Location ant) 
 {
     if(_unknowAnthills.empty()) return NULL_LOCATION;
-    auto closestAnthills = _mapGraph.findDataOfNodesBetween(ant, 0, 20, true, _unknowAnthills, true, 1);
-    if (closestAnthills.empty()) return NULL_LOCATION;
-    return closestAnthills[0];
+
+    PathData<Location> shortestPath;
+    for (auto anthill : _unknowAnthills)
+    {
+		auto pathData = findPath(ant, anthill);
+        if (pathData._cost < shortestPath._cost)
+        {
+			shortestPath = pathData;
+		}
+	}
+    return shortestPath._reversePath.back();
 }
 
 #if DEBUG
