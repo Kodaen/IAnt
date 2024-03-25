@@ -79,17 +79,13 @@ public:
 	MapSystem(MapSystem& other) = delete;
 	void operator=(const MapSystem&) = delete;
 	void setup();
-	Astar::PathData<Location> findPath(Location from, Location to);
+	Astar::PathData<Location> findPath(Location from, Location to, std::vector<Location> blacklist = {});
 	float findCost(Location from, Location to)
 	{
 		return findPath(from, to)._cost;
 	}
 	//Return a location one step closer to the destination
-	Location moveToward(Location from, Location to) 
-	{
-		auto path= findPath(from, to)._reversePath;
-		return path.back();
-	}
+	Location moveToward(Location from, Location to);
 
 	static MapSystem* getInstance();
 

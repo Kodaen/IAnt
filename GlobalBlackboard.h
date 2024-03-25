@@ -33,21 +33,29 @@ public :
 	Key: Location of the sentinel point currently target by an ant.
 	Value: Location of the ant,
 	*/
-	std::map<MapSystem::SentinelPoint,Location> _explorationCacheEntries;
+	std::map<MapSystem::SentinelPoint,Location> _explorationCacheSPToAnt;
+	std::map<Location, MapSystem::SentinelPoint> _explorationCacheAntToSP;
 
 	// ------------ FUNCTIONS ------------ //
 public :
 	// move to tile if tile is walkable and another ant doesn't already want to walk here
 	bool doMoveDirection(const Location& antLoc, int direction);
 	bool doMoveLocation(const Location& antLoc, const Location& destLoc);
+	bool isLocationFree(const Location& destLoc);
+	vector<Location> getAdjacentOccupiedLocations(const Location& loc);
 
 	inline bool LocationMapContainsKey(std::map<Location*, Location*>& locMap, const Location& key);
 
 	void emptyExplorationCache() {
-		_explorationCacheEntries.clear();
+		_explorationCacheSPToAnt.clear();
+		_explorationCacheAntToSP.clear();
 	};
 
 	bool isSentinelPointInExplorationCache(const MapSystem::SentinelPoint& sp) {
-		return _explorationCacheEntries.count(sp);
+		return _explorationCacheSPToAnt.count(sp);
+	};
+
+	bool isAntInExplorationCache(const Location& ant) {
+		return _explorationCacheAntToSP.count(ant);
 	};
 };

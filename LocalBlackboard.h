@@ -22,7 +22,6 @@ public:
 	Location _targetFood;
 	Location _targetEnemy;
 	MapSystem::SentinelPoint _targetSentinelPoint;
-	int _targetSentinelLastVisitedCache;
 
 	Location _nextLocation;
 

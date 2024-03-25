@@ -1,6 +1,7 @@
 #include "MapSystem.h"
 #include <bitset>
 #include "State.h"
+#include "GlobalBlackboard.h"
 
 #define MAP_FILE "map.map"
 #define MAP_LINE_INDICATOR 'm'
@@ -170,13 +171,31 @@ void MapSystem::loadMapFromFile(ifstream mapFile)
     mapFile.close();
 }
 
-Astar::PathData<Location>  MapSystem::findPath(Location from, Location to)
+Astar::PathData<Location>  MapSystem::findPath(Location from, Location to, std::vector<Location> blacklist)
 {
     auto heuristic = [this](Location a, Location b) -> float {
         return this->getManhattanDistance(a, b);
     };
 
-    return _mapGraph.findPath(from, to, heuristic);
+    
+    return _mapGraph.findPath(from, to, heuristic);//, blacklist);
+}
+
+/// <summary>
+/// Return a location one step closer to the destination, avoiding occupied cells next to the starting point
+/// </summary>
+/// <param name="from"></param>
+/// <param name="to"></param>
+/// <returns>A location one step closer to the destination</returns>
+Location MapSystem::moveToward(Location from, Location to)
+{
+    auto occupiedCells = GlobalBlackboard::singleton().getAdjacentOccupiedLocations(from);
+    if (occupiedCells.size() >= 4)
+    {
+		return NULL_LOCATION;
+	}
+    auto path = findPath(from, to)._reversePath;
+    return path.back();
 }
 
 /// <summary>

@@ -37,6 +37,33 @@ bool GlobalBlackboard::doMoveLocation(const Location& antLoc, const Location& de
 	return false;
 }
 
+bool GlobalBlackboard::isLocationFree(const Location& destLoc)
+{
+	// Is there an ant here?
+	if (_state._grid[destLoc._row][destLoc._col]._isMyAnt)
+		return false;
+	if(_state._grid[destLoc._row][destLoc._col]._isWater)
+		return false;
+	// An ant wants to move at Location?
+	if (LocationMapContainsKey(_orders, destLoc))
+		return false;
+	
+	return true;
+}
+
+vector<Location> GlobalBlackboard::getAdjacentOccupiedLocations(const Location& loc)
+{
+	vector<Location> occupiedLocations;
+	for (int i = 0; i < 4; i++) {
+		Location newLoc = _state.getLocation(loc, i);
+		if (isLocationFree(newLoc)) {
+			occupiedLocations.push_back(newLoc);
+		}
+	}
+
+	return occupiedLocations;
+}
+
 bool GlobalBlackboard::LocationMapContainsKey(std::map<Location*, Location*>& locMap, const Location& key) {
 	for (std::map<Location*, Location*>::iterator it = locMap.begin(); it != locMap.end(); ++it) {
 		if ((*it->first) == key)

@@ -71,7 +71,15 @@ namespace Astar {
 			return a->_priority > b->_priority;
 		}
 
-		PathData<T> findPath(T from, T to, std::function<float(T, T)> heuristic)
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="from">The node at the start of the path</param>
+		/// <param name="to">the node at the end of the path</param>
+		/// <param name="heuristic">The heuristic functions used by the A* algorithm</param>
+		/// <param name="blacklist"></param>
+		/// <returns></returns>
+		PathData<T> findPath(T from, T to, std::function<float(T, T)> heuristic, std::vector<T> blacklist = {})
 		{
 			if (!_nodes.count(from)) return PathData<T>(false);
 			if (!_nodes.count(to)) return PathData<T>(false);
@@ -93,6 +101,7 @@ namespace Astar {
 				for each (Neighbor<T> neighbor in current->getNeighbors())
 				{
 					if (neighbor._node == current) continue;
+					if (count(blacklist.begin(), blacklist.end(), neighbor._node->getData())) continue;
 					float newCost = costSoFar[current->getData()] + neighbor._costToReach;
 					//If the path to the evaluated node is either non existent or more costly, we register the new path
 					if (costSoFar.count(neighbor._node->getData()) && costSoFar[neighbor._node->getData()] <= newCost) continue;

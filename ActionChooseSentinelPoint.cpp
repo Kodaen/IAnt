@@ -16,13 +16,11 @@ EStatus ActionChooseSentinelPoint::doAction()
 	auto antLoc = *(_blackboard->p_ant);
 
 	MapSystem::SentinelPoint targetSP;
-	if (!_blackboard->_targetSentinelPoint.isNull() //Check if we have a target sentinel point already
-		&& _blackboard->_targetSentinelLastVisitedCache == _blackboard->_targetSentinelPoint._lastVisit //Check if the last visit value is still the same, 
-		//Another ant explored the point while we were approaching it
-		&& r_gbb.isSentinelPointInExplorationCache(_blackboard->_targetSentinelPoint) //Check if the target sentinel point is still in the exploration cache
-		&& r_gbb._explorationCacheEntries[_blackboard->_targetSentinelPoint] == antLoc //Check if we are the ant that is supposed to explore the target sentinel point
-	)
+
+	if (r_gbb.isAntInExplorationCache(antLoc))
 	{
+		_blackboard->_targetSentinelPoint = r_gbb._explorationCacheAntToSP[antLoc];
+		r_gbb._state._bug << "Ant " << antLoc << " is still moving towards sentinel point " << _blackboard->_targetSentinelPoint._location << std::endl;
 		res= BH_SUCCESS;
 		//The target sentinel point is still valid, we don't need to choose another, we can continue to approach it
 		return res;
@@ -40,9 +38,9 @@ EStatus ActionChooseSentinelPoint::doAction()
 		}
 	}
 
+	r_gbb._state._bug << "Ant " << antLoc << " has chosen a new sentinel point " << targetSP._location;
 	_blackboard->_targetSentinelPoint = targetSP;
-	//We cach the last visit value so if next turn it has changed we know that another ant have visited the sentinel point and we should reevaluate our decision
-	_blackboard->_targetSentinelLastVisitedCache = targetSP._lastVisit;
+	r_gbb._state._bug << " " << _blackboard->_targetSentinelPoint._location << std::endl;
 
 	return res;
 }
