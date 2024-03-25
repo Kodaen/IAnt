@@ -43,6 +43,7 @@ private:
 	std::map<int, Location> _knowAnthills; 
 
 	//Caching system, store the path data between turns to avoid recalculating the same path with one cell of difference each turn
+	//The cache is never emptied, it was a mistake at first but then we realized that it was better this way because new ants often reuse the path of their predecessor
 	std::map<Location, PathData<Location>> _pathDataCache;
 
 	int _colSize = 0;
@@ -147,7 +148,7 @@ public:
 		pathData._cost -= 1;
 		pathData._reversePath.pop_back();
 		_pathDataCache[nextPos] = pathData;
-	}
+	}	
 #if DEBUG
 	void printMap();
 	void printSentinelsMap();
