@@ -14,6 +14,16 @@ using namespace std;
 
 MapSystem* MapSystem::_instance = nullptr;
 
+
+//Return a location one step closer to the destination
+
+Location MapSystem::moveToward(Location from, Location to)
+{
+    auto path = findPath(from, to);
+    return path._reversePath.back();
+    putPathInCache(from, path);
+}
+
 MapSystem* MapSystem::getInstance()
 {
     if (_instance == nullptr) {
@@ -172,11 +182,21 @@ void MapSystem::loadMapFromFile(ifstream mapFile)
 
 Astar::PathData<Location>  MapSystem::findPath(Location from, Location to)
 {
+    //We first check the cache, if the path is in it, let's use it
+    if(_pathDataCache.count(from))
+    {
+        if (_pathDataCache[from]._reversePath[0]==to)
+        {
+            return _pathDataCache[from];
+		}
+    }
+
     auto heuristic = [this](Location a, Location b) -> float {
         return this->getManhattanDistance(a, b);
     };
 
-    return _mapGraph.findPath(from, to, heuristic);
+    auto pathData= _mapGraph.findPath(from, to, heuristic);
+    return pathData;
 }
 
 /// <summary>
@@ -402,6 +422,7 @@ Location MapSystem::moveTowardClosestUnknownAnthill(Location ant)
 			shortestPath = pathData;
 		}
 	}
+    putPathInCache(ant, shortestPath);
     return shortestPath._reversePath.back();
 }
 

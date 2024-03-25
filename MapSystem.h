@@ -42,6 +42,9 @@ private:
 	//The location of the anthill that we have found the team id for, team id is decided at runtime and depends on the order in which we meet the teams
 	std::map<int, Location> _knowAnthills; 
 
+	//Caching system, store the path data between turns to avoid recalculating the same path with one cell of difference each turn
+	std::map<Location, PathData<Location>> _pathDataCache;
+
 	int _colSize = 0;
 	int _rowSize = 0;
 	Bug _bug;
@@ -72,11 +75,7 @@ public:
 		return findPath(from, to)._cost;
 	}
 	//Return a location one step closer to the destination
-	Location moveToward(Location from, Location to) 
-	{
-		auto path= findPath(from, to)._reversePath;
-		return path.back();
-	}
+	Location moveToward(Location from, Location to);
 
 	static MapSystem* getInstance();
 
@@ -139,6 +138,16 @@ public:
 		return closestCell[0];
 	}
 
+	//Once a path is calculated, we store it in the cache.
+	//We store it in two versions: one starting at the ant current location, and one starting at the ant next location if it's able to moves
+	void putPathInCache(Location from, PathData<Location> pathData)
+	{
+		_pathDataCache[from] = pathData;
+		auto nextPos= pathData._reversePath.back();
+		pathData._cost -= 1;
+		pathData._reversePath.pop_back();
+		_pathDataCache[nextPos] = pathData;
+	}
 #if DEBUG
 	void printMap();
 	void printSentinelsMap();
