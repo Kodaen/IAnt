@@ -32,11 +32,12 @@ EStatus ActionChooseSentinelPoint::doAction()
 	//We choose the oldest sentinel point that is not being targeted by another ant
 	for each(auto sentinelPoint in MapSystem::getInstance()->getOldestToNewestVisitedSentinelPoint())
 	{
-		if (r_gbb.isSentinelPointInExplorationCache(sentinelPoint)) continue;
-
+		if (!r_gbb.isSentinelPointInExplorationCache(sentinelPoint))
+		{
 			targetSP = sentinelPoint;
 			res = BH_SUCCESS;
 			break;
+		}
 	}
 
 	_blackboard->_targetSentinelPoint = targetSP;
