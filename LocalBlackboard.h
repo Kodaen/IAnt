@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "Location.h"
+#include "Reinforcement.h"
 #include "NearbyFoodAnts.h"
 #include "MapSystem.h"
 
@@ -24,6 +25,8 @@ public:
 	MapSystem::SentinelPoint _targetSentinelPoint;
 
 	Location _nextLocation;
+
+	Reinforcement* _reinforcement;
 
 	// ------------ FUNCTIONS ------------ //
 };
