@@ -45,6 +45,7 @@ struct Bot
     void printLocationMap(std::map<Location*, Location*> locations);
     void printRouteVector(std::vector<Route> routes);
     void printRoute(Route routes);
+    double totalTime = 0;
 };
 
 #endif //BOT_H_

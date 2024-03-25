@@ -28,6 +28,7 @@ void Bot::playGame()
 		makeMoves();
 		endTurn();
 	}
+	r_gbb._state._bug <<"Total time: " << totalTime << "  Average time: " << totalTime/r_gbb._state._turn << endl;
 };
 
 //makes the bots moves for the turn
@@ -237,6 +238,7 @@ void Bot::makeMoves()
 	}
 
 	r_gbb._state._bug << "time taken: " << r_gbb._state._timer.getTime() << "ms" << endl << endl;
+	totalTime += r_gbb._state._timer.getTime();
 };
 
 bool Bot::doMoveDirection(const Location& antLoc, int direction) {
@@ -283,7 +285,6 @@ void Bot::associateFoodToNearbyAnts() {
 		NearbyFoodAnts NFA = { food, closestAnts[0] };
 
 		r_gbb._nearbyFoodAnts.push_back(NFA);
-
 	}
 }
 
