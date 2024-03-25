@@ -3,6 +3,7 @@
 #include "Bot.h"
 #include "BehaviorTree.h"
 #include "NearbyFoodAnts.h"
+#include "MapSystem.h"
 
 using namespace std;
 
@@ -68,7 +69,6 @@ void Bot::makeMoves()
 					.action(ACTION_CALL_REINFORCEMENT)
 					.selectParent()
 				.selectParent()
-			.action(ACTION_EXPLORE)	// [EXPLORE]
 			.action(ACTION_BLACKBOARD_INFOS)
 				;
 
@@ -112,25 +112,6 @@ void Bot::makeMoves()
 		if (!LocationMapContainsValue(r_gbb._orders, ant))
 		{
 			bt2->execute(ant);
-		}
-	}
-
-	// add all locations to unseen tiles set, run once
-	if (_unseenTiles.empty()) {
-		for (int _row = 0; _row < r_gbb._state._rows; _row++) {
-			for (int _col = 0; _col < r_gbb._state._cols; _col++) {
-				_unseenTiles.insert(new Location(_row, _col));
-			}
-		}
-	}
-
-	for (std::set<Location*>::iterator it = _unseenTiles.begin(); it != _unseenTiles.end();) {
-		if (r_gbb._state._grid[(*it)->_row][(*it)->_col]._isVisible) {
-			delete* it;
-			it = _unseenTiles.erase(it);
-		}
-		else {
-			++it;
 		}
 	}
 
@@ -187,30 +168,57 @@ void Bot::makeMoves()
 						_enemyHills.erase(hillLoc);
 						break;
 					}
-					
+
 				}
 			}
 		}
 	}
 
 	// Explore unseen areas
-	for (Location antLoc : sortedAnts) {
-		if (!LocationMapContainsValue(r_gbb._orders, antLoc)) {
+	for (Location antLoc : sortedAnts)
+	{
+		if (LocationMapContainsValue(r_gbb._orders, antLoc)) continue;
 
-			std::vector<Route> unseenRoutes;
-			for (const Location* unseenLoc : _unseenTiles) {
-				int manhattanDistance = r_gbb._state.manhattanDistance(antLoc, *unseenLoc);
-				if (manhattanDistance > 30) continue;
-				Route route = Route(antLoc, *unseenLoc, manhattanDistance);
-				unseenRoutes.push_back(route);
+		//First choice: Get the closest unknown anthill and explore it
+		auto targetLocation = MapSystem::getInstance()->getClosestUnknownAnthill(antLoc,16);
+
+		//Second choice: Get to the closest unknown sentinel point
+		if (targetLocation == NULL_LOCATION)
+		{
+			std::vector<Location> unseenTiles = {};
+			auto sentinelPoints = MapSystem::getInstance()->getSentinelPointsLocations();
+			for each (auto sp in sentinelPoints)
+			{
+				if (r_gbb._state._grid[sp._row][sp._col]._isVisible) continue;
+				unseenTiles.push_back(sp);
 			}
-			std::sort(unseenRoutes.begin(), unseenRoutes.end());
-			for (Route route : unseenRoutes) {
-				if (doMoveLocation(route.getStart(), route.getEnd())) {
-					break;
-				}
+			if (sentinelPoints.size() <= 0) continue;
+			{
+				targetLocation = MapSystem::getInstance()->getClosestCellInSubset(antLoc, unseenTiles);
 			}
 		}
+
+		if (targetLocation != NULL_LOCATION)
+		{
+			auto moveLocation = MapSystem::getInstance()->moveToward(antLoc, targetLocation);
+
+			r_gbb._state._bug << "Exploring, going to :" << targetLocation << " from: " << antLoc << " passing to: " << moveLocation << std::endl;
+			if (r_gbb.singleton().doMoveLocation(antLoc, moveLocation)) continue;
+		}
+
+		/*std::vector<Route> unseenRoutes;
+		for (const Location* unseenLoc : _unseenTiles) {
+			int manhattanDistance = r_gbb._state.manhattanDistance(antLoc, *unseenLoc);
+			if (manhattanDistance > 30) continue;
+			Route route = Route(antLoc, *unseenLoc, manhattanDistance);
+			unseenRoutes.push_back(route);
+		}
+		std::sort(unseenRoutes.begin(), unseenRoutes.end());
+		for (Route route : unseenRoutes) {
+			if (doMoveLocation(route.getStart(), route.getEnd())) {
+				break;
+			}
+		}*/
 	}
 
 	// Unblock hills

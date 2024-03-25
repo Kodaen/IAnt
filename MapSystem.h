@@ -118,7 +118,26 @@ public:
 
 	//Must be called for each ant on each turn
 	void updateSentinelsPoint(Location ant, int turn);
-	Location getOldestVisitedSentinelPoint();
+	Location getClosestUnknownAnthill(Location ant, int maxDistance=16);
+	std::vector<SentinelPoint*> getSentinelPoints()
+	{
+		return _sentinelsPoints;
+	}
+	std::vector<Location> getSentinelPointsLocations()
+	{
+		return _sentinelPointsLocations;
+	}
+
+	Location getClosestCellInSubset(Location ant, std::vector<Location> subset, int maxDistance=16) 
+	{
+		if(subset.size()<=0)
+			return NULL_LOCATION;
+		auto closestCell = _mapGraph.findDataOfNodesBetween(ant, 0, maxDistance, true, subset, true, 1);
+		if(closestCell.size()<=0)
+			return NULL_LOCATION;
+		return closestCell[0];
+	}
+
 #if DEBUG
 	void printMap();
 	void printSentinelsMap();

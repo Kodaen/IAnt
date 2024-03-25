@@ -366,6 +366,7 @@ void MapSystem::registerAnthillsSighting(int team, Location antHill)
         _unknowAnthills.clear();
         return;
     }
+    _bug<<_unknowAnthills.size()<<" anthills left to find"<<endl;
 }
 
 //Return the most probable anthill for a given ant and team
@@ -388,22 +389,12 @@ void MapSystem::updateSentinelsPoint(Location ant, int turn)
      _tiedSentinelPoint[ant._row][ant._col]->_lastVisit = turn;
 }
 
-Location MapSystem::getOldestVisitedSentinelPoint()
+Location MapSystem::getClosestUnknownAnthill(Location ant, int maxDistance) 
 {
-    int oldestVisitTurn = INT_MAX;
-    Location oldestVisitedSentinelPoint = NULL_LOCATION;
-
-    _bug << "Oldest visited sentinel point requested, here is the state of our sentinel vector: " << endl;
-
-    for each (auto sentinelPoint in _sentinelsPoints)
-    {
-        _bug << "\t" << sentinelPoint->_location << " last visit:" << sentinelPoint->_lastVisit << endl;
-        if (sentinelPoint->_lastVisit >= oldestVisitTurn) continue;
-        oldestVisitTurn = sentinelPoint->_lastVisit;
-        oldestVisitedSentinelPoint = sentinelPoint->_location;
-    }
-    _bug << "Returning " << oldestVisitedSentinelPoint << endl << endl;
-    return oldestVisitedSentinelPoint;
+    if(_unknowAnthills.empty()) return NULL_LOCATION;
+    auto closestAnthills = _mapGraph.findDataOfNodesBetween(ant, 0, 20, true, _unknowAnthills, true, 1);
+    if (closestAnthills.empty()) return NULL_LOCATION;
+    return closestAnthills[0];
 }
 
 #if DEBUG
