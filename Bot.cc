@@ -4,6 +4,11 @@
 #include "BehaviorTree.h"
 #include "NearbyFoodAnts.h"
 #include "MapSystem.h"
+#define SAFETY_IN_MILLISECONDS 50 //The time we want to keep for the end of the turn to be sure not to timeout
+//Several costly for loops of the bot turn's function have an anti time out security
+//the security breaks from the loop if too close to timeout, it breaks instead of returns because there are less costly loops down the line that could be beneficial
+//like the behaviour that unclog the ant hill.
+#define ANTI_TIMEOUT_SECURITY if (r_gbb._state._timer.getTime() > r_gbb._state._turnTime - SAFETY_IN_MILLISECONDS){ r_gbb._state._bug << "-------------\nTIMEOUT\n-------------" << endl; break; }
 
 using namespace std;
 
@@ -75,12 +80,15 @@ void Bot::makeMoves()
 
 	for (Location& ant : r_gbb._state._myAnts)
 	{
+	
+		ANTI_TIMEOUT_SECURITY
 		MapSystem::getInstance()->updateSentinelsPoint(ant,r_gbb._state._turn);
 		bt->execute(ant);
 	}
 
 	for (Reinforcement& r : r_gbb._reinforcements)
 	{
+		ANTI_TIMEOUT_SECURITY
 		if (r.tryAskingHelp()) {
 			r.trySetupAtkPos();
 		}
@@ -112,6 +120,7 @@ void Bot::makeMoves()
 	{
 		if (!LocationMapContainsValue(r_gbb._orders, ant))
 		{
+			ANTI_TIMEOUT_SECURITY
 			bt2->execute(ant);
 		}
 	}
@@ -138,6 +147,7 @@ void Bot::makeMoves()
 	// Attack hills
 	for (int i = _enemyHills.size() - 1; i >= 0; i--)
 	{
+		ANTI_TIMEOUT_SECURITY
 		for (Location& antLoc : sortedAnts) {
 			if (!LocationMapContainsValue(r_gbb._orders, antLoc)) {
 				int manhattanDistance = r_gbb._state.manhattanDistance(antLoc, *next(_enemyHills.begin(), i));
@@ -158,6 +168,7 @@ void Bot::makeMoves()
 
 	for (Location hillLoc : _enemyHills) {
 		for (Location& antLoc : sortedAnts) {
+			ANTI_TIMEOUT_SECURITY
 			if (!LocationMapContainsValue(r_gbb._orders, antLoc)) {
 				int manhattanDistance = r_gbb._state.manhattanDistance(antLoc, hillLoc);
 				if (manhattanDistance < 70)
@@ -178,6 +189,8 @@ void Bot::makeMoves()
 	// Explore unseen areas
 	for (Location antLoc : sortedAnts)
 	{
+		ANTI_TIMEOUT_SECURITY
+
 		if (LocationMapContainsValue(r_gbb._orders, antLoc)) continue;
 
 		//First choice: Get the closest unknown anthill and explore it
