@@ -150,6 +150,7 @@ void Bot::makeMoves()
 		ANTI_TIMEOUT_SECURITY
 		for (Location& antLoc : sortedAnts) {
 			if (!LocationMapContainsValue(r_gbb._orders, antLoc)) {
+				
 				int manhattanDistance = r_gbb._state.manhattanDistance(antLoc, *next(_enemyHills.begin(), i));
 				if (manhattanDistance < 70)
 				{
@@ -158,26 +159,6 @@ void Bot::makeMoves()
 					if (_nextLocation == *next(_enemyHills.begin(), i))
 					{
 						_enemyHills.erase(*next(_enemyHills.begin(), i));
-						break;
-					}
-
-				}
-			}
-		}
-	}
-
-	for (Location hillLoc : _enemyHills) {
-		for (Location& antLoc : sortedAnts) {
-			ANTI_TIMEOUT_SECURITY
-			if (!LocationMapContainsValue(r_gbb._orders, antLoc)) {
-				int manhattanDistance = r_gbb._state.manhattanDistance(antLoc, hillLoc);
-				if (manhattanDistance < 70)
-				{
-					Location _nextLocation = MapSystem::getInstance()->moveToward(antLoc, hillLoc);
-					r_gbb.singleton().doMoveLocation(antLoc, _nextLocation);
-					if (_nextLocation == hillLoc)
-					{
-						_enemyHills.erase(hillLoc);
 						break;
 					}
 
